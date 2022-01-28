@@ -35,8 +35,8 @@ a {
     text-decoration: none;
     padding: 0.5rem 1rem;
     font: inherit;
-    background-color: #3a0061;
-    border: 1px solid #3a0061;
+    background-color: #1572a1;
+    border: 1px solid #1572a1;
     color: white;
     cursor: pointer;
     border-radius: 10px;
@@ -49,8 +49,9 @@ a:hover,
 a:active,
 button:hover,
 button:active {
-    background-color: #270041;
-    border-color: #270041;
+    background-color: #9ad0ec;
+    border-color: #9ad0ec;
+    color: black;
     outline: none;
 }
 

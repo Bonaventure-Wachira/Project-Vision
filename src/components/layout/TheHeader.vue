@@ -1,22 +1,34 @@
 <template>
     <header>
         <nav>
-            <h1><router-link to="/">Manage your tasks</router-link></h1>
-            <ul>
-                <!-- <li><router-link to="/login">Login</router-link></li> -->
+            <h1><router-link to="/">Project V</router-link></h1>
+            <ul v-if="!loggedIn">
                 <li>
                     <base-badge title="User1"></base-badge>
                 </li>
                 <base-button>Logout</base-button>
             </ul>
+            <ul v-else>
+                <li><router-link to="/login">Login</router-link></li>
+                <li><router-link to="/signup">Sign Up</router-link></li>
+            </ul>
         </nav>
     </header>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            loggedIn: 'false',
+        };
+    },
+};
+</script>
 <style scoped>
 header {
     width: 100%;
     height: 5rem;
-    background-color: #3d008d;
+    background-color: #1572a1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,7 +36,7 @@ header {
 
 header a {
     text-decoration: none;
-    color: #f391e3;
+    color: #f5f5f5;
     display: inline-block;
     padding: 0.75rem 1.5rem;
     border: 1px solid transparent;
@@ -33,7 +45,7 @@ header a {
 a:active,
 a:hover,
 a.router-link-active {
-    border: 1px solid #f391e3;
+    border: 1px solid #f5f5f5;
 }
 
 h1 {

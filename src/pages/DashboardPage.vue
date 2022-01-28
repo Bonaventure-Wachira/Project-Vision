@@ -1,12 +1,5 @@
 <template>
     <div>
-        <base-dialog fixed :show="isEditting" title="Edit your activity">
-            <div class="input-group">
-                <input type="text" v-model.trim="activity" />
-                <base-button @click="saveEdit">Save</base-button>
-                <base-button @click="cancelEdit">Cancel</base-button>
-            </div>
-        </base-dialog>
         <base-card>
             <h3>My Dashboard</h3>
             <section>

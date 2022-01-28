@@ -1,6 +1,6 @@
 <template>
     <base-card>
-        <h3>Sign up to your account</h3>
+        <h3>Sign up to our service today!</h3>
         <form @submit.prevent="signUp">
             <div class="form-group">
                 <label for="email">Email</label>
