@@ -1,6 +1,10 @@
 <template>
     <div v-if="!badge" class="profile">
-        <img class="profile-photo" src="" alt="" />
+        <img
+            class="profile-photo"
+            src="./../../Assets/avatar2.png"
+            alt="default-avatar"
+        />
         <span> {{ text }}</span>
     </div>
     <span v-else class="badge">
@@ -23,9 +27,15 @@ export default {
     background-color: #ccc;
     color: #252525;
     border-radius: 30px;
-    padding: 0.5rem 2.5rem;
-    display: inline-block;
-    margin-right: 0.5rem;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-photo {
+    height: 3.75rem;
+    border-radius: 50%;
 }
 
 .badge {
