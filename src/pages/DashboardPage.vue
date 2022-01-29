@@ -1,43 +1,5 @@
 <template>
-    <div>
-        <base-card>
-            <h3>My Dashboard</h3>
-            <section>
-                <form @submit.prevent="addActivity">
-                    <div class="input-group">
-                        <label for="activity">Activity</label>
-                        <input type="text" v-model.trim="activity" />
-                        <p v-if="error">{{ errorMessage }}</p>
-                    </div>
-                    <base-button>Add</base-button>
-                </form>
-            </section>
-        </base-card>
-        <base-card>
-            <section>
-                <ul v-if="hasActivities">
-                    <li v-for="(activity, index) in allActivities" :key="index">
-                        <span>{{ activity }}</span>
-                        <div>
-                            <base-button @click="editItem(index, activity)"
-                                >Edit</base-button
-                            >
-                            <base-button @click="removeItem(index)"
-                                >Delete</base-button
-                            >
-                        </div>
-                    </li>
-                </ul>
-
-                <p v-else-if="!hasActivities && !error">
-                    Currently no activities registered
-                </p>
-                <p v-else-if="error">
-                    There was an error
-                </p>
-            </section>
-        </base-card>
-    </div>
+    <h3>My Dashboard</h3>
 </template>
 
 <script>

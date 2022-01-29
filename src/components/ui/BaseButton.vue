@@ -41,8 +41,8 @@ a {
     color: white;
     cursor: pointer;
     border-radius: 10px;
-    margin-right: 0.5rem;
     display: inline-block;
+    margin-right: 1.2rem;
 }
 
 a:hover,
