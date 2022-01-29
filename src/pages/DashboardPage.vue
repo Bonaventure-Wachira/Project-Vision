@@ -1,77 +1,45 @@
 <template>
-    <h3>My Dashboard</h3>
+    <div class="container">
+        <h3 class="main-heading">My Dashboard</h3>
+        <base-card>
+            <div class="container">
+                <h2 class="secondary-heading">Academics</h2>
+                <h2 class="tertiary-heading">School Progress</h2>
+                <ul class="primary-text">
+                    <li>Maths</li>
+                    <li>English</li>
+                    <li>Kiswahili</li>
+                    <li>Science</li>
+                    <li>Social Studies</li>
+                    <li>Religious Education</li>
+                </ul>
+                <h2 class="tertiary progress">List of High schools</h2>
+                <ul class="primary-text">
+                    <li>Kiambu High</li>
+                    <li>Kirangari High school</li>
+                    <li>Wahundura Secondary school</li>
+                    <li>Dagoretti High</li>
+                </ul>
+            </div>
+        </base-card>
+    </div>
 </template>
 
 <script>
-import { activitiesRef } from './../firebaseConfig';
 export default {
     data() {
         return {
-            selectedActivityIndex: null,
-            activity: '',
-            isEditting: false,
-            pendingActivity: null,
             error: false,
             errorMessage: null,
-            loadedActivities: [],
         };
-    },
-    computed: {
-        hasActivities() {
-            return this.$store.getters.hasActivities;
-        },
-        allActivities() {
-            return this.$store.getters.allActivities;
-        },
-    },
-    methods: {
-        addActivity() {
-            this.error = false;
-            this.errorMessage = null;
-            if (this.activity === '') {
-                this.error = true;
-                this.errorMessage =
-                    'Please enter an activity before hitting the add button';
-                return;
-            }
-            const newActivity = this.activity;
-            // this.allActivities.push(newActivity);
-            activitiesRef.push({ activity: this.activity });
-            this.$store.dispatch('addActivity', newActivity);
-            this.activity = '';
-        },
-        // loadAllActivities() {
-        //     const storedActivities = this.$store.getters.allActivities;
-        //     this.allActivities = storedActivities;
-        // },
-        removeItem(index) {
-            this.$store.dispatch('deleteActivity', index);
-        },
-        editItem(index, activity) {
-            this.selectedActivityIndex = index;
-            this.activity = activity;
-            this.isEditting = true;
-        },
-        cancelEdit() {
-            this.selectedActivityIndex = null;
-            this.activity = '';
-            this.isEditting = false;
-        },
-        saveEdit() {
-            const payload = {
-                index: this.selectedActivityIndex,
-                newActivity: this.activity,
-            };
-            this.$store.dispatch('editActivity', payload);
-            this.activity = '';
-            this.selectedActivityIndex = null;
-            this.isEditting = false;
-        },
     },
 };
 </script>
 
 <style scoped>
+.container {
+    margin: 2rem;
+}
 .input-group {
     margin: 0.5rem 0;
 }
@@ -91,9 +59,24 @@ input:focus {
     border-color: #3d008d;
 }
 
-h3 {
-    margin: 0.5rem 0;
-    font-size: 2.4rem;
+.main-heading {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: 10rem;
+    font-size: 2.6rem;
+}
+
+.secondary-heading {
+    font-size: 2.1rem;
+    margin-bottom: 1rem;
+}
+
+.tertiary-heading {
+    font-size: 1.7rem;
+}
+
+.primary-text {
+    font-size: 1.3rem;
 }
 
 .invalid input {
@@ -106,9 +89,10 @@ li {
     list-style: none;
     width: 85%;
     padding: 0.5rem;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 3px;
     margin: 1rem 0;
+    background-color: #f0e6fd;
 }
 span {
     color: black;

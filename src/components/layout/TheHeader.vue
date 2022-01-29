@@ -1,7 +1,7 @@
 <template>
     <header>
         <nav>
-            <h1><router-link to="/">Project V</router-link></h1>
+            <h1><router-link to="/">Project Vision</router-link></h1>
             <ul v-if="!loggedIn">
                 <li><router-link to="/login">Login</router-link></li>
                 <li><router-link to="/signup">Sign Up</router-link></li>
