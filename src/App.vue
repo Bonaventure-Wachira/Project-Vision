@@ -20,6 +20,10 @@ export default {
     padding: 0;
 }
 
+html {
+    font-size: 62.5%;
+}
+
 body {
     background-color: #f5f5f5;
 }

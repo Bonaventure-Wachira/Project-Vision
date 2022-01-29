@@ -131,7 +131,7 @@ input:focus {
 
 h3 {
     margin: 0.5rem 0;
-    font-size: 1rem;
+    font-size: 2.4rem;
 }
 
 .invalid input {

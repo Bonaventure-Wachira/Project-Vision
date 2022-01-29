@@ -33,8 +33,9 @@ export default {
 button,
 a {
     text-decoration: none;
-    padding: 0.5rem 1rem;
+    padding: 0.8rem 2rem;
     font: inherit;
+    font-size: 1.4rem;
     background-color: #1572a1;
     border: 1px solid #1572a1;
     color: white;
@@ -42,7 +43,6 @@ a {
     border-radius: 10px;
     margin-right: 0.5rem;
     display: inline-block;
-    font-size: 0.9rem;
 }
 
 a:hover,
@@ -72,5 +72,15 @@ button:active {
 .outline:hover,
 .outline:active {
     background-color: #edd2ff;
+}
+.danger {
+    background-color: #da1212;
+    color: white;
+}
+
+.danger:hover,
+.danger:active {
+    background-color: #ff1700;
+    border-color: #ff1700;
 }
 </style>

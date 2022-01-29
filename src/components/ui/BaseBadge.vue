@@ -1,5 +1,9 @@
 <template>
-    <span class="badge">
+    <div v-if="!badge" class="profile">
+        <img class="profile-photo" src="" alt="" />
+        <span> {{ text }}</span>
+    </div>
+    <span v-else class="badge">
         {{ text }}
     </span>
 </template>
@@ -8,18 +12,27 @@ export default {
     props: ['type', 'title'],
     computed: {
         text() {
-            return this.title.toUpperCase();
+            return this.title;
         },
     },
 };
 </script>
 
 <style scoped>
+.profile {
+    background-color: #ccc;
+    color: #252525;
+    border-radius: 30px;
+    padding: 0.5rem 2.5rem;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
 .badge {
     background-color: #ccc;
     color: #252525;
     border-radius: 30px;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 2.5rem;
     display: inline-block;
     margin-right: 0.5rem;
 }

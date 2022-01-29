@@ -3,14 +3,14 @@
         <nav>
             <h1><router-link to="/">Project V</router-link></h1>
             <ul v-if="!loggedIn">
-                <li>
-                    <base-badge title="User1"></base-badge>
-                </li>
-                <base-button>Logout</base-button>
-            </ul>
-            <ul v-else>
                 <li><router-link to="/login">Login</router-link></li>
                 <li><router-link to="/signup">Sign Up</router-link></li>
+            </ul>
+            <ul v-else>
+                <li>
+                    <base-badge title="John Doe"></base-badge>
+                </li>
+                <base-button mode="danger">Logout</base-button>
             </ul>
         </nav>
     </header>
@@ -19,7 +19,7 @@
 export default {
     data() {
         return {
-            loggedIn: 'false',
+            loggedIn: 'true',
         };
     },
 };
@@ -27,7 +27,7 @@ export default {
 <style scoped>
 header {
     width: 100%;
-    height: 5rem;
+    height: 10vh;
     background-color: #1572a1;
     display: flex;
     justify-content: center;
@@ -50,6 +50,7 @@ a.router-link-active {
 
 h1 {
     margin: 0;
+    font-size: 2.5rem;
 }
 
 h1 a {
@@ -69,6 +70,7 @@ header nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 1.7rem;
 }
 
 header ul {
