@@ -24,7 +24,7 @@
                 <div class="submission-box">
                     <base-button>Sign Up</base-button>
                     <div class="forgot-password-box">
-                        <base-button link to="/forgotPassword" mode="flat"
+                        <base-button link to="/passwordRecovery" mode="flat"
                             >Forgot password?</base-button
                         >
                     </div>
