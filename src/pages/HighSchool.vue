@@ -9,16 +9,23 @@
                     <li>Maths</li>
                     <li>English</li>
                     <li>Kiswahili</li>
-                    <li>Science</li>
-                    <li>Social Studies</li>
-                    <li>Religious Education</li>
+                    <li>Biology</li>
+                    <li>Physics</li>
+                    <li>Chemistry</li>
+                    <li>Christian Religious Education</li>
+                    <li>Geography</li>
+                    <li>History</li>
+                    <li>Agriculture</li>
+                    <li>Business Studies</li>
+                    <li>Computer Studies</li>
+                    <li>French</li>
                 </ul>
-                <h2 class="tertiary-heading">List of High schools</h2>
+                <h2 class="tertiary-heading">List of Universities</h2>
                 <ul class="primary-text">
-                    <li>Kiambu High</li>
-                    <li>Kirangari High school</li>
-                    <li>Wahundura Secondary school</li>
-                    <li>Dagoretti High</li>
+                    <li>University of Nairobi</li>
+                    <li>Technical University of Kenya</li>
+                    <li>Kenyatta University</li>
+                    <li>Egerton University</li>
                 </ul>
             </div>
         </base-card>

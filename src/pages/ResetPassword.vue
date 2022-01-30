@@ -1,29 +1,27 @@
 <template>
     <base-card>
         <div class="container">
-            <h3>Password recovery</h3>
+            <h3>Reset your password</h3>
             <form @submit.prevent="submit">
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">New Password</label>
                     <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        v-model.trim="email"
+                        type="password"
+                        name="newPassword"
+                        id="newPassword"
+                        v-model.trim="newPassword"
                     />
                 </div>
                 <div class="form-group">
-                    <label for="securityQuestion"
-                        >What was your mother's maiden name?</label
-                    >
+                    <label for="email">Confirm password</label>
                     <input
-                        type="text"
-                        name="securityQuestion"
-                        id="securityQuestion"
-                        v-model.trim="securityQuestion"
+                        type="password"
+                        name="passwordConfirm"
+                        id="passwordConfirm"
+                        v-model.trim="passwordConfirm"
                     />
                 </div>
-                <base-button>Submit</base-button>
+                <base-button>Reset password</base-button>
             </form>
         </div>
     </base-card>
@@ -32,7 +30,8 @@
 export default {
     data() {
         return {
-            email: '',
+            newPassword: '',
+            passwordConfirm: '',
             error: false,
             errorMessage: null,
         };
