@@ -16,8 +16,8 @@
                     <label for="lastName">Last Name</label>
                     <input
                         type="text"
-                        name="firstName"
-                        id="firstName"
+                        name="lastName"
+                        id="lastName"
                         v-model.trim="lastName"
                     />
                 </div>
@@ -82,6 +82,15 @@
                         >
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="lastName">Security Answer</label>
+                    <input
+                        type="text"
+                        name="securityAns"
+                        id="securityAns"
+                        v-model.trim="securityAns"
+                    />
+                </div>
                 <base-button>Sign Up</base-button>
             </form>
         </div>
@@ -100,6 +109,7 @@ export default {
             error: false,
             errorMessage: null,
             securityQuestion: 'maiden',
+            securityAns: '',
         };
     },
     methods: {
