@@ -8,11 +8,17 @@
                 <h4>Would you like to get started?</h4>
             </base-card>
         </div>
-        <div v-else>
+        <div v-else v-for="(test, index) in exams" :key="index">
             <results-table>
                 <ul>
-                    <li v-for="(test, index) in exam" :key="index">
-                        {{ test }}
+                    <li
+                        v-for="(subject, index) in createArr(test)"
+                        :key="index"
+                    >
+                        <div class="subject">
+                            <div>{{ subject[0] }}</div>
+                            <div>{{ subject[1] }}</div>
+                        </div>
                     </li>
                 </ul>
             </results-table>
@@ -37,9 +43,25 @@ export default {
                     RE: 24,
                     SST: 52,
                 },
+                {
+                    Maths: 88,
+                    English: 80,
+                    Kiswahili: 67,
+                    Science: 60,
+                    RE: 25,
+                    SST: 47,
+                },
             ],
-            exam: ['Maths', 'English', 'Kiswahili', 'Science', 'RE', 'SST'],
         };
+    },
+    methods: {
+        createArr(obj) {
+            const exam = [];
+            for (const [key, value] of Object.entries(obj)) {
+                exam.push([key, value]);
+            }
+            return exam;
+        },
     },
 };
 </script>
@@ -80,5 +102,19 @@ export default {
 
 .table-head {
     background-color: #1572a1;
+}
+
+li {
+    list-style: none;
+    font-size: 1.4rem;
+    padding: 0.3rem 0;
+}
+
+.subject {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
 }
 </style>

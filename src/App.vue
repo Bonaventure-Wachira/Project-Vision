@@ -8,6 +8,9 @@ export default {
     components: {
         TheHeader,
     },
+    data() {
+        return {};
+    },
 };
 </script>
 
