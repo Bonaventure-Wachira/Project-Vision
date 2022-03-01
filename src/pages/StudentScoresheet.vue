@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>My scoresheet</h1>
+        <h1 class="heading-text">My scoresheet</h1>
 
         <div v-if="exams.length == 0">
             <base-card>
@@ -59,6 +59,30 @@ export default {
                     RE: 25,
                     SST: 47,
                 },
+                {
+                    Maths: 88,
+                    English: 80,
+                    Kiswahili: 67,
+                    Science: 60,
+                    RE: 25,
+                    SST: 47,
+                },
+                {
+                    Maths: 88,
+                    English: 80,
+                    Kiswahili: 67,
+                    Science: 60,
+                    RE: 25,
+                    SST: 47,
+                },
+                {
+                    Maths: 88,
+                    English: 80,
+                    Kiswahili: 67,
+                    Science: 60,
+                    RE: 25,
+                    SST: 47,
+                },
             ],
         };
     },
@@ -82,14 +106,22 @@ export default {
 </script>
 
 <style>
+.heading-text {
+    font-size: 2.5rem;
+    margin-left: 10rem;
+    margin-top: 3rem;
+}
+
 .table-box {
     margin: 5rem auto;
 }
 
 .scoresheet-container {
     display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-columns: repeat(3, 1fr); */
+    grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+    gap: 3rem;
+    margin: 3rem 10rem;
 }
 
 .table-row {
