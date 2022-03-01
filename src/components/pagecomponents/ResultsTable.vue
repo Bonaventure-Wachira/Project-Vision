@@ -1,6 +1,6 @@
 <template>
     <div>
-        <base-card>
+        <exam-card>
             <h2>Mid-term Exam</h2>
             <div class="table-header">
                 <div>Subject</div>
@@ -9,28 +9,19 @@
             <ul class="table-body">
                 <slot></slot>
             </ul>
-
-            <div class="table-footer">
-                <div>Total</div>
-                <div>400 <span>marks</span></div>
-            </div>
-        </base-card>
+        </exam-card>
     </div>
 </template>
 
 <script>
-export default {
-    data() {
-        return {};
-    },
-};
+export default {};
 </script>
 
 <style>
 .table-header,
 .table-footer {
     display: flex;
-    width: 80%;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     font-size: 1.4rem;

@@ -8,20 +8,28 @@
                 <h4>Would you like to get started?</h4>
             </base-card>
         </div>
-        <div v-else v-for="(test, index) in exams" :key="index">
-            <results-table>
-                <ul>
-                    <li
-                        v-for="(subject, index) in createArr(test)"
-                        :key="index"
-                    >
-                        <div class="subject">
-                            <div>{{ subject[0] }}</div>
-                            <div>{{ subject[1] }}</div>
+        <div v-else class="scoresheet-container">
+            <div v-for="(test, index) in exams" :key="index">
+                <results-table>
+                    <ul>
+                        <li
+                            v-for="(subject, index) in createArr(test)"
+                            :key="index"
+                        >
+                            <div class="subject">
+                                <div>{{ subject[0] }}</div>
+                                <div>{{ subject[1] }}</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="table-footer">
+                        <div>Total</div>
+                        <div>
+                            {{ totalMarks(createArr(test)) }} <span>marks</span>
                         </div>
-                    </li>
-                </ul>
-            </results-table>
+                    </div>
+                </results-table>
+            </div>
         </div>
     </div>
 </template>
@@ -62,6 +70,13 @@ export default {
             }
             return exam;
         },
+        totalMarks(arr) {
+            let total = 0;
+            arr.forEach((el) => {
+                total += el[1];
+            });
+            return total;
+        },
     },
 };
 </script>
@@ -69,6 +84,12 @@ export default {
 <style>
 .table-box {
     margin: 5rem auto;
+}
+
+.scoresheet-container {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .table-row {
@@ -104,6 +125,14 @@ export default {
     background-color: #1572a1;
 }
 
+.table-footer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+}
+
 li {
     list-style: none;
     font-size: 1.4rem;
@@ -112,7 +141,7 @@ li {
 
 .subject {
     display: flex;
-    width: 80%;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     font-size: 1.4rem;
