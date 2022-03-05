@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="add-testscore"></div>
         <h1 class="heading-text">My scoresheet</h1>
 
         <div v-if="exams.length == 0">

@@ -14,7 +14,10 @@
 </template>
 
 <script>
-export default {};
+import ExamCard from '../ui/ExamCard.vue';
+export default {
+    components: { ExamCard },
+};
 </script>
 
 <style>

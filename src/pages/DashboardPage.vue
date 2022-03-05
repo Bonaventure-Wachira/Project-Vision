@@ -6,12 +6,9 @@
                 <h2 class="secondary-heading">Academics</h2>
                 <h2 class="tertiary-heading">School Progress</h2>
                 <ul class="primary-text">
-                    <li>Maths</li>
-                    <li>English</li>
-                    <li>Kiswahili</li>
-                    <li>Science</li>
-                    <li>Social Studies</li>
-                    <li>Religious Education</li>
+                    <li v-for="(subject, index) in mySubjects" :key="index">
+                        {{ subject }}
+                    </li>
                 </ul>
                 <h2 class="tertiary-heading">List of High schools</h2>
                 <ul class="primary-text">
@@ -31,6 +28,14 @@ export default {
         return {
             error: false,
             errorMessage: null,
+            mySubjects: [
+                'Maths',
+                'English',
+                'Kiswahili',
+                'Science',
+                'Social Studies',
+                'Religious Education',
+            ],
         };
     },
 };
