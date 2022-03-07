@@ -26,17 +26,17 @@ export default {
     props: {
         show: {
             type: Boolean,
-            required: true
+            required: true,
         },
         title: {
             type: String,
-            required: false
+            required: false,
         },
         fixed: {
             type: Boolean,
             required: false,
-            default: false
-        }
+            default: false,
+        },
     },
     emits: ['close'],
     methods: {
@@ -45,8 +45,8 @@ export default {
                 return;
             }
             this.$emit('close');
-        }
-    }
+        },
+    },
 };
 </script>
 
@@ -77,7 +77,7 @@ dialog {
 }
 
 header {
-    background-color: #3a0061;
+    background-color: #1572a1;
     color: white;
     width: 100%;
     padding: 1rem;

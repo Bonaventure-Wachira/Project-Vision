@@ -1,8 +1,25 @@
 <template>
+    <base-dialog
+        :show="editMode"
+        title="Edit your subjects"
+        @close="closeDialogBox"
+    >
+        <ul>
+            <li v-for="(subject, index) in mySubjects" :key="index">
+                <span>{{ subject }}</span>
+                <div class="edit-buttons">
+                    <base-button mode="flat">Edit</base-button>
+                    <base-button mode="danger" @click="deleteSubject(index)"
+                        >Delete</base-button
+                    >
+                </div>
+            </li>
+        </ul>
+    </base-dialog>
+    <h3 class="main-heading">My Dashboard</h3>
     <div class="container">
-        <h3 class="main-heading">My Dashboard</h3>
-        <base-card>
-            <div class="container">
+        <div class="subjects">
+            <secondary-card>
                 <h2 class="secondary-heading">Academics</h2>
                 <h2 class="tertiary-heading">School Progress</h2>
                 <ul class="primary-text">
@@ -10,6 +27,12 @@
                         {{ subject }}
                     </li>
                 </ul>
+                <base-button @click="editSubjects">Edit Subjects</base-button>
+            </secondary-card>
+        </div>
+
+        <div class="schools">
+            <secondary-card>
                 <h2 class="tertiary-heading">List of High schools</h2>
                 <ul class="primary-text">
                     <li>Kiambu High</li>
@@ -17,8 +40,8 @@
                     <li>Wahundura Secondary school</li>
                     <li>Dagoretti High</li>
                 </ul>
-            </div>
-        </base-card>
+            </secondary-card>
+        </div>
     </div>
 </template>
 
@@ -36,15 +59,31 @@ export default {
                 'Social Studies',
                 'Religious Education',
             ],
+            editMode: false,
         };
+    },
+    methods: {
+        editSubjects() {
+            this.editMode = true;
+        },
+        closeDialogBox() {
+            this.editMode = false;
+        },
+        deleteSubject(index) {
+            this.mySubjects.splice(index, 1);
+        },
     },
 };
 </script>
 
 <style scoped>
 .container {
-    margin: 2rem;
+    display: flex;
+    max-width: 100rem;
+    margin: 3rem auto;
+    justify-content: space-between;
 }
+
 .input-group {
     margin: 0.5rem 0;
 }
@@ -108,5 +147,16 @@ label {
     font-weight: bold;
     display: block;
     margin-bottom: 0.5rem;
+}
+
+@media only screen and (max-width: 1000px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .subjects {
+        margin-bottom: 3rem;
+    }
 }
 </style>
