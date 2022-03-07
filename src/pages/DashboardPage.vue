@@ -1,4 +1,5 @@
 <template>
+    <!-- Edit subjects dialog box  -->
     <base-dialog
         :show="editMode"
         title="Edit your subjects"
@@ -15,7 +16,31 @@
                 </div>
             </li>
         </ul>
+        <base-button>Add Subject</base-button>
     </base-dialog>
+
+    <!-- Edit categories -->
+
+    <base-dialog
+        :show="editCategoriesMode"
+        title="Edit your categories"
+        @close="closeEditCategoriesDialog"
+    >
+        <ul>
+            <li v-for="(category, index) in resultsCategory" :key="index">
+                <span>{{ category }}</span>
+                <div class="edit-buttons">
+                    <base-button mode="flat">Edit</base-button>
+                    <base-button mode="danger" @click="deleteCategory(index)"
+                        >Delete</base-button
+                    >
+                </div>
+            </li>
+        </ul>
+
+        <base-button>Add Category</base-button>
+    </base-dialog>
+
     <h3 class="main-heading">My Dashboard</h3>
     <div class="container">
         <div class="subjects">
@@ -30,16 +55,34 @@
                 <base-button @click="editSubjects">Edit Subjects</base-button>
             </secondary-card>
         </div>
-
-        <div class="schools">
+        <div class="right-side">
+            <div class="schools">
+                <secondary-card>
+                    <h2 class="tertiary-heading">List of High schools</h2>
+                    <ul class="primary-text">
+                        <li>Kiambu High</li>
+                        <li>Kirangari High school</li>
+                        <li>Wahundura Secondary school</li>
+                        <li>Dagoretti High</li>
+                    </ul>
+                </secondary-card>
+            </div>
             <secondary-card>
-                <h2 class="tertiary-heading">List of High schools</h2>
-                <ul class="primary-text">
-                    <li>Kiambu High</li>
-                    <li>Kirangari High school</li>
-                    <li>Wahundura Secondary school</li>
-                    <li>Dagoretti High</li>
+                <h2>Results Category</h2>
+                <ul>
+                    <li
+                        v-for="(category, index) in resultsCategory"
+                        :key="index"
+                    >
+                        {{ category }}
+                        <base-button mode="flat">
+                            Add results to category</base-button
+                        >
+                    </li>
                 </ul>
+                <base-button @click="editCategories"
+                    >Edit categories</base-button
+                >
             </secondary-card>
         </div>
     </div>
@@ -59,7 +102,9 @@ export default {
                 'Social Studies',
                 'Religious Education',
             ],
+            resultsCategory: ['Class 4', 'Class 5', 'Class 6'],
             editMode: false,
+            editCategoriesMode: false,
         };
     },
     methods: {
@@ -72,6 +117,15 @@ export default {
         deleteSubject(index) {
             this.mySubjects.splice(index, 1);
         },
+        editCategories() {
+            this.editCategoriesMode = true;
+        },
+        closeEditCategoriesDialog() {
+            this.editCategoriesMode = false;
+        },
+        deleteCategory(index) {
+            this.resultsCategory.splice(index, 1);
+        },
     },
 };
 </script>
@@ -82,6 +136,10 @@ export default {
     max-width: 100rem;
     margin: 3rem auto;
     justify-content: space-between;
+}
+
+.schools {
+    margin-bottom: 3rem;
 }
 
 .input-group {
