@@ -1,4 +1,5 @@
 <template>
+    <base-spinner v-if="isLoading"></base-spinner>
     <base-card>
         <div class="container">
             <h3>Log into your account!</h3>
@@ -21,8 +22,11 @@
                         v-model.trim="password"
                     />
                 </div>
+                <p v-if="!!errorMessage" class="errorMessage">
+                    {{ errorMessage }}
+                </p>
                 <div class="submission-box">
-                    <base-button>Sign Up</base-button>
+                    <base-button>Login</base-button>
                     <div class="forgot-password-box">
                         <base-button link to="/passwordRecovery" mode="flat"
                             >Forgot password?</base-button
@@ -34,6 +38,7 @@
     </base-card>
 </template>
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
@@ -41,6 +46,7 @@ export default {
             password: '',
             error: false,
             errorMessage: null,
+            isLoading: false,
         };
     },
     methods: {
@@ -48,9 +54,31 @@ export default {
             this.error = false;
             this.errorMessage = null;
             if (this.email === '' || !this.email.includes('@')) {
-                this.error = true;
                 this.errorMessage = 'Please enter a valid email address';
                 return;
+            }
+            if (this.password.length < 6) {
+                this.errorMessage =
+                    'Your password should not be less than six characters';
+                return;
+            }
+
+            try {
+                this.isLoading = true;
+
+                const response = await axios.post(
+                    'http://localhost:3000/api/v1/users/login',
+                    {
+                        email: this.email,
+                        password: this.password,
+                    }
+                );
+                this.isLoading = false;
+                console.log(response);
+            } catch (err) {
+                this.isLoading = false;
+                this.errorMessage = err.response.data.message;
+                console.log(err.response);
             }
         },
     },
@@ -84,6 +112,11 @@ input:focus {
 h3 {
     margin: 1.3rem 0;
     font-size: 2.2rem;
+}
+
+.errorMessage {
+    font-size: 1.3rem;
+    color: red;
 }
 
 .invalid input {

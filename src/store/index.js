@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 export default createStore({
     state() {
         return {
-            allActivities: [],
+            authToken: null,
         };
     },
     mutations: {
@@ -35,6 +35,9 @@ export default createStore({
         },
         allActivities(state) {
             return state.allActivities;
+        },
+        isLoggedIn(state) {
+            return !!state.authToken;
         },
     },
 });
