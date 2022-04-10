@@ -1,43 +1,40 @@
 import { createStore } from 'vuex';
+import axios from 'axios';
+const base_url = 'https://project-v-api.herokuapp.com';
 
 export default createStore({
     state() {
         return {
-            authToken: null,
+            user: null,
         };
     },
-    mutations: {
-        addActivity(state, payload) {
-            state.allActivities.push(payload);
-        },
-        deleteActivity(state, payload) {
-            state.allActivities.splice(payload, 1);
-            console.log(state.allActivities);
-        },
-        editActivity(state, payload) {
-            state.allActivities[payload.index] = payload.newActivity;
-        },
-    },
     actions: {
-        addActivity(context, payload) {
-            context.commit('addActivity', payload);
-        },
-        deleteActivity(context, payload) {
-            context.commit('deleteActivity', payload);
-        },
-        editActivity(context, payload) {
-            context.commit('editActivity', payload);
+        async login(context, payload) {
+            const userData = {
+                email: payload.email,
+                password: payload.password,
+            };
+            try {
+                const response = await axios.post(
+                    base_url + '/api/v1/users/login',
+                    JSON.stringify(userData),
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+                console.log(response);
+                context.commit('login', response);
+            } catch (error) {
+                console.log(error.response);
+            }
         },
     },
-    getters: {
-        hasActivities(state) {
-            return state.allActivities.length > 0;
-        },
-        allActivities(state) {
-            return state.allActivities;
-        },
-        isLoggedIn(state) {
-            return !!state.authToken;
+    mutations: {
+        login(state, payload) {
+            state.user = payload;
         },
     },
+    getters: {},
 });

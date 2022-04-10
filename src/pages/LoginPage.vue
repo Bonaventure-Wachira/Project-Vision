@@ -63,23 +63,12 @@ export default {
                 return;
             }
 
-            try {
-                this.isLoading = true;
-
-                const response = await axios.post(
-                    'http://localhost:3000/api/v1/users/login',
-                    {
-                        email: this.email,
-                        password: this.password,
-                    }
-                );
-                this.isLoading = false;
-                console.log(response);
-            } catch (err) {
-                this.isLoading = false;
-                this.errorMessage = err.response.data.message;
-                console.log(err.response);
-            }
+            this.isLoading = true;
+            await this.$store.dispatch('login', {
+                email: this.email,
+                password: this.password,
+            });
+            this.isLoading = false;
         },
     },
 };
