@@ -6,6 +6,7 @@ import PasswordRecovery from './../pages/PasswordRecovery.vue';
 import ResetPassword from './../pages/ResetPassword.vue';
 import HighSchool from './../pages/HighSchool.vue';
 import StudentScoresheet from './../pages/StudentScoresheet.vue';
+import AllSchools from './../pages/schools/AllSchools.vue';
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
@@ -18,6 +19,7 @@ const router = createRouter({
         { path: '/passwordReset', component: ResetPassword },
         { path: '/highschool', component: HighSchool },
         { path: '/myscoresheet', component: StudentScoresheet },
+        { path: '/allschools', component: AllSchools },
     ],
 });
 

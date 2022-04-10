@@ -46,43 +46,44 @@
         <div class="subjects">
             <secondary-card>
                 <h2 class="secondary-heading">Academics</h2>
-                <h2 class="tertiary-heading">School Progress</h2>
+                <h2 class="tertiary-heading">My subjects</h2>
                 <ul class="primary-text">
                     <li v-for="(subject, index) in mySubjects" :key="index">
                         {{ subject }}
                     </li>
                 </ul>
-                <base-button @click="editSubjects">Edit Subjects</base-button>
+                <!-- <base-button @click="editSubjects">Edit Subjects</base-button> -->
             </secondary-card>
         </div>
         <div class="right-side">
             <div class="schools">
                 <secondary-card>
                     <h2 class="tertiary-heading">List of High schools</h2>
-                    <ul class="primary-text">
-                        <li>Kiambu High</li>
-                        <li>Kirangari High school</li>
-                        <li>Wahundura Secondary school</li>
-                        <li>Dagoretti High</li>
-                    </ul>
+                    <base-button mode="outline" link to="/allschools"
+                        >All Schools</base-button
+                    >
                 </secondary-card>
             </div>
             <secondary-card>
                 <h2>Results Category</h2>
-                <ul>
+                <div v-if="!results">
+                    <h2>
+                        You do not have any exam records just yet.
+                    </h2>
+                    <base-button>Add results</base-button>
+                </div>
+                <ul v-else>
                     <li
                         v-for="(category, index) in resultsCategory"
                         :key="index"
                     >
                         {{ category }}
-                        <base-button mode="flat">
-                            Add results to category</base-button
-                        >
+                        <base-button mode="flat"> Edit categories</base-button>
                     </li>
                 </ul>
-                <base-button @click="editCategories"
+                <!-- <base-button @click="editCategories"
                     >Edit categories</base-button
-                >
+                > -->
             </secondary-card>
         </div>
     </div>
@@ -94,6 +95,7 @@ export default {
         return {
             error: false,
             errorMessage: null,
+            results: null,
             mySubjects: [
                 'Maths',
                 'English',

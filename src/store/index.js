@@ -7,9 +7,20 @@ export default createStore({
         return {
             user: null,
             loginErr: null,
+            schools: null,
         };
     },
     actions: {
+        // Getting all schools
+        async getAllSchools(context, payload) {
+            if (!payload.forceRefresh) {
+                return;
+            }
+
+            const schools = await axios.get(base_url + '/api/v1/schools');
+
+            context.commit('getAllSchools', schools.data.data.schools);
+        },
         async login(context, payload) {
             const userData = {
                 email: payload.email,
@@ -77,6 +88,9 @@ export default createStore({
         returnErr(state, payload) {
             state.loginErr = payload.message;
         },
+        getAllSchools(state, payload) {
+            state.schools = payload;
+        },
     },
     getters: {
         isAuth(state) {
@@ -84,6 +98,9 @@ export default createStore({
         },
         getLoginErr(state) {
             return state.loginErr;
+        },
+        getAllSchools(state) {
+            return state.schools;
         },
     },
 });
