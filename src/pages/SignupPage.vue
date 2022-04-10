@@ -1,4 +1,5 @@
 <template>
+    <base-spinner v-if="isLoading"></base-spinner>
     <base-card>
         <div class="container">
             <h3>Sign up to our service today!</h3>
@@ -28,6 +29,15 @@
                         name="email"
                         id="email"
                         v-model.trim="email"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="county">County</label>
+                    <input
+                        type="text"
+                        name="county"
+                        id="county"
+                        v-model.trim="county"
                     />
                 </div>
                 <div class="form-group">
@@ -103,6 +113,7 @@ export default {
             firstName: '',
             lastName: '',
             email: '',
+            county: '',
             educationLevel: 'primary',
             password: '',
             confirmPassword: '',
@@ -110,6 +121,7 @@ export default {
             errorMessage: null,
             securityQuestion: 'maiden',
             securityAns: '',
+            isLoading: false,
         };
     },
     methods: {
@@ -117,10 +129,29 @@ export default {
             this.error = false;
             this.errorMessage = null;
             if (this.email === '' || !this.email.includes('@')) {
-                this.error = true;
                 this.errorMessage = 'Please enter a valid email address';
                 return;
             }
+            if (this.password.length < 6) {
+                this.errorMessage =
+                    'Your password should not be less than six characters';
+                return;
+            }
+
+            this.isLoading = true;
+            await this.$store.dispatch('signup', {
+                firstName: this.firstName,
+                lastName: this.lastName,
+                email: this.email,
+                county: this.county,
+                password: this.password,
+                confirmPassword: this.confirmPassword,
+                educationLevel: this.educationLevel,
+                securityQuestion: this.securityQuestion,
+                securityAns: this.securityAns,
+            });
+            this.isLoading = false;
+            this.$router.push('/');
         },
     },
 };
