@@ -20,6 +20,9 @@ export default {
             return base_url;
         },
     },
+    created() {
+        this.setEnv();
+    },
 };
 </script>
 
