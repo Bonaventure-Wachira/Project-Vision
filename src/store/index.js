@@ -1,3 +1,4 @@
+// let timer;
 import { createStore } from 'vuex';
 import axios from 'axios';
 const base_url = 'https://project-v-api.herokuapp.com';
@@ -8,9 +9,29 @@ export default createStore({
             user: null,
             loginErr: null,
             schools: null,
+            examCategories: null,
         };
     },
     actions: {
+        // Getting all the exam records of a single student
+        async getAllExams({ commit, getters }) {
+            const response = await axios.get(base_url + '/api/v1/categories', {
+                headers: {
+                    authorization: 'Bearer ' + getters.getUser.token,
+                },
+            });
+
+            if (response.status !== 200) {
+                const err = response.error;
+                console.log(err);
+                throw err;
+            }
+
+            const examCategories = response.data.categories;
+            console.log(examCategories);
+            commit('setExams', examCategories);
+        },
+
         // Getting all schools
         async getAllSchools(context, payload) {
             if (!payload.forceRefresh) {
@@ -41,6 +62,8 @@ export default createStore({
                     userId: response.data.userId,
                     token: response.data.token,
                 };
+                localStorage.setItem('token', newRes.token);
+                localStorage.setItem('userId', newRes.userId);
                 context.commit('authenticate', newRes);
             } catch (error) {
                 console.log(error.response.data);
@@ -80,6 +103,18 @@ export default createStore({
                 context.commit('returnErr', error.response.data);
             }
         },
+        tryLogin(context) {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+
+            if (token && userId) {
+                const user = {
+                    token,
+                    userId,
+                };
+                context.commit('authenticate', user);
+            }
+        },
     },
     mutations: {
         authenticate(state, payload) {
@@ -91,16 +126,28 @@ export default createStore({
         getAllSchools(state, payload) {
             state.schools = payload;
         },
+        setExams(state, payload) {
+            state.examCategories = payload;
+        },
     },
     getters: {
         isAuth(state) {
             return !!state.user;
+        },
+        getUser(state) {
+            return state.user;
         },
         getLoginErr(state) {
             return state.loginErr;
         },
         getAllSchools(state) {
             return state.schools;
+        },
+        getExams(state) {
+            return state.examCategories;
+        },
+        isExamsCategories(state) {
+            return !!state.examCategories;
         },
     },
 });

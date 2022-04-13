@@ -66,19 +66,23 @@
             </div>
             <secondary-card>
                 <h2>Results Category</h2>
-                <div v-if="!results">
+                <div v-if="!areCategoriesAvailable">
                     <h2>
                         You do not have any exam records just yet.
                     </h2>
-                    <base-button>Add results</base-button>
+                    <base-button @click="editCategories"
+                        >Add category</base-button
+                    >
                 </div>
                 <ul v-else>
                     <li
                         v-for="(category, index) in resultsCategory"
                         :key="index"
                     >
-                        {{ category }}
-                        <base-button mode="flat"> Edit categories</base-button>
+                        {{ category.year }}
+                        <base-button mode="flat" @click="editCategories">
+                            Add category</base-button
+                        >
                     </li>
                 </ul>
                 <!-- <base-button @click="editCategories"
@@ -90,12 +94,13 @@
 </template>
 
 <script>
+// import axios from 'axios';
 export default {
     data() {
         return {
             error: false,
             errorMessage: null,
-            results: null,
+            examRecords: null,
             mySubjects: [
                 'Maths',
                 'English',
@@ -104,10 +109,19 @@ export default {
                 'Social Studies',
                 'Religious Education',
             ],
-            resultsCategory: ['Class 4', 'Class 5', 'Class 6'],
+            // resultsCategory: null,
             editMode: false,
             editCategoriesMode: false,
+            resultModal: false,
         };
+    },
+    computed: {
+        resultsCategory() {
+            return this.$store.getters.getExams;
+        },
+        areCategoriesAvailable() {
+            return this.$store.getters.isExamsCategories;
+        },
     },
     methods: {
         editSubjects() {
@@ -128,6 +142,15 @@ export default {
         deleteCategory(index) {
             this.resultsCategory.splice(index, 1);
         },
+    },
+    async created() {
+        try {
+            if (this.$store.getters.isAuth) {
+                await this.$store.dispatch('getAllExams');
+            }
+        } catch (err) {
+            console.log(err);
+        }
     },
 };
 </script>
