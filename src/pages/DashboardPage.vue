@@ -19,26 +19,28 @@
         <base-button>Add Subject</base-button>
     </base-dialog>
 
-    <!-- Edit categories -->
+    <!-- Add category -->
 
     <base-dialog
-        :show="editCategoriesMode"
-        title="Edit your categories"
-        @close="closeEditCategoriesDialog"
+        :show="addCategoryMode"
+        title="Add category"
+        @close="closeAddCategoriesDialog"
     >
-        <ul>
-            <li v-for="(category, index) in resultsCategory" :key="index">
-                <span>{{ category }}</span>
-                <div class="edit-buttons">
-                    <base-button mode="flat">Edit</base-button>
-                    <base-button mode="danger" @click="deleteCategory(index)"
-                        >Delete</base-button
-                    >
-                </div>
-            </li>
-        </ul>
+        <div class="form-group">
+            <label for="year">Year of education</label>
+            <select name="year" id="year" v-model.trim="year">
+                <option value="one">One</option>
+                <option value="two">Two</option>
+                <option value="three">Three</option>
+                <option value="four">Four</option>
+                <option value="five">Five</option>
+                <option value="six">Six</option>
+                <option value="seven">Seven</option>
+                <option value="eight">Eight</option>
+            </select>
+        </div>
 
-        <base-button>Add Category</base-button>
+        <base-button @click="submitCategory">Add Category</base-button>
     </base-dialog>
 
     <h3 class="main-heading">My Dashboard</h3>
@@ -70,9 +72,7 @@
                     <h2>
                         You do not have any exam records just yet.
                     </h2>
-                    <base-button @click="editCategories"
-                        >Add category</base-button
-                    >
+                    <base-button @click="addCategory">Add category</base-button>
                 </div>
                 <ul v-else>
                     <li
@@ -88,10 +88,8 @@
                             Go to class category</base-button
                         >
                     </li>
+                    <base-button @click="addCategory">Add category</base-button>
                 </ul>
-                <!-- <base-button @click="editCategories"
-                    >Edit categories</base-button
-                > -->
             </secondary-card>
         </div>
     </div>
@@ -115,9 +113,10 @@ export default {
             ],
             // resultsCategory: null,
             editMode: false,
-            editCategoriesMode: false,
+            addCategoryMode: false,
             resultModal: false,
             isLoading: false,
+            year: 'five',
         };
     },
     computed: {
@@ -138,17 +137,26 @@ export default {
         deleteSubject(index) {
             this.mySubjects.splice(index, 1);
         },
-        editCategories() {
-            this.editCategoriesMode = true;
+        addCategory() {
+            this.addCategoryMode = true;
         },
-        closeEditCategoriesDialog() {
-            this.editCategoriesMode = false;
+        closeAddCategoriesDialog() {
+            this.addCategoryMode = false;
         },
-        deleteCategory(index) {
-            this.resultsCategory.splice(index, 1);
+        async submitCategory() {
+            this.isLoading = true;
+            try {
+                await this.$store.dispatch('addCategory', this.year);
+            } catch (err) {
+                this.errorMessage =
+                    err || 'Something went wrong. Please try again';
+            }
+            this.$forceUpdate();
+            this.closeAddCategoriesDialog();
+            this.isLoading = false;
         },
     },
-    async created() {
+    async mounted() {
         try {
             if (this.$store.getters.isAuth) {
                 await this.$store.dispatch('getAllExams');
@@ -156,6 +164,16 @@ export default {
         } catch (err) {
             console.log(err);
         }
+    },
+
+    async created() {
+        this.isLoading = true;
+        try {
+            await this.$store.dispatch('fetchUser');
+        } catch (err) {
+            this.errorMessage = err || 'Something went wrong';
+        }
+        this.isLoading = false;
     },
 };
 </script>
@@ -232,6 +250,16 @@ span {
 }
 
 label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+.form-group {
+    margin: 1.5rem 0;
+}
+
+label {
+    font-size: 1.5rem;
     font-weight: bold;
     display: block;
     margin-bottom: 0.5rem;

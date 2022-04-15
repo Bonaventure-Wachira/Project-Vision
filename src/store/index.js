@@ -8,9 +8,11 @@ export default createStore({
         return {
             user: null,
             loginErr: null,
-            schools: null,
+            allSchools: null,
             examCategories: null,
             singleCategory: null,
+            userInfo: null,
+            schools: null,
         };
     },
     actions: {
@@ -32,8 +34,28 @@ export default createStore({
                     },
                 }
             );
-            console.log(response);
 
+            if (response.status !== 200) {
+                const err = response.error;
+                console.log(err);
+                throw err;
+            }
+        },
+        // Adding a single category
+        async addCategory({ commit, getters }, payload) {
+            const response = await axios.post(
+                base_url + '/api/v1/categories/',
+                {
+                    year: payload,
+                    studentId: getters.getUser.userId,
+                },
+                {
+                    headers: {
+                        authorization: 'Bearer ' + getters.getUser.token,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
             if (response.status !== 200) {
                 const err = response.error;
                 console.log(err);
@@ -75,7 +97,6 @@ export default createStore({
             }
 
             const examCategories = response.data.categories;
-            console.log(examCategories);
             commit('setExams', examCategories);
         },
 
@@ -104,7 +125,6 @@ export default createStore({
                         },
                     }
                 );
-                console.log(response);
                 const newRes = {
                     userId: response.data.userId,
                     token: response.data.token,
@@ -139,7 +159,6 @@ export default createStore({
                         },
                     }
                 );
-                console.log(response);
                 const newRes = {
                     userId: response.data.userId,
                     token: response.data.token,
@@ -149,6 +168,88 @@ export default createStore({
                 console.log(error.response.data);
                 context.commit('returnErr', error.response.data);
             }
+        },
+        async fetchUser({ commit, getters }) {
+            const response = await axios.get(
+                base_url + '/api/v1/users/' + getters.getUser.userId
+            );
+            if (response.status !== 200) {
+                const err = response.error;
+                console.log(err);
+                throw err;
+            }
+            const userInfo = {
+                county: response.data.user.county,
+                level: response.data.user.levelOfEducation,
+                firstName: response.data.user.firstName,
+                lastName: response.data.user.lastName,
+            };
+            commit('setUserInfo', userInfo);
+        },
+        async fetchSchools({ commit, getters }, payload) {
+            const aridCounties = [
+                'baringo',
+                'garissa',
+                'isiolo',
+                'mandera',
+                'marsabit',
+                'samburu',
+                'tana river',
+                'turkana',
+                'wajir',
+                'embu',
+                'kajiado',
+                'kilifi',
+                'kitui',
+                'kwale',
+                'laikipia',
+                'lamu',
+                'makueni',
+                'meru',
+                'narok',
+                'nyeri',
+                'taita taveta',
+                'tharaka nithi',
+                'west pokot',
+            ];
+            let url;
+            if (
+                payload >= 400 &&
+                !aridCounties.includes(getters.getUserInfo.county.toLowerCase())
+            ) {
+                url = base_url + '/api/v1/schools/nationals';
+            } else if (
+                payload >= 300 &&
+                !aridCounties.includes(getters.getUserInfo.county.toLowerCase())
+            ) {
+                url = base_url + '/api/v1/schools/extra';
+            } else if (
+                payload >= 200 &&
+                !aridCounties.includes(getters.getUserInfo.county.toLowerCase())
+            ) {
+                url = base_url + '/api/v1/schools/county';
+            } else if (
+                payload >= 325 &&
+                aridCounties.includes(getters.getUserInfo.county.toLowerCase())
+            ) {
+                url = base_url + '/api/v1/schools/nationals';
+            } else if (
+                payload >= 250 &&
+                aridCounties.includes(getters.getUserInfo.county.toLowerCase())
+            ) {
+                url = base_url + '/api/v1/schools/extra';
+            } else {
+                url = base_url + '/api/v1/schools/county';
+            }
+
+            const response = await axios.get(url);
+            if (response.status !== 200) {
+                const err = response.error;
+                console.log(err);
+                throw err;
+            }
+            const schools = response.data.data.schools;
+            commit('loadSchools', schools);
         },
         tryLogin(context) {
             const token = localStorage.getItem('token');
@@ -179,6 +280,12 @@ export default createStore({
         setCategory(state, payload) {
             state.singleCategory = payload;
         },
+        setUserInfo(state, payload) {
+            state.userInfo = payload;
+        },
+        loadSchools(state, payload) {
+            state.schools = payload;
+        },
     },
     getters: {
         isAuth(state) {
@@ -191,7 +298,7 @@ export default createStore({
             return state.loginErr;
         },
         getAllSchools(state) {
-            return state.schools;
+            return state.allSchools;
         },
         getExams(state) {
             return state.examCategories;
@@ -201,6 +308,12 @@ export default createStore({
         },
         singleCategory(state) {
             return state.singleCategory;
+        },
+        getUserInfo(state) {
+            return state.userInfo;
+        },
+        getSchools(state) {
+            return state.schools;
         },
     },
 });

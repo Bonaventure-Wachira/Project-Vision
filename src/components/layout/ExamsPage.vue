@@ -72,6 +72,11 @@
                 >
                     {{ el[0] }} : {{ el[1] }}
                 </div>
+                <base-button
+                    mode="outline"
+                    @click="fetchSchools(exam.exam.Total)"
+                    >Predicted schools</base-button
+                >
             </exam-card>
         </div>
         <base-button @click="addExam">Add exam</base-button>
@@ -161,6 +166,18 @@ export default {
                 });
             } catch (error) {
                 this.err = error || 'Failed to add exam. Please try again';
+            }
+            this.$forceUpdate();
+            this.isLoading = false;
+        },
+        async fetchSchools(score) {
+            this.isLoading = true;
+            try {
+                console.log(score);
+                this.$store.dispatch('fetchSchools', score);
+                this.$router.push('/schools');
+            } catch (error) {
+                this.err = error || 'Something went wrong';
             }
             this.isLoading = false;
         },
