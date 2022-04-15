@@ -1,5 +1,7 @@
 <template>
-    <base-spinner v-if="isLoading"></base-spinner>
+    <base-dialog :show="isLoading" fixed title="Logging in..">
+        <base-spinner v-if="isLoading"></base-spinner>
+    </base-dialog>
     <base-card>
         <div class="container">
             <h3>Log into your account!</h3>

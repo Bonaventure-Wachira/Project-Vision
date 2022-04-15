@@ -7,12 +7,14 @@ import ResetPassword from './../pages/ResetPassword.vue';
 import HighSchool from './../pages/HighSchool.vue';
 import StudentScoresheet from './../pages/StudentScoresheet.vue';
 import AllSchools from './../pages/schools/AllSchools.vue';
+import ExamsPage from './../components/layout/ExamsPage.vue';
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: [
         { path: '/', redirect: '/dashboard' },
         { path: '/dashboard', component: DashBoardPage },
+        { path: '/myexams/:categoryId', component: ExamsPage },
         { path: '/login', component: LoginPage },
         { path: '/signup', component: SignupPage },
         { path: '/passwordRecovery', component: PasswordRecovery },

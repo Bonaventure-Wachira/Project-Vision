@@ -10,9 +10,56 @@ export default createStore({
             loginErr: null,
             schools: null,
             examCategories: null,
+            singleCategory: null,
         };
     },
     actions: {
+        // adding a single exam
+        async addExam({ getters }, payload) {
+            const { categoryId, exam, examName, term } = payload;
+            const response = await axios.post(
+                base_url + '/api/v1/exams',
+                JSON.stringify({
+                    categoryId,
+                    exam,
+                    examName,
+                    term,
+                }),
+                {
+                    headers: {
+                        authorization: 'Bearer ' + getters.getUser.token,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            console.log(response);
+
+            if (response.status !== 200) {
+                const err = response.error;
+                console.log(err);
+                throw err;
+            }
+        },
+        // Getting a single exam category
+        async getSingleCategory({ commit, getters }, payload) {
+            const response = await axios.get(
+                base_url + '/api/v1/categories/' + payload,
+                {
+                    headers: {
+                        authorization: 'Bearer ' + getters.getUser.token,
+                    },
+                }
+            );
+
+            if (response.status !== 200) {
+                const err = response.error;
+                console.log(err);
+                throw err;
+            }
+
+            const singleCategory = response.data.category;
+            commit('setCategory', singleCategory);
+        },
         // Getting all the exam records of a single student
         async getAllExams({ commit, getters }) {
             const response = await axios.get(base_url + '/api/v1/categories', {
@@ -129,6 +176,9 @@ export default createStore({
         setExams(state, payload) {
             state.examCategories = payload;
         },
+        setCategory(state, payload) {
+            state.singleCategory = payload;
+        },
     },
     getters: {
         isAuth(state) {
@@ -148,6 +198,9 @@ export default createStore({
         },
         isExamsCategories(state) {
             return !!state.examCategories;
+        },
+        singleCategory(state) {
+            return state.singleCategory;
         },
     },
 });

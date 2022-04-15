@@ -79,9 +79,13 @@
                         v-for="(category, index) in resultsCategory"
                         :key="index"
                     >
-                        {{ category.year }}
-                        <base-button mode="flat" @click="editCategories">
-                            Add category</base-button
+                        Class {{ category.year }}
+                        <base-button
+                            mode="flat"
+                            link
+                            :to="/myexams/ + category._id"
+                        >
+                            Go to class category</base-button
                         >
                     </li>
                 </ul>
@@ -113,6 +117,7 @@ export default {
             editMode: false,
             editCategoriesMode: false,
             resultModal: false,
+            isLoading: false,
         };
     },
     computed: {
