@@ -163,6 +163,8 @@ export default createStore({
                     userId: response.data.userId,
                     token: response.data.token,
                 };
+                localStorage.setItem('token', newRes.token);
+                localStorage.setItem('userId', newRes.userId);
                 context.commit('authenticate', newRes);
             } catch (error) {
                 console.log(error.response.data);
