@@ -215,6 +215,7 @@ export default createStore({
                 'west pokot',
             ];
             let url;
+            console.log(getters.getUserInfo.county);
             if (
                 payload >= 400 &&
                 !aridCounties.includes(getters.getUserInfo.county.toLowerCase())

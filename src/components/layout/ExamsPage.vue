@@ -18,12 +18,11 @@
     >
         <div class="subject-group">
             <label for="term">Term</label>
-            <input
-                type="text"
-                name="term"
-                placeholder="Term (type 'one', 'two' or 'three')"
-                v-model.trim="term"
-            />
+            <select name="term" id="term" v-model.trim="term">
+                <option value="one">One</option>
+                <option value="two">Two</option>
+                <option value="three">Three</option>
+            </select>
         </div>
         <div class="subject-group">
             <label for="examName">Exam Name</label>
@@ -56,7 +55,8 @@
         <base-button @click="submit">Submit</base-button>
         <p v-if="!!subjectErr">{{ subjectErr }}</p>
     </base-dialog>
-    <div class="general-container">
+
+    <div class="general-container" v-if="!isLoading">
         <h2 v-if="examCategory" class="exam-page-title">
             My exams for level {{ examCategory.year }}
         </h2>
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
@@ -96,14 +97,15 @@ export default {
             examArr: [],
             examTotal: null,
             isLoading: false,
-            term: '',
+            term: 'one',
             examName: '',
+            examCategory: null,
         };
     },
     computed: {
-        examCategory() {
-            return this.$store.getters.singleCategory;
-        },
+        // examCategory() {
+        //     return this.$store.getters.singleCategory;
+        // },
     },
     methods: {
         closeErrDialog() {
@@ -142,6 +144,22 @@ export default {
             );
             return total;
         },
+        async refreshSingleCategory() {
+            if (this.$store.getters.isAuth) {
+                this.isLoading = true;
+                try {
+                    await this.$store.dispatch(
+                        'getSingleCategory',
+                        this.$route.params.categoryId
+                    );
+                } catch (err) {
+                    this.err =
+                        err || 'Something went wrong. Please try again later.';
+                }
+                this.examCategory = this.$store.getters.singleCategory;
+                this.isLoading = false;
+            }
+        },
         async submit() {
             const examObj = this.examArr
                 .filter(([k, v]) => {
@@ -155,20 +173,34 @@ export default {
                 ...examObj,
                 Total: this.examTotal,
             };
-
             this.isLoading = true;
+
             try {
-                this.$store.dispatch('addExam', {
-                    categoryId: this.$route.params.categoryId,
-                    exam,
-                    examName: this.examName,
-                    term: this.term,
-                });
-            } catch (error) {
-                this.err = error || 'Failed to add exam. Please try again';
+                await axios.post(
+                    'https://project-v-api.herokuapp.com/api/v1/exams',
+                    JSON.stringify({
+                        categoryId: this.$route.params.categoryId,
+                        exam,
+                        examName: this.examName,
+                        term: this.term,
+                    }),
+                    {
+                        headers: {
+                            authorization:
+                                'Bearer ' + this.$store.getters.getUser.token,
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+            } catch (err) {
+                this.subjectErr =
+                    err.response.message ||
+                    'Something went wrong.Please try again.';
+                console.log(err);
             }
-            this.$forceUpdate();
+            this.refreshSingleCategory();
             this.isLoading = false;
+            this.addExamMode = false;
         },
         async fetchSchools(score) {
             this.isLoading = true;
@@ -182,20 +214,8 @@ export default {
             this.isLoading = false;
         },
     },
-    async created() {
-        if (this.$store.getters.isAuth) {
-            this.isLoading = true;
-            try {
-                await this.$store.dispatch(
-                    'getSingleCategory',
-                    this.$route.params.categoryId
-                );
-            } catch (err) {
-                this.err =
-                    err || 'Something went wrong. Please try again later.';
-            }
-            this.isLoading = false;
-        }
+    created() {
+        this.refreshSingleCategory();
     },
 };
 </script>
