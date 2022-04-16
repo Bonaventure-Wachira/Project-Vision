@@ -180,12 +180,14 @@ export default createStore({
                 console.log(err);
                 throw err;
             }
+
             const userInfo = {
                 county: response.data.user.county,
                 level: response.data.user.levelOfEducation,
                 firstName: response.data.user.firstName,
                 lastName: response.data.user.lastName,
             };
+            localStorage.setItem('userInfo', userInfo);
             commit('setUserInfo', userInfo);
         },
         async fetchSchools({ commit, getters }, payload) {
@@ -215,7 +217,6 @@ export default createStore({
                 'west pokot',
             ];
             let url;
-            console.log(getters.getUserInfo.county);
             if (
                 payload >= 400 &&
                 !aridCounties.includes(getters.getUserInfo.county.toLowerCase())
@@ -264,6 +265,12 @@ export default createStore({
                     userId,
                 };
                 context.commit('authenticate', user);
+            }
+        },
+        loadUserInfo(context) {
+            const userInfo = localStorage.getItem('userInfo');
+            if (userInfo) {
+                context.commit('setUserInfo', userInfo);
             }
         },
     },

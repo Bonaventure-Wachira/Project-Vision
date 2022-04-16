@@ -29,9 +29,9 @@ export default {
             return this.$store.getters.getSchools;
         },
     },
-    created() {
-        console.log(this.$store.getters.getSchools);
-    },
+    // created() {
+    //     console.log(this.$store.getters.getSchools);
+    // },
 };
 </script>
 

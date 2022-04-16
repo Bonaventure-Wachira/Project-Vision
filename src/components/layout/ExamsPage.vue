@@ -1,5 +1,5 @@
 <template>
-    <base-dialog :show="isLoading" fixed title="Fetching exams...">
+    <base-dialog :show="isLoading" fixed title="Fetching ...">
         <base-spinner v-if="isLoading"></base-spinner>
     </base-dialog>
     <base-dialog
@@ -56,6 +56,7 @@
         <p v-if="!!subjectErr">{{ subjectErr }}</p>
     </base-dialog>
 
+    <!-- General container -->
     <div class="general-container" v-if="!isLoading">
         <h2 v-if="examCategory" class="exam-page-title">
             My exams for level {{ examCategory.year }}
@@ -206,7 +207,7 @@ export default {
             this.isLoading = true;
             try {
                 console.log(score);
-                this.$store.dispatch('fetchSchools', score);
+                await this.$store.dispatch('fetchSchools', score);
                 this.$router.push('/schools');
             } catch (error) {
                 this.err = error || 'Something went wrong';
