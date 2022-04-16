@@ -149,27 +149,29 @@ export default createStore({
                 securityQuestion: payload.securityQuestion,
                 securityAnswer: payload.securityAns,
             };
-            try {
-                const response = await axios.post(
-                    base_url + '/api/v1/users/signup',
-                    JSON.stringify(userData),
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                );
-                const newRes = {
-                    userId: response.data.userId,
-                    token: response.data.token,
-                };
-                localStorage.setItem('token', newRes.token);
-                localStorage.setItem('userId', newRes.userId);
-                context.commit('authenticate', newRes);
-            } catch (error) {
-                console.log(error.response.data);
-                context.commit('returnErr', error.response.data);
+
+            const response = await axios.post(
+                base_url + '/api/v1/users/signup',
+                JSON.stringify(userData),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            if (response.status !== 200) {
+                const err = response.error;
+                console.log(err);
+                throw err;
             }
+
+            const newRes = {
+                userId: response.data.userId,
+                token: response.data.token,
+            };
+            localStorage.setItem('token', newRes.token);
+            localStorage.setItem('userId', newRes.userId);
+            context.commit('authenticate', newRes);
         },
         async fetchUser({ commit, getters }) {
             const response = await axios.get(

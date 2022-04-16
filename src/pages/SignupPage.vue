@@ -1,5 +1,7 @@
 <template>
-    <base-spinner v-if="isLoading"></base-spinner>
+    <base-dialog :show="isLoading" fixed title="Signing you up...">
+        <base-spinner v-if="isLoading"></base-spinner>
+    </base-dialog>
     <base-card>
         <div class="container">
             <h3>Sign up to our service today!</h3>
@@ -102,6 +104,7 @@
                     />
                 </div>
                 <base-button>Sign Up</base-button>
+                <p v-if="err">{{ err }}</p>
             </form>
         </div>
     </base-card>
@@ -117,41 +120,43 @@ export default {
             educationLevel: 'primary',
             password: '',
             confirmPassword: '',
-            error: false,
-            errorMessage: null,
             securityQuestion: 'maiden',
             securityAns: '',
             isLoading: false,
+            err: null,
         };
     },
     methods: {
         async signUp() {
-            this.error = false;
-            this.errorMessage = null;
+            this.err = null;
             if (this.email === '' || !this.email.includes('@')) {
-                this.errorMessage = 'Please enter a valid email address';
+                this.err = 'Please enter a valid email address';
                 return;
             }
             if (this.password.length < 6) {
-                this.errorMessage =
+                this.err =
                     'Your password should not be less than six characters';
                 return;
             }
-
             this.isLoading = true;
-            await this.$store.dispatch('signup', {
-                firstName: this.firstName,
-                lastName: this.lastName,
-                email: this.email,
-                county: this.county,
-                password: this.password,
-                confirmPassword: this.confirmPassword,
-                educationLevel: this.educationLevel,
-                securityQuestion: this.securityQuestion,
-                securityAns: this.securityAns,
-            });
+            try {
+                await this.$store.dispatch('signup', {
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    email: this.email,
+                    county: this.county,
+                    password: this.password,
+                    confirmPassword: this.confirmPassword,
+                    educationLevel: this.educationLevel,
+                    securityQuestion: this.securityQuestion,
+                    securityAns: this.securityAns,
+                });
+                this.$router.push('/');
+            } catch (err) {
+                this.err = err || 'Something went wrong, please try again.';
+            }
+
             this.isLoading = false;
-            this.$router.push('/');
         },
     },
 };

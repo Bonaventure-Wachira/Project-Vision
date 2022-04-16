@@ -182,13 +182,15 @@ export default {
     },
 
     async created() {
-        this.isLoading = true;
-        try {
-            await this.$store.dispatch('fetchUser');
-        } catch (err) {
-            this.errorMessage = err || 'Something went wrong';
+        if (this.$store.getters.isAuth) {
+            this.isLoading = true;
+            try {
+                await this.$store.dispatch('fetchUser');
+            } catch (err) {
+                this.errorMessage = err || 'Something went wrong';
+            }
+            this.isLoading = false;
         }
-        this.isLoading = false;
     },
 };
 </script>
