@@ -67,14 +67,20 @@
                 </secondary-card>
             </div>
             <secondary-card>
-                <h2>Results Category</h2>
-                <div v-if="!areCategoriesAvailable">
+                <base-spinner v-if="isLoading"></base-spinner>
+                <div class="results-header" v-if="!isLoading">
+                    <h2>Results Category</h2>
+                    <base-button @click="refreshCategories"
+                        >Refresh</base-button
+                    >
+                </div>
+                <div v-if="!areCategoriesAvailable && !isLoading">
                     <h2>
                         You do not have any exam records just yet.
                     </h2>
                     <base-button @click="addCategory">Add category</base-button>
                 </div>
-                <ul v-else>
+                <ul v-if="!isLoading">
                     <li
                         v-for="(category, index) in resultsCategory"
                         :key="index"
@@ -111,7 +117,7 @@ export default {
                 'Social Studies',
                 'Religious Education',
             ],
-            // resultsCategory: null,
+            resultsCategory: null,
             editMode: false,
             addCategoryMode: false,
             resultModal: false,
@@ -120,9 +126,9 @@ export default {
         };
     },
     computed: {
-        resultsCategory() {
-            return this.$store.getters.getExams;
-        },
+        // resultsCategory() {
+        //     return this.$store.getters.getExams;
+        // },
         areCategoriesAvailable() {
             return this.$store.getters.isExamsCategories;
         },
@@ -151,19 +157,28 @@ export default {
                 this.errorMessage =
                     err || 'Something went wrong. Please try again';
             }
-            this.$forceUpdate();
+            this.refreshCategories();
             this.closeAddCategoriesDialog();
             this.isLoading = false;
         },
-    },
-    async mounted() {
-        try {
-            if (this.$store.getters.isAuth) {
-                await this.$store.dispatch('getAllExams');
+        setResultsCategories() {
+            this.resultsCategory = this.$store.getters.getExams;
+        },
+        async refreshCategories() {
+            this.isLoading = true;
+            try {
+                if (this.$store.getters.isAuth) {
+                    await this.$store.dispatch('getAllExams');
+                }
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
-        }
+            this.isLoading = false;
+            this.setResultsCategories();
+        },
+    },
+    mounted() {
+        this.refreshCategories();
     },
 
     async created() {
@@ -184,6 +199,12 @@ export default {
     max-width: 100rem;
     margin: 3rem auto;
     justify-content: space-between;
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .schools {
