@@ -5,7 +5,9 @@ import SignupPage from './../pages/SignupPage.vue';
 import PasswordRecovery from './../pages/PasswordRecovery.vue';
 import ResetPassword from './../pages/ResetPassword.vue';
 import HighSchool from './../pages/HighSchool.vue';
-import AllSchools from './../pages/schools/AllSchools.vue';
+import Extra from './../pages/schools/Extra.vue';
+import National from './../pages/schools/National.vue';
+import County from './../pages/schools/County.vue';
 import ExamsPage from './../components/layout/ExamsPage.vue';
 import Schools from './../components/layout/Schools.vue';
 
@@ -21,7 +23,9 @@ const router = createRouter({
         { path: '/passwordRecovery', component: PasswordRecovery },
         { path: '/passwordReset', component: ResetPassword },
         { path: '/highschool', component: HighSchool },
-        { path: '/allschools', component: AllSchools },
+        { path: '/extra', component: Extra },
+        { path: '/county', component: County },
+        { path: '/national', component: National },
     ],
 });
 

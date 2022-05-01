@@ -46,7 +46,7 @@
     <h3 class="main-heading">My Dashboard</h3>
     <div class="container">
         <div class="subjects">
-            <secondary-card>
+            <!-- <secondary-card>
                 <h2 class="secondary-heading">Academics</h2>
                 <h2 class="tertiary-heading">My subjects</h2>
                 <ul class="primary-text">
@@ -54,16 +54,33 @@
                         {{ subject }}
                     </li>
                 </ul>
-                <!-- <base-button @click="editSubjects">Edit Subjects</base-button> -->
+                <base-button @click="editSubjects">Edit Subjects</base-button>
+            </secondary-card> -->
+            <secondary-card>
+                <p class="instructions">
+                    To arrange your exam results, you will need to add an exam
+                    category first in the
+                    <strong>Results Category</strong> section. Then after it
+                    pops up on addition on your screen, click on the button and
+                    add the exams results for that class.
+                </p>
             </secondary-card>
         </div>
         <div class="right-side">
             <div class="schools">
                 <secondary-card>
                     <h2 class="tertiary-heading">List of High schools</h2>
-                    <base-button mode="outline" link to="/allschools"
-                        >All Schools</base-button
-                    >
+                    <div class="school-links">
+                        <base-button mode="outline" link to="/national"
+                            >National</base-button
+                        >
+                        <base-button mode="outline" link to="/extra"
+                            >Extra County</base-button
+                        >
+                        <base-button mode="outline" link to="/county"
+                            >County</base-button
+                        >
+                    </div>
                 </secondary-card>
             </div>
             <secondary-card>
@@ -80,7 +97,7 @@
                     </h2>
                     <base-button @click="addCategory">Add category</base-button>
                 </div>
-                <ul v-if="!isLoading">
+                <ul v-if="!isLoading && resultsCategory">
                     <li
                         v-for="(category, index) in resultsCategory"
                         :key="index"
@@ -286,6 +303,16 @@ label {
     font-weight: bold;
     display: block;
     margin-bottom: 0.5rem;
+}
+
+.instructions {
+    font-size: 1.8rem;
+}
+
+.school-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 @media only screen and (max-width: 1000px) {
