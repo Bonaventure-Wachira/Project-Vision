@@ -48,7 +48,7 @@
         <div class="subjects">
             <!-- <secondary-card>
                 <h2 class="secondary-heading">Academics</h2>
-                <h2 class="tertiary-heading">My subjects</h2>
+                <h2 class="schools-heading">My subjects</h2>
                 <ul class="primary-text">
                     <li v-for="(subject, index) in mySubjects" :key="index">
                         {{ subject }}
@@ -69,7 +69,7 @@
         <div class="right-side">
             <div class="schools">
                 <secondary-card>
-                    <h2 class="tertiary-heading">List of High schools</h2>
+                    <h2 class="schools-heading">List of High schools</h2>
                     <div class="school-links">
                         <base-button mode="outline" link to="/national"
                             >National</base-button
@@ -261,8 +261,9 @@ input:focus {
     margin-bottom: 1rem;
 }
 
-.tertiary-heading {
+.schools-heading {
     font-size: 1.8rem;
+    margin-bottom: 1.5rem;
 }
 
 .primary-text {

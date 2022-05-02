@@ -31,29 +31,33 @@
                 name="examName"
                 placeholder="Exam Name (e.g Midterm exam)"
                 v-model.trim="examName"
+                @keydown="closeSubjectErr"
             />
         </div>
         <div class="subject-group">
             <h3>My subjects</h3>
-            <div v-for="subject in examArr" :key="subject">
-                <span>{{ subject[0] }}</span
-                >: <span>{{ subject[1] }}</span>
-            </div>
+            <ul>
+                <li
+                    v-for="(subject, index) in mySubjects"
+                    :key="index"
+                    class="subject-item"
+                >
+                    <label for="subject">{{ subject.subject }}</label>
+                    <input
+                        type="number"
+                        name="subject"
+                        v-model.number="subject.value"
+                        placeholder="Your score"
+                        @focus="addScore"
+                        @keydown.tab="addScore"
+                        @keydown.enter="addScore"
+                    />
+                </li>
+            </ul>
             <span v-if="examTotal"> Total: {{ examTotal }}</span>
         </div>
-        <div class="subject-group">
-            <input type="text" v-model.trim="subject" placeholder="Subject" />
-            <input
-                type="number"
-                v-model.number="score"
-                placeholder="Your score"
-            />
-            <base-button mode="flat" @click="addSubject"
-                >Add subject</base-button
-            >
-        </div>
         <base-button @click="submit">Submit</base-button>
-        <p v-if="!!subjectErr">{{ subjectErr }}</p>
+        <p v-if="!!subjectErr" class="subject-err">{{ subjectErr }}</p>
     </base-dialog>
 
     <!-- General container -->
@@ -101,6 +105,13 @@ export default {
             term: 'one',
             examName: '',
             examCategory: null,
+            mySubjects: [
+                { subject: 'Maths', value: 0 },
+                { subject: 'English', value: 0 },
+                { subject: 'Kiswahili', value: 0 },
+                { subject: 'Science', value: 0 },
+                { subject: 'SST/RE', value: 0 },
+            ],
         };
     },
     computed: {
@@ -115,35 +126,34 @@ export default {
         addExam() {
             this.addExamMode = true;
         },
-        addSubject() {
-            const subjectArr = [];
-            if (!this.subject || !this.score) {
-                this.subjectErr =
-                    'Put a value in the fields above before  submission';
-                return;
-            }
-            subjectArr.push(this.subject);
-            subjectArr.push(this.score);
-            this.examArr.push(subjectArr);
-            this.examTotal = this.totalScore(this.examArr);
-            this.subject = null;
-            this.score = null;
+        addScore() {
+            this.examTotal = this.totalScore();
         },
         closeAddExamDialog() {
-            this.subject = null;
-            this.score = null;
-            this.examArr = [];
+            this.mySubjects.forEach((el) => {
+                el.value = 0;
+            });
+            this.closeSubjectErr();
             this.examTotal = null;
             this.term = '';
             this.examName = '';
             this.addExamMode = false;
         },
-        totalScore(arr) {
-            const scores = arr.map((el) => el[1]);
+        closeSubjectErr() {
+            this.subjectErr = null;
+        },
+        totalScore() {
+            const scores = this.mySubjects.map((el) => el.value);
             const total = scores.reduce(
                 (accumulator, curr) => accumulator + curr
             );
             return total;
+        },
+        loopOverSubjects() {
+            const newSubArr = this.mySubjects.map((el) => {
+                return [el.subject, el.value];
+            });
+            return newSubArr;
         },
         async refreshSingleCategory() {
             if (this.$store.getters.isAuth) {
@@ -162,7 +172,13 @@ export default {
             }
         },
         async submit() {
-            const examObj = this.examArr
+            this.addScore();
+            if (this.examName === '') {
+                this.subjectErr = 'Kindly give the exam a name to proceed.';
+                return;
+            }
+            const examArr = this.loopOverSubjects();
+            const examObj = examArr
                 .filter(([k, v]) => {
                     return true; // some irrelevant conditions here
                 })
@@ -244,15 +260,20 @@ h3 {
     grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
 }
 
+.subject-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .exam-page-title {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
 }
 input {
     display: inline-block;
-    width: 100%;
+    /* width: 100%; */
     border: 1px solid #ccc;
-    /* font: inherit; */
     font-size: 1.3rem;
     padding: 1rem 1.5rem;
 }
@@ -264,5 +285,10 @@ label {
 }
 span {
     font-size: 1.3rem;
+}
+.subject-err {
+    font-size: 1.4rem;
+    color: red;
+    margin-top: 0.8rem;
 }
 </style>
