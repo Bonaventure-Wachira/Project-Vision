@@ -67,22 +67,6 @@
             </secondary-card>
         </div>
         <div class="right-side">
-            <div class="schools">
-                <secondary-card>
-                    <h2 class="schools-heading">List of High schools</h2>
-                    <div class="school-links">
-                        <base-button mode="outline" link to="/national"
-                            >National</base-button
-                        >
-                        <base-button mode="outline" link to="/extra"
-                            >Extra County</base-button
-                        >
-                        <base-button mode="outline" link to="/county"
-                            >County</base-button
-                        >
-                    </div>
-                </secondary-card>
-            </div>
             <secondary-card>
                 <base-spinner v-if="isLoading"></base-spinner>
                 <div class="results-header" v-if="!isLoading">
@@ -114,6 +98,22 @@
                     <base-button @click="addCategory">Add category</base-button>
                 </ul>
             </secondary-card>
+            <div class="schools">
+                <secondary-card>
+                    <h2 class="schools-heading">List of High schools</h2>
+                    <div class="school-links">
+                        <base-button mode="outline" link to="/national"
+                            >National</base-button
+                        >
+                        <base-button mode="outline" link to="/extra"
+                            >Extra County</base-button
+                        >
+                        <base-button mode="outline" link to="/county"
+                            >County</base-button
+                        >
+                    </div>
+                </secondary-card>
+            </div>
         </div>
     </div>
 </template>
@@ -227,7 +227,7 @@ export default {
 }
 
 .schools {
-    margin-bottom: 3rem;
+    margin-top: 3rem;
 }
 
 .input-group {

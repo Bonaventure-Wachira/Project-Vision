@@ -192,60 +192,16 @@ export default createStore({
             localStorage.setItem('userInfo', userInfo);
             commit('setUserInfo', userInfo);
         },
-        async fetchSchools({ commit, getters }, payload) {
-            const aridCounties = [
-                'baringo',
-                'garissa',
-                'isiolo',
-                'mandera',
-                'marsabit',
-                'samburu',
-                'tana river',
-                'turkana',
-                'wajir',
-                'embu',
-                'kajiado',
-                'kilifi',
-                'kitui',
-                'kwale',
-                'laikipia',
-                'lamu',
-                'makueni',
-                'meru',
-                'narok',
-                'nyeri',
-                'taita taveta',
-                'tharaka nithi',
-                'west pokot',
-            ];
+        async fetchSchools({ commit }, payload) {
             let url;
-            if (
-                payload >= 400 &&
-                !aridCounties.includes(getters.getUserInfo.county.toLowerCase())
-            ) {
-                url = base_url + '/api/v1/schools/nationals';
-            } else if (
-                payload >= 300 &&
-                !aridCounties.includes(getters.getUserInfo.county.toLowerCase())
-            ) {
-                url = base_url + '/api/v1/schools/extra';
-            } else if (
-                payload >= 200 &&
-                !aridCounties.includes(getters.getUserInfo.county.toLowerCase())
-            ) {
-                url = base_url + '/api/v1/schools/county';
-            } else if (
-                payload >= 325 &&
-                aridCounties.includes(getters.getUserInfo.county.toLowerCase())
-            ) {
-                url = base_url + '/api/v1/schools/nationals';
-            } else if (
-                payload >= 250 &&
-                aridCounties.includes(getters.getUserInfo.county.toLowerCase())
-            ) {
-                url = base_url + '/api/v1/schools/extra';
+            if (payload >= 400) {
+                url = base_url + '/api/v1/schools/top_nationals';
+            } else if (payload >= 300) {
+                url = base_url + '/api/v1/schools/top_extra';
+            } else if (payload >= 200) {
+                url = base_url + '/api/v1/schools/top_county';
             } else {
-                url = base_url + '/api/v1/schools/county';
+                url = base_url + '/api/v1/schools/top_sub_county';
             }
 
             const response = await axios.get(url);
@@ -255,7 +211,23 @@ export default createStore({
                 throw err;
             }
             const schools = response.data.schools || response.data.data.schools;
-            commit('loadSchools', schools);
+            let predictedSchools;
+            if (payload >= 420) {
+                predictedSchools = schools.slice(0, 26);
+            } else if (payload >= 400) {
+                predictedSchools = schools.slice(26, -1);
+            } else if (payload >= 350) {
+                predictedSchools = schools.slice(0, 30);
+            } else if (payload >= 300) {
+                predictedSchools = schools.slice(30, -1);
+            } else if (payload >= 250) {
+                predictedSchools = schools.slice(0, 8);
+            } else if (payload >= 200) {
+                predictedSchools = schools.slice(8, -1);
+            } else {
+                predictedSchools = schools;
+            }
+            commit('loadSchools', predictedSchools);
         },
         tryLogin(context) {
             const token = localStorage.getItem('token');

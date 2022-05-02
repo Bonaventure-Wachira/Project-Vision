@@ -1,5 +1,5 @@
 <template>
-    <base-dialog :show="isLoading" fixed title="Fetching schools">
+    <base-dialog :show="isLoading" fixed title="Fetching schools...">
         <base-spinner v-if="isLoading"></base-spinner>
     </base-dialog>
     <base-dialog :show="!!err" title="An error occured" @close="closeErrBox">
@@ -15,7 +15,7 @@
             >
                 <span class="school-property">{{ school.name }}</span>
                 <span class="school-property">{{ school.type }}</span>
-                <span class="school-property">{{ school.county }}</span>
+                <!-- <span class="school-property">{{ school.county }}</span> -->
             </li>
         </ul>
     </base-card>
@@ -42,8 +42,7 @@ export default {
                 this.err = 'Something went Wrong Please try again.';
                 console.log(response);
             }
-            console.log(response);
-            this.schools = response.data.schools;
+            this.schools = response.data.data.schools;
             this.isLoading = false;
         },
         closeErrBox() {
@@ -63,7 +62,7 @@ export default {
 }
 .school-object {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     margin-bottom: 1rem;
 }
 

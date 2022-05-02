@@ -1,5 +1,5 @@
 <template>
-    <base-dialog :show="isLoading" fixed title="Fetching schools">
+    <base-dialog :show="isLoading" fixed title="Fetching schools...">
         <base-spinner v-if="isLoading"></base-spinner>
     </base-dialog>
     <base-dialog :show="!!err" title="An error occured" @close="closeErrBox">
@@ -42,8 +42,7 @@ export default {
                 this.err = 'Something went Wrong Please try again.';
                 console.log(response);
             }
-            console.log(response);
-            this.schools = response.data.schools;
+            this.schools = response.data.data.schools;
             this.isLoading = false;
         },
         closeErrBox() {
