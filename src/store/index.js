@@ -254,7 +254,7 @@ export default createStore({
                 console.log(err);
                 throw err;
             }
-            const schools = response.data.data.schools;
+            const schools = response.data.schools || response.data.data.schools;
             commit('loadSchools', schools);
         },
         tryLogin(context) {

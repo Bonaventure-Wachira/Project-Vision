@@ -222,11 +222,11 @@ export default {
         async fetchSchools(score) {
             this.isLoading = true;
             try {
-                console.log(score);
                 await this.$store.dispatch('fetchSchools', score);
                 this.$router.push('/schools');
             } catch (error) {
                 this.err = error || 'Something went wrong';
+                console.log(error);
             }
             this.isLoading = false;
         },
