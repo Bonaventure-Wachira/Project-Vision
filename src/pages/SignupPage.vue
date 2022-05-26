@@ -151,7 +151,11 @@ export default {
                     securityQuestion: this.securityQuestion,
                     securityAns: this.securityAns,
                 });
-                this.$router.push('/');
+                if (this.educationLevel === 'primary') {
+                    this.$router.replace('/');
+                } else {
+                    this.$router.replace('/highschool');
+                }
             } catch (err) {
                 this.err = err || 'Something went wrong, please try again.';
             }

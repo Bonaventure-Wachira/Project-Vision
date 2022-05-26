@@ -188,6 +188,7 @@ export default createStore({
                 level: response.data.user.levelOfEducation,
                 firstName: response.data.user.firstName,
                 lastName: response.data.user.lastName,
+                subjects: response.data.user.subjects,
             };
             localStorage.setItem('userInfo', userInfo);
             commit('setUserInfo', userInfo);

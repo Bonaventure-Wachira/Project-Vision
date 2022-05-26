@@ -40,7 +40,6 @@
     </base-card>
 </template>
 <script>
-import axios from 'axios';
 export default {
     data() {
         return {
@@ -71,7 +70,7 @@ export default {
                 password: this.password,
             });
             this.isLoading = false;
-            this.$router.push('/');
+            this.$router.replace('/');
         },
     },
 };

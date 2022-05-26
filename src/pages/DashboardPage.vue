@@ -193,21 +193,24 @@ export default {
             this.isLoading = false;
             this.setResultsCategories();
         },
+        async fetchUser() {
+            if (this.$store.getters.isAuth) {
+                this.isLoading = true;
+                try {
+                    await this.$store.dispatch('fetchUser');
+                } catch (err) {
+                    this.errorMessage = err || 'Something went wrong';
+                }
+                this.isLoading = false;
+            }
+        },
     },
     mounted() {
         this.refreshCategories();
     },
 
-    async created() {
-        if (this.$store.getters.isAuth) {
-            this.isLoading = true;
-            try {
-                await this.$store.dispatch('fetchUser');
-            } catch (err) {
-                this.errorMessage = err || 'Something went wrong';
-            }
-            this.isLoading = false;
-        }
+    created() {
+        this.fetchUser();
     },
 };
 </script>
