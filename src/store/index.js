@@ -145,7 +145,7 @@ export default createStore({
                 county: payload.county,
                 password: payload.password,
                 confirmPassword: payload.confirmPassword,
-                educationLevel: payload.educationLevel,
+                levelOfEducation: payload.levelOfEducation,
                 securityQuestion: payload.securityQuestion,
                 securityAnswer: payload.securityAns,
             };
@@ -182,7 +182,6 @@ export default createStore({
                 console.log(err);
                 throw err;
             }
-
             const userInfo = {
                 county: response.data.user.county,
                 level: response.data.user.levelOfEducation,

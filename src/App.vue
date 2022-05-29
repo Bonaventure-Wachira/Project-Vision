@@ -8,11 +8,16 @@ export default {
     components: {
         TheHeader,
     },
-    mounted() {
-        this.$store.dispatch('tryLogin');
+    methods: {
+        tryLogin() {
+            this.$store.dispatch('tryLogin');
+        },
+        async fetchUser() {
+            await this.$store.dispatch('fetchUser');
+        },
     },
-    created() {
-        this.$store.dispatch('loadUserInfo');
+    async mounted() {
+        this.tryLogin();
     },
 };
 </script>

@@ -2,12 +2,12 @@
     <header>
         <nav>
             <h1><router-link to="/">Project Vision</router-link></h1>
-            <ul>
+            <!-- <ul>
                 <li>
                     <router-link to="/dashboard">Primary School</router-link>
                 </li>
                 <li><router-link to="/highschool">High School</router-link></li>
-            </ul>
+            </ul> -->
             <ul v-if="!loggedIn">
                 <li><router-link to="/login">Login</router-link></li>
                 <li><router-link to="/signup">Sign Up</router-link></li>

@@ -69,8 +69,16 @@ export default {
                 email: this.email,
                 password: this.password,
             });
+            await this.fetchUser();
             this.isLoading = false;
-            this.$router.replace('/');
+            if (this.$store.getters.getUserInfo.level === 'primary') {
+                this.$router.replace('/');
+            } else {
+                this.$router.replace('/highschool');
+            }
+        },
+        async fetchUser() {
+            await this.$store.dispatch('fetchUser');
         },
     },
 };

@@ -9,9 +9,8 @@
             <li v-for="(subject, index) in mySubjects" :key="index">
                 <span>{{ subject }}</span>
                 <div class="edit-buttons">
-                    <base-button mode="flat">Edit</base-button>
                     <base-button mode="danger" @click="deleteSubject(index)"
-                        >Delete</base-button
+                        >Remove</base-button
                     >
                 </div>
             </li>
@@ -102,7 +101,7 @@
                     <base-button @click="addCategory">Add category</base-button>
                 </ul>
             </secondary-card>
-            <div class="schools">
+            <!-- <div class="schools">
                 <secondary-card>
                     <h2 class="schools-heading">List of High schools</h2>
                     <div class="school-links">
@@ -117,7 +116,7 @@
                         >
                     </div>
                 </secondary-card>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -202,12 +201,11 @@ export default {
             }
         },
     },
-    mounted() {
-        this.refreshCategories();
-    },
-
-    created() {
-        this.fetchUser();
+    async mounted() {
+        if (this.$store.getters.isAuth) {
+            this.refreshCategories();
+            await this.fetchUser();
+        }
     },
 };
 </script>

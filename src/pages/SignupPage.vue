@@ -43,14 +43,14 @@
                     />
                 </div>
                 <div class="form-group">
-                    <label for="educationLevel">Level of education</label>
+                    <label for="levelOfEducation">Level of education</label>
                     <select
-                        name="educationLevel"
-                        id="educationLevel"
-                        v-model.trim="educationLevel"
+                        name="levelOfEducation"
+                        id="levelOfEducation"
+                        v-model.trim="levelOfEducation"
                     >
                         <option value="primary">Primary school</option>
-                        <option value="highSchool">High school</option>
+                        <option value="secondary">High school</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -117,7 +117,7 @@ export default {
             lastName: '',
             email: '',
             county: '',
-            educationLevel: 'primary',
+            levelOfEducation: 'primary',
             password: '',
             confirmPassword: '',
             securityQuestion: 'maiden',
@@ -147,11 +147,12 @@ export default {
                     county: this.county,
                     password: this.password,
                     confirmPassword: this.confirmPassword,
-                    educationLevel: this.educationLevel,
+                    levelOfEducation: this.levelOfEducation,
                     securityQuestion: this.securityQuestion,
                     securityAns: this.securityAns,
                 });
-                if (this.educationLevel === 'primary') {
+                await this.fetchUser();
+                if (this.levelOfEducation === 'primary') {
                     this.$router.replace('/');
                 } else {
                     this.$router.replace('/highschool');
@@ -161,6 +162,9 @@ export default {
             }
 
             this.isLoading = false;
+        },
+        async fetchUser() {
+            await this.$store.dispatch('fetchUser');
         },
     },
 };

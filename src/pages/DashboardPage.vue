@@ -140,6 +140,7 @@ export default {
             resultModal: false,
             isLoading: false,
             year: 'five',
+            levelOfEducation: 'primary',
         };
     },
     computed: {
@@ -205,11 +206,8 @@ export default {
             }
         },
     },
-    mounted() {
+    async mounted() {
         this.refreshCategories();
-    },
-
-    created() {
         this.fetchUser();
     },
 };
