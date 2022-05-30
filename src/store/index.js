@@ -13,6 +13,7 @@ export default createStore({
             singleCategory: null,
             userInfo: null,
             schools: null,
+            fetchedSubjects: null,
         };
     },
     actions: {
@@ -229,6 +230,15 @@ export default createStore({
             }
             commit('loadSchools', predictedSchools);
         },
+        async fetchSubjects({ commit }) {
+            const response = await axios.get(base_url + '/api/v1/subjects');
+            if (response.status !== 200) {
+                const err = response.error;
+                console.log(err);
+                throw err;
+            }
+            commit('fetchSubjects', response.data.subjects);
+        },
         tryLogin(context) {
             const token = localStorage.getItem('token');
             const userId = localStorage.getItem('userId');
@@ -270,6 +280,9 @@ export default createStore({
         loadSchools(state, payload) {
             state.schools = payload;
         },
+        fetchSubjects(state, payload) {
+            state.fetchedSubjects = payload;
+        },
     },
     getters: {
         isAuth(state) {
@@ -298,6 +311,9 @@ export default createStore({
         },
         getSchools(state) {
             return state.schools;
+        },
+        fetchedSubjects(state) {
+            return state.fetchedSubjects;
         },
     },
 });

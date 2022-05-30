@@ -5,7 +5,7 @@
         title="Edit your subjects"
         @close="closeDialogBox"
     >
-        <ul>
+        <!-- <ul>
             <li v-for="(subject, index) in mySubjects" :key="index">
                 <span>{{ subject }}</span>
                 <div class="edit-buttons">
@@ -14,8 +14,20 @@
                     >
                 </div>
             </li>
+        </ul> -->
+        <base-spinner v-if="isLoading"></base-spinner>
+        <ul v-else-if="!isLoading && fetchedSubjects">
+            <li v-for="subject in fetchedSubjects" :key="subject._id">
+                <span>{{ subject.name }}</span>
+                <input
+                    type="checkbox"
+                    :name="subject.name"
+                    :value="subject.name"
+                    v-model="subjectsOnEdit"
+                />
+            </li>
+            <base-button>Save changes</base-button>
         </ul>
-        <base-button>Add Subject</base-button>
     </base-dialog>
 
     <!-- Add category -->
@@ -93,7 +105,7 @@
                         <base-button
                             mode="flat"
                             link
-                            :to="/myexams/ + category._id"
+                            :to="/secondaryexams/ + category._id"
                         >
                             Go to class category</base-button
                         >
@@ -136,6 +148,7 @@ export default {
             resultModal: false,
             isLoading: false,
             year: 'one',
+            subjectsOnEdit: [],
         };
     },
     computed: {
@@ -145,10 +158,16 @@ export default {
         areCategoriesAvailable() {
             return this.$store.getters.isExamsCategories;
         },
+        fetchedSubjects() {
+            return this.$store.getters.fetchedSubjects;
+        },
     },
     methods: {
-        editSubjects() {
+        async editSubjects() {
             this.editMode = true;
+            this.isLoading = true;
+            await this.fetchSubjects();
+            this.isLoading = false;
         },
         closeDialogBox() {
             this.editMode = false;
@@ -194,10 +213,18 @@ export default {
                 this.isLoading = true;
                 try {
                     await this.$store.dispatch('fetchUser');
+                    this.mySubjects = this.$store.getters.getUserInfo.subjects;
                 } catch (err) {
                     this.errorMessage = err || 'Something went wrong';
                 }
                 this.isLoading = false;
+            }
+        },
+        async fetchSubjects() {
+            try {
+                await this.$store.dispatch('fetchSubjects');
+            } catch (err) {
+                this.errorMessage = err || 'Something went wrong';
             }
         },
     },
@@ -205,6 +232,7 @@ export default {
         if (this.$store.getters.isAuth) {
             this.refreshCategories();
             await this.fetchUser();
+            // console.log(this.mySubjects);
         }
     },
 };

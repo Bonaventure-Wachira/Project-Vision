@@ -9,6 +9,7 @@ import Extra from './../pages/schools/Extra.vue';
 import National from './../pages/schools/National.vue';
 import County from './../pages/schools/County.vue';
 import ExamsPage from './../components/layout/ExamsPage.vue';
+import SecondaryExams from './../components/layout/SecondaryExams.vue';
 import Schools from './../components/layout/Schools.vue';
 
 const router = createRouter({
@@ -17,6 +18,7 @@ const router = createRouter({
         { path: '/', redirect: '/dashboard' },
         { path: '/dashboard', component: DashBoardPage },
         { path: '/myexams/:categoryId', component: ExamsPage },
+        { path: '/secondaryexams/:categoryId', component: SecondaryExams },
         { path: '/schools', component: Schools },
         { path: '/login', component: LoginPage },
         { path: '/signup', component: SignupPage },
