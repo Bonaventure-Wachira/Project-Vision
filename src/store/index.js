@@ -239,6 +239,26 @@ export default createStore({
             }
             commit('fetchSubjects', response.data.subjects);
         },
+        async alterMySubjects({ commit, getters }, payload) {
+            const subjectObj = {
+                subjects: payload.subjects,
+            };
+            const response = await axios.patch(
+                base_url + '/api/v1/users/' + getters.getUser.userId,
+                JSON.stringify(subjectObj),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            if (response.status !== 200) {
+                const err = response.error;
+                console.log(err);
+                throw err;
+            }
+            commit('fetchSubjects', response.data.updatedUser.subjects);
+        },
         tryLogin(context) {
             const token = localStorage.getItem('token');
             const userId = localStorage.getItem('userId');

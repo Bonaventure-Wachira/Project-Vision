@@ -15,8 +15,8 @@
                 </div>
             </li>
         </ul> -->
-        <base-spinner v-if="isLoading"></base-spinner>
-        <ul v-else-if="!isLoading && fetchedSubjects">
+        <base-spinner v-if="subjectAreaLoading"></base-spinner>
+        <ul v-else-if="!subjectAreaLoading && fetchedSubjects">
             <li v-for="subject in fetchedSubjects" :key="subject._id">
                 <span>{{ subject.name }}</span>
                 <input
@@ -24,9 +24,11 @@
                     :name="subject.name"
                     :value="subject.name"
                     v-model="subjectsOnEdit"
+                    :checked="null"
                 />
             </li>
-            <base-button>Save changes</base-button>
+            <base-button @click="saveChanges">Save changes</base-button>
+            <p v-if="!!subjectAreaErr">{{ subjectAreaErr }}</p>
         </ul>
     </base-dialog>
 
@@ -147,6 +149,8 @@ export default {
             addCategoryMode: false,
             resultModal: false,
             isLoading: false,
+            subjectAreaLoading: false,
+            subjectAreaErr: null,
             year: 'one',
             subjectsOnEdit: [],
         };
@@ -165,10 +169,18 @@ export default {
     methods: {
         async editSubjects() {
             this.editMode = true;
-            this.isLoading = true;
+            this.subjectAreaLoading = true;
             await this.fetchSubjects();
-            this.isLoading = false;
+            this.subjectAreaLoading = false;
         },
+        // isChecked() {
+        //     // filter the subjects in mySubjects that equal the subjects in fetchedSubjects
+        //     const newArr = this.fetchedSubjects.filter(function(el) {
+        //         return this.indexOf(el) < 0;
+        //     }, this.mySubjects);
+        //     // for each element in the new array, mark as checked
+        //     return newArr.forEach(() => true);
+        // },
         closeDialogBox() {
             this.editMode = false;
         },
@@ -180,6 +192,20 @@ export default {
         },
         closeAddCategoriesDialog() {
             this.addCategoryMode = false;
+        },
+        async saveChanges() {
+            this.subjectAreaLoading = true;
+            try {
+                await this.$store.dispatch('alterMySubjects', {
+                    subjects: this.subjectsOnEdit,
+                });
+                await this.fetchUser();
+                this.mySubjects = this.$store.getters.getUserInfo.subjects;
+                this.editMode = false;
+            } catch (err) {
+                this.subjectAreaErr = err || 'Something went wrong';
+            }
+            this.subjectAreaLoading = false;
         },
         async submitCategory() {
             this.isLoading = true;

@@ -208,7 +208,10 @@ export default {
     },
     async mounted() {
         this.refreshCategories();
-        this.fetchUser();
+        await this.fetchUser();
+        if (this.$store.getters.getUserInfo.level !== 'primary') {
+            this.$router.replace('/highschool');
+        }
     },
 };
 </script>
