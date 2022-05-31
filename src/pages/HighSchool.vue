@@ -1,20 +1,10 @@
 <template>
     <!-- Edit subjects dialog box  -->
-    <base-dialog
+    <secondary-dialog
         :show="editMode"
         title="Edit your subjects"
         @close="closeDialogBox"
     >
-        <!-- <ul>
-            <li v-for="(subject, index) in mySubjects" :key="index">
-                <span>{{ subject }}</span>
-                <div class="edit-buttons">
-                    <base-button mode="danger" @click="deleteSubject(index)"
-                        >Remove</base-button
-                    >
-                </div>
-            </li>
-        </ul> -->
         <base-spinner v-if="subjectAreaLoading"></base-spinner>
         <ul v-else-if="!subjectAreaLoading && fetchedSubjects">
             <li v-for="subject in fetchedSubjects" :key="subject._id">
@@ -30,7 +20,7 @@
             <base-button @click="saveChanges">Save changes</base-button>
             <p v-if="!!subjectAreaErr">{{ subjectAreaErr }}</p>
         </ul>
-    </base-dialog>
+    </secondary-dialog>
 
     <!-- Add category -->
 
@@ -115,22 +105,6 @@
                     <base-button @click="addCategory">Add category</base-button>
                 </ul>
             </secondary-card>
-            <!-- <div class="schools">
-                <secondary-card>
-                    <h2 class="schools-heading">List of High schools</h2>
-                    <div class="school-links">
-                        <base-button mode="outline" link to="/national"
-                            >National</base-button
-                        >
-                        <base-button mode="outline" link to="/extra"
-                            >Extra County</base-button
-                        >
-                        <base-button mode="outline" link to="/county"
-                            >County</base-button
-                        >
-                    </div>
-                </secondary-card>
-            </div> -->
         </div>
     </div>
 </template>

@@ -7,6 +7,7 @@ import BaseDialog from './components/ui/BaseDialog.vue';
 import BaseSpinner from './components/ui/BaseSpinner';
 import ExamCard from './components/ui/ExamCard.vue';
 import SecondaryCard from './components/ui/SecondaryCard';
+import SecondaryDialog from './components/ui/SecondaryDialog.vue';
 
 import App from './App.vue';
 import router from './router';
@@ -20,6 +21,7 @@ app.component('base-dialog', BaseDialog);
 app.component('base-spinner', BaseSpinner);
 app.component('exam-card', ExamCard);
 app.component('secondary-card', SecondaryCard);
+app.component('secondary-dialog', SecondaryDialog);
 app.use(store);
 app.use(router);
 app.mount('#app');

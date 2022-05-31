@@ -115,9 +115,9 @@ export default {
         };
     },
     computed: {
-        // examCategory() {
-        //     return this.$store.getters.singleCategory;
-        // },
+        mySavedSubjects() {
+            return this.$store.getters.getUserInfo.subjects;
+        },
     },
     methods: {
         closeErrDialog() {
@@ -141,6 +141,12 @@ export default {
         },
         closeSubjectErr() {
             this.subjectErr = null;
+        },
+        alterMySubjects() {
+            const newSubjArr = this.mySavedSubjects.map((el) => {
+                return { subject: el, value: 0 };
+            });
+            this.mySubjects = newSubjArr;
         },
         totalScore() {
             const scores = this.mySubjects.map((el) => el.value);
@@ -230,9 +236,23 @@ export default {
             }
             this.isLoading = false;
         },
+        async fetchUser() {
+            if (this.$store.getters.isAuth) {
+                this.isLoading = true;
+                try {
+                    await this.$store.dispatch('fetchUser');
+                    // this.mySubjects = this.$store.getters.getUserInfo.subjects;
+                } catch (err) {
+                    this.errorMessage = err || 'Something went wrong';
+                }
+                this.isLoading = false;
+            }
+        },
     },
-    created() {
-        this.refreshSingleCategory();
+    async created() {
+        await this.refreshSingleCategory();
+        await this.fetchUser();
+        this.alterMySubjects();
     },
 };
 </script>
