@@ -16,48 +16,51 @@
         title="Add exam to database"
         @close="closeAddExamDialog"
     >
-        <div class="subject-group">
-            <label for="term">Term</label>
-            <select name="term" id="term" v-model.trim="term">
-                <option value="one">One</option>
-                <option value="two">Two</option>
-                <option value="three">Three</option>
-            </select>
+        <base-spinner v-if="examLoading"></base-spinner>
+        <div v-else>
+            <div class="subject-group">
+                <label for="term">Term</label>
+                <select name="term" id="term" v-model.trim="term">
+                    <option value="one">One</option>
+                    <option value="two">Two</option>
+                    <option value="three">Three</option>
+                </select>
+            </div>
+            <div class="subject-group">
+                <label for="examName">Exam Name</label>
+                <input
+                    type="text"
+                    name="examName"
+                    placeholder="Exam Name (e.g Midterm exam)"
+                    v-model.trim="examName"
+                    @keydown="closeSubjectErr"
+                />
+            </div>
+            <div class="subject-group">
+                <h3>My subjects</h3>
+                <ul>
+                    <li
+                        v-for="(subject, index) in mySubjects"
+                        :key="index"
+                        class="subject-item"
+                    >
+                        <label for="subject">{{ subject.subject }}</label>
+                        <input
+                            type="number"
+                            name="subject"
+                            v-model.number="subject.value"
+                            placeholder="Your score"
+                            @focus="addScore"
+                            @keydown.tab="addScore"
+                            @keydown.enter="addScore"
+                        />
+                    </li>
+                </ul>
+                <span v-if="examTotal"> Total: {{ examTotal }}</span>
+            </div>
+            <base-button @click="submit">Submit</base-button>
+            <p v-if="!!subjectErr" class="subject-err">{{ subjectErr }}</p>
         </div>
-        <div class="subject-group">
-            <label for="examName">Exam Name</label>
-            <input
-                type="text"
-                name="examName"
-                placeholder="Exam Name (e.g Midterm exam)"
-                v-model.trim="examName"
-                @keydown="closeSubjectErr"
-            />
-        </div>
-        <div class="subject-group">
-            <h3>My subjects</h3>
-            <ul>
-                <li
-                    v-for="(subject, index) in mySubjects"
-                    :key="index"
-                    class="subject-item"
-                >
-                    <label for="subject">{{ subject.subject }}</label>
-                    <input
-                        type="number"
-                        name="subject"
-                        v-model.number="subject.value"
-                        placeholder="Your score"
-                        @focus="addScore"
-                        @keydown.tab="addScore"
-                        @keydown.enter="addScore"
-                    />
-                </li>
-            </ul>
-            <span v-if="examTotal"> Total: {{ examTotal }}</span>
-        </div>
-        <base-button @click="submit">Submit</base-button>
-        <p v-if="!!subjectErr" class="subject-err">{{ subjectErr }}</p>
     </base-dialog>
 
     <!-- General container -->
@@ -75,13 +78,14 @@
                     v-for="(el, index) in Object.entries(exam.exam)"
                     :key="index"
                 >
-                    {{ el[0] }} : {{ el[1] }}
+                    {{ el[0] }} : {{ el[1].value }} : {{ el[1].grade }}:
+                    {{ el[1].points }}
                 </div>
-                <base-button
+                <!-- <base-button
                     mode="outline"
                     @click="fetchSchools(exam.exam.Total)"
                     >Predicted schools</base-button
-                >
+                > -->
             </exam-card>
         </div>
         <base-button @click="addExam">Add exam</base-button>
@@ -102,16 +106,11 @@ export default {
             examArr: [],
             examTotal: null,
             isLoading: false,
+            examLoading: false,
             term: 'one',
             examName: '',
             examCategory: null,
-            mySubjects: [
-                { subject: 'Maths', value: 0 },
-                { subject: 'English', value: 0 },
-                { subject: 'Kiswahili', value: 0 },
-                { subject: 'Science', value: 0 },
-                { subject: 'SST/RE', value: 0 },
-            ],
+            mySubjects: [],
         };
     },
     computed: {
@@ -142,6 +141,51 @@ export default {
         closeSubjectErr() {
             this.subjectErr = null;
         },
+        addGPAScore() {
+            let grade = null;
+            let points = 0;
+            const result = this.mySubjects.map((el) => {
+                if (el.value >= 80) {
+                    grade = 'A';
+                    points = 12;
+                } else if (el.value >= 75) {
+                    grade = 'A-';
+                    points = 11;
+                } else if (el.value >= 70) {
+                    grade = 'B+';
+                    points = 10;
+                } else if (el.value >= 65) {
+                    grade = 'B';
+                    points = 9;
+                } else if (el.value >= 60) {
+                    grade = 'B-';
+                    points = 8;
+                } else if (el.value >= 55) {
+                    grade = 'C+';
+                    points = 7;
+                } else if (el.value >= 50) {
+                    grade = 'C';
+                    points = 6;
+                } else if (el.value >= 45) {
+                    grade = 'C-';
+                    points = 5;
+                } else if (el.value >= 40) {
+                    grade = 'D+';
+                    points = 4;
+                } else if (el.value >= 35) {
+                    grade = 'D';
+                    points = 3;
+                } else if (el.value >= 30) {
+                    grade = 'D-';
+                    points = 2;
+                } else {
+                    grade = 'E';
+                    points = 1;
+                }
+                return { subject: el.subject, value: el.value, grade, points };
+            });
+            return result;
+        },
         alterMySubjects() {
             const newSubjArr = this.mySavedSubjects.map((el) => {
                 return { subject: el, value: 0 };
@@ -156,8 +200,13 @@ export default {
             return total;
         },
         loopOverSubjects() {
-            const newSubArr = this.mySubjects.map((el) => {
-                return [el.subject, el.value];
+            const newSubArr = this.addGPAScore().map((el) => {
+                return {
+                    subject: el.subject,
+                    value: el.value,
+                    grade: el.grade,
+                    points: el.points,
+                };
             });
             return newSubArr;
         },
@@ -183,27 +232,32 @@ export default {
                 this.subjectErr = 'Kindly give the exam a name to proceed.';
                 return;
             }
-            const examArr = this.loopOverSubjects();
-            const examObj = examArr
-                .filter(([k, v]) => {
-                    return true; // some irrelevant conditions here
-                })
-                .reduce((accum, [k, v]) => {
-                    accum[k] = v;
-                    return accum;
-                }, {});
-            const exam = {
-                ...examObj,
-                Total: this.examTotal,
-            };
-            this.isLoading = true;
+            this.addGPAScore();
+            const examArr = this.loopOverSubjects().sort((a, b) => {
+                return b.value - a.value;
+            });
+            // console.log(examArr);
+
+            const examObj = examArr.reduce((accum, subjectObj) => {
+                let subject, value, points, grade;
+                subject = subjectObj.subject;
+                value = subjectObj.value;
+                points = subjectObj.points;
+                grade = subjectObj.grade;
+                return {
+                    ...accum,
+                    [subject]: subjectObj,
+                };
+            }, {});
+
+            this.examLoading = true;
 
             try {
                 await axios.post(
                     'https://project-v-api.herokuapp.com/api/v1/exams',
                     JSON.stringify({
                         categoryId: this.$route.params.categoryId,
-                        exam,
+                        exam: examObj,
                         examName: this.examName,
                         term: this.term,
                     }),
@@ -222,7 +276,7 @@ export default {
                 console.log(err);
             }
             this.refreshSingleCategory();
-            this.isLoading = false;
+            this.examLoading = false;
             this.addExamMode = false;
         },
         async fetchSchools(score) {
