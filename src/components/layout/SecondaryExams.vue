@@ -72,14 +72,40 @@
             <exam-card v-for="exam in examCategory.exams" :key="exam._id">
                 <div class="card-title">
                     <h2 class="exam-name">{{ exam.examName }}</h2>
-                    <span>{{ exam.term }}</span>
+                    <div class="term-text">
+                        <span>Term: </span>
+                        <span>{{ exam.term }}</span>
+                    </div>
+                </div>
+                <div class="exam-titles">
+                    <div class="subject-style">
+                        <span>Subject</span>
+                    </div>
+                    <div class="grades-style">
+                        <span>Marks</span><span>Grade</span><span>Points</span>
+                    </div>
                 </div>
                 <div
                     v-for="(el, index) in Object.entries(exam.exam)"
                     :key="index"
+                    class="subject-values"
                 >
-                    {{ el[0] }} : {{ el[1].value }} : {{ el[1].grade }}:
-                    {{ el[1].points }}
+                    <div class="subject-style-value">
+                        <span>
+                            {{ el[0] }}
+                        </span>
+                    </div>
+                    <div class="grades-style-value">
+                        <span>
+                            {{ el[1].value }}
+                        </span>
+                        <span>
+                            {{ el[1].grade }}
+                        </span>
+                        <span>
+                            {{ el[1].points }}
+                        </span>
+                    </div>
                 </div>
                 <!-- <base-button
                     mode="outline"
@@ -317,11 +343,50 @@ h3 {
     margin: 1rem 0;
 }
 .card-title {
-    display: inline-flex;
-    align-items: center;
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-weight: bold;
 }
+
+.term-text {
+    font-size: 1.5rem;
+    text-transform: capitalize;
+}
+
 .exam-name {
-    margin-right: 1rem;
+    /* margin-right: 1rem; */
+    text-transform: capitalize;
+}
+.exam-titles {
+    font-weight: bold;
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.subject-values {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+.subject-style {
+    flex: 0 0 55%;
+}
+.grades-style {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex: 1;
+}
+
+.subject-style-value {
+    flex: 0 0 55%;
+}
+
+.grades-style-value {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex: 1;
 }
 
 .general-container {
