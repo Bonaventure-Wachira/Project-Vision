@@ -259,6 +259,131 @@ export default createStore({
             }
             commit('fetchSubjects', response.data.updatedUser.subjects);
         },
+        fetchCourses(context, payload) {
+            const examArr = Object.entries(payload);
+            const subjectNames = Object.keys(payload);
+
+            if (
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('English')
+            ) {
+                //
+            } else if (subjectNames.includes('English')) {
+                //
+            } else if (
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('Biology') &&
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Physics')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Physics') &&
+                subjectNames.includes('English')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Business') &&
+                subjectNames.includes('English')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('Physics') &&
+                subjectNames.includes('Biology') &&
+                subjectNames.includes('Mathematics')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Business Studies') &&
+                subjectNames.includes('English')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Physics') &&
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('Biology')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Physics') &&
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('English')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Biology') &&
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('English')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Agriculture') &&
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('Biology') &&
+                subjectNames.includes('Business Studies')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Agriculture') &&
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('Biology') &&
+                subjectNames.includes('Business Studies') &&
+                subjectNames.includes('English')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Biology') &&
+                subjectNames.includes('Physics') &&
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Agriculture') &&
+                subjectNames.includes('English')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Biology') &&
+                subjectNames.includes('Physics') &&
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Geography') &&
+                subjectNames.includes('English')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Biology') &&
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Geography')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Biology') &&
+                subjectNames.includes('Physics') &&
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Geography')
+            ) {
+                //
+            } else if (
+                subjectNames.includes('Biology') &&
+                subjectNames.includes('Physics') &&
+                subjectNames.includes('Chemistry') &&
+                subjectNames.includes('Mathematics') &&
+                subjectNames.includes('Geography') &&
+                subjectNames.includes('English')
+            ) {
+                //
+            }
+        },
         tryLogin(context) {
             const token = localStorage.getItem('token');
             const userId = localStorage.getItem('userId');

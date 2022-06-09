@@ -17,6 +17,12 @@
         @close="closeAddExamDialog"
     >
         <base-spinner v-if="examLoading"></base-spinner>
+        <div v-else-if="mySubjects.length < 7 && !examLoading">
+            <p>
+                You cannot add an exam since you have less than seven saved
+                subjects. Kindly adjust them in the dashboard area first.
+            </p>
+        </div>
         <div v-else>
             <div class="subject-group">
                 <label for="term">Term</label>
@@ -107,11 +113,9 @@
                         </span>
                     </div>
                 </div>
-                <!-- <base-button
-                    mode="outline"
-                    @click="fetchSchools(exam.exam.Total)"
-                    >Predicted schools</base-button
-                > -->
+                <base-button mode="outline" @click="fetchSchools(exam.exam)"
+                    >Predicted courses</base-button
+                >
             </exam-card>
         </div>
         <base-button @click="addExam">Add exam</base-button>
@@ -305,16 +309,19 @@ export default {
             this.examLoading = false;
             this.addExamMode = false;
         },
-        async fetchSchools(score) {
-            this.isLoading = true;
-            try {
-                await this.$store.dispatch('fetchSchools', score);
-                this.$router.push('/schools');
-            } catch (error) {
-                this.err = error || 'Something went wrong';
-                console.log(error);
-            }
-            this.isLoading = false;
+        async fetchSchools(exam) {
+            // this.isLoading = true;
+            // try {
+            //     await this.$store.dispatch('fetchCourses', exam);
+            //     this.$router.push('/schools');
+            // } catch (error) {
+            //     this.err = error || 'Something went wrong';
+            //     console.log(error);
+            // }
+            // this.isLoading = false;
+            console.log(exam);
+            const examArr = Object.entries(exam);
+            console.log(examArr);
         },
         async fetchUser() {
             if (this.$store.getters.isAuth) {
