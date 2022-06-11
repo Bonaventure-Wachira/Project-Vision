@@ -113,7 +113,7 @@
                         </span>
                     </div>
                 </div>
-                <base-button mode="outline" @click="fetchSchools(exam.exam)"
+                <base-button mode="outline" @click="fetchCourses(exam.exam)"
                     >Predicted courses</base-button
                 >
             </exam-card>
@@ -309,19 +309,17 @@ export default {
             this.examLoading = false;
             this.addExamMode = false;
         },
-        async fetchSchools(exam) {
-            // this.isLoading = true;
-            // try {
-            //     await this.$store.dispatch('fetchCourses', exam);
-            //     this.$router.push('/schools');
-            // } catch (error) {
-            //     this.err = error || 'Something went wrong';
-            //     console.log(error);
-            // }
-            // this.isLoading = false;
-            console.log(exam);
-            const examArr = Object.entries(exam);
-            console.log(examArr);
+        async fetchCourses(exam) {
+            this.isLoading = true;
+            try {
+                await this.$store.dispatch('fetchCourses', exam);
+                localStorage.setItem('exam', JSON.stringify(exam));
+                this.$router.push('/qualifiedcourses');
+            } catch (error) {
+                this.err = error || 'Something went wrong';
+                console.log(error);
+            }
+            this.isLoading = false;
         },
         async fetchUser() {
             if (this.$store.getters.isAuth) {

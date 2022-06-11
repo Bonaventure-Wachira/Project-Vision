@@ -11,6 +11,8 @@ import County from './../pages/schools/County.vue';
 import ExamsPage from './../components/layout/ExamsPage.vue';
 import SecondaryExams from './../components/layout/SecondaryExams.vue';
 import Schools from './../components/layout/Schools.vue';
+import QualifiedCourses from './../components/layout/QualifiedCourses.vue';
+import IndividualCourse from './../components/layout/IndividualCourse.vue';
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
@@ -28,6 +30,8 @@ const router = createRouter({
         { path: '/extra', component: Extra },
         { path: '/county', component: County },
         { path: '/national', component: National },
+        { path: '/qualifiedcourses', component: QualifiedCourses },
+        { path: '/qualifiedcourses/:courseId', component: IndividualCourse },
     ],
 });
 

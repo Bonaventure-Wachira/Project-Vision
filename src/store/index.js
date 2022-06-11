@@ -2,6 +2,7 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
 const base_url = 'https://project-v-api.herokuapp.com';
+import gatherAllCourses from './../utils/courseSelection';
 
 export default createStore({
     state() {
@@ -14,6 +15,7 @@ export default createStore({
             userInfo: null,
             schools: null,
             fetchedSubjects: null,
+            qualifiedCourses: null,
         };
     },
     actions: {
@@ -259,129 +261,35 @@ export default createStore({
             }
             commit('fetchSubjects', response.data.updatedUser.subjects);
         },
-        fetchCourses(context, payload) {
-            const examArr = Object.entries(payload);
-            const subjectNames = Object.keys(payload);
+        async fetchCourses(context, payload) {
+            const courses = gatherAllCourses(payload);
 
-            if (
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('English')
-            ) {
-                //
-            } else if (subjectNames.includes('English')) {
-                //
-            } else if (
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('Biology') &&
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Physics')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Physics') &&
-                subjectNames.includes('English')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Business') &&
-                subjectNames.includes('English')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('Physics') &&
-                subjectNames.includes('Biology') &&
-                subjectNames.includes('Mathematics')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Business Studies') &&
-                subjectNames.includes('English')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Physics') &&
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('Biology')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Physics') &&
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('English')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Biology') &&
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('English')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Agriculture') &&
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('Biology') &&
-                subjectNames.includes('Business Studies')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Agriculture') &&
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('Biology') &&
-                subjectNames.includes('Business Studies') &&
-                subjectNames.includes('English')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Biology') &&
-                subjectNames.includes('Physics') &&
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Agriculture') &&
-                subjectNames.includes('English')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Biology') &&
-                subjectNames.includes('Physics') &&
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Geography') &&
-                subjectNames.includes('English')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Biology') &&
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Geography')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Biology') &&
-                subjectNames.includes('Physics') &&
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Geography')
-            ) {
-                //
-            } else if (
-                subjectNames.includes('Biology') &&
-                subjectNames.includes('Physics') &&
-                subjectNames.includes('Chemistry') &&
-                subjectNames.includes('Mathematics') &&
-                subjectNames.includes('Geography') &&
-                subjectNames.includes('English')
-            ) {
-                //
+            if (courses.length > 0) {
+                const response = await axios.post(
+                    // 'http://localhost:3000/api/v1/courses//selectedcourses',
+                    base_url + '/api/v1/courses/selectedcourses',
+                    {
+                        courses,
+                    },
+
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+
+                if (response.status !== 200) {
+                    const err = response.error;
+                    console.log(err);
+                    throw err;
+                }
+
+                localStorage.setItem(
+                    'qualifiedCourses',
+                    JSON.stringify(response.data.courses)
+                );
+                context.commit('setQualifiedCourses', response.data.courses);
             }
         },
         tryLogin(context) {
@@ -400,6 +308,13 @@ export default createStore({
             const userInfo = localStorage.getItem('userInfo');
             if (userInfo) {
                 context.commit('setUserInfo', userInfo);
+            }
+        },
+        loadUserCourses(context) {
+            const qualifiedCourses = localStorage.getItem('qualifiedCourses');
+            if (qualifiedCourses) {
+                const allCourses = JSON.parse(qualifiedCourses);
+                context.commit('setQualifiedCourses', allCourses);
             }
         },
     },
@@ -427,6 +342,9 @@ export default createStore({
         },
         fetchSubjects(state, payload) {
             state.fetchedSubjects = payload;
+        },
+        setQualifiedCourses(state, payload) {
+            state.qualifiedCourses = payload;
         },
     },
     getters: {
@@ -459,6 +377,9 @@ export default createStore({
         },
         fetchedSubjects(state) {
             return state.fetchedSubjects;
+        },
+        qualifiedCourses(state) {
+            return state.qualifiedCourses;
         },
     },
 });
