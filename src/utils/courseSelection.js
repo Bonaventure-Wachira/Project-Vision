@@ -21,74 +21,33 @@ function gatherAllCourses(payload) {
     ) {
         // First check under maths and english
         if (
-            meanGrade >= 10 && //B+
+            meanGrade >= 9 && //B+
             payload.Mathematics.points >= 9 && // B
-            payload.English.points >= 9 // B
+            payload.English.points >= 7 // C+
         ) {
             pushCourses(
                 'BACHELOR OF LAW',
                 'BACHELOR OF EDUCATION SPECIAL NEEDS',
-                'BACHELOR OF ARTS IN EDUCATION'
-            );
-        } else if (
-            meanGrade >= 9 && //B
-            payload.Mathematics.points >= 10 && //B+
-            payload.English.points >= 7 // C+
-        ) {
-            pushCourses(
-                'BACHELOR OF ECONOMICS AND STATISTICS',
-                'BACHELOR OF CRIMINOLOGY',
-                'BACHELOR OF EDUCATION'
-            );
-        } else if (
-            meanGrade >= 8 && //B -
-            payload.Mathematics.points >= 8 && //B-
-            payload.English.points >= 8 // B-
-        ) {
-            pushCourses(
-                'BACHELOR OF ECONOMICS AND STATISTICS',
-                'BACHELOR OF CRIMINOLOGY',
-                'BACHELOR OF EDUCATION',
-                'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY'
-            );
-        } else if (
-            meanGrade >= 7 && //C+
-            payload.Mathematics.points >= 6 && // C
-            payload.English.points >= 6 // C
-        ) {
-            pushCourses(
-                'BACHELOR OF ECONOMICS AND STATISTICS',
-                'BACHELOR OF CRIMINOLOGY',
-                'BACHELOR OF EDUCATION',
-                'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY'
-            );
-        } else if (
-            meanGrade >= 7 && //C+
-            payload.Mathematics.points >= 6 && // B-
-            payload.English.points >= 6 // C
-        ) {
-            pushCourses(
+                'BACHELOR OF ARTS IN EDUCATION',
+                'BACHELOR OF SCIENCE IN ACTURIAL SCIENCE',
                 'BACHELOR OF ECONOMICS AND STATISTICS',
                 'BACHELOR OF EDUCATION SPECIAL NEEDS',
-                'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY'
+                'BACHELOR OF ARTS IN CRIMINOLOGY AND SECURITY STUDIES',
+                'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY',
+                ''
             );
         }
     }
 
     // English alone
+
     if (subjectNames.includes('English')) {
-        if (meanGrade >= 9 && payload.English.points >= 10) {
+        if (meanGrade >= 7 && payload.English.points >= 9) {
             pushCourses(
                 'BACHELOR OF LAW',
                 'BACHELOR OF ECONOMICS AND STATISTICS',
                 'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY',
                 'BACHELOR OF EDUCATION SPECIAL NEEDS'
-            );
-        } else if (meanGrade >= 7 && payload.English.points >= 9) {
-            pushCourses(
-                'BACHELOR OF LAW',
-                'BACHELOR OF ECONOMICS AND STATISTICS',
-                'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY'
             );
         }
     }
@@ -106,15 +65,9 @@ function gatherAllCourses(payload) {
             payload.English.points >= 6
         ) {
             pushCourses(
-                'BACHELOR OF SCIENCE IN COMPUTER SECURITY AND FORENSICS'
+                'BACHELOR OF SCIENCE IN COMPUTER SECURITY AND FORENSICS',
+                'BACHELOR OF SCIENCE IN COMPUTER SCIENCE'
             );
-        } else if (
-            meanGrade >= 7 &&
-            payload.Mathematics.points >= 10 &&
-            payload.Physics.points >= 10 &&
-            payload.English.points >= 7
-        ) {
-            pushCourses('BACHELOR OF SCIENCE IN COMPUTER SCIENCE');
         }
     }
 
@@ -137,16 +90,6 @@ function gatherAllCourses(payload) {
         }
     }
 
-    // chem & Phyc, Bio, Math
-    if (
-        subjectNames.includes('Chemistry') &&
-        subjectNames.includes('Physics') &&
-        subjectNames.includes('Biology') &&
-        subjectNames.includes('Mathematics')
-    ) {
-        //
-    }
-
     // Math bizna English
     if (
         subjectNames.includes('Mathematics') &&
@@ -155,52 +98,17 @@ function gatherAllCourses(payload) {
     ) {
         if (
             meanGrade >= 7 &&
-            payload.Mathematics.points >= 7 &&
-            payload['Business Studies'].points >= 7 &&
+            payload.Mathematics.points >= 6 &&
+            payload['Business Studies'].points >= 6 &&
             payload.English.points >= 6
         ) {
             pushCourses(
                 'BACHELOR OF ARTS ECONOMICS AND SOCIOLOGY',
                 'BACHELOR OF ECONOMICS AND STATISTICS',
                 'BACHELOR OF BUSINESS ADMINISTRATION WITH IT',
-                'BACHELOR OF EDUCATION'
-            );
-        } else if (
-            meanGrade >= 7 && //C+
-            payload.Mathematics.points >= 7 && //C+
-            payload['Business Studies'].points >= 9 && //B
-            payload.English.points >= 6 //C
-        ) {
-            pushCourses(
+                'BACHELOR OF EDUCATION',
+                'BACHELOR OF COMMERCE',
                 'BACHELOR OF BUSINESS INFORMATION SYSTEMS (BBIS)',
-                'BACHELOR OF ECONOMICS AND STATISTICS',
-                'BACHELOR OF BUSINESS ADMINISTRATION WITH IT',
-                'BACHELOR OF ARTS ECONOMICS AND SOCIOLOGY',
-                'BACHELOR OF SCIENCE AGRIBUSINESS MANAGEMENT'
-            );
-        } else if (
-            meanGrade >= 7 && //C+
-            payload.Mathematics.points >= 8 && //B-
-            payload['Business Studies'].points >= 8 && //B-
-            payload.English.points >= 6 //C
-        ) {
-            pushCourses(
-                'BACHELOR OF BUSINESS INFORMATION SYSTEMS (BBIS)',
-                'BACHELOR OF ECONOMICS AND STATISTICS',
-                'BACHELOR OF BUSINESS ADMINISTRATION WITH IT',
-                'BACHELOR OF ARTS ECONOMICS AND SOCIOLOGY',
-                'BACHELOR OF EDUCATION'
-            );
-        } else if (
-            meanGrade >= 7 && //C+
-            payload.Mathematics.points >= 5 && //C-
-            payload['Business Studies'].points >= 5 && //C-
-            payload.English.points >= 5 //C-
-        ) {
-            pushCourses(
-                'BACHELOR OF BUSINESS INFORMATION SYSTEMS (BBIS)',
-                'BACHELOR OF ECONOMICS AND STATISTICS',
-                'BACHELOR OF BUSINESS ADMINISTRATION WITH IT',
                 'BACHELOR OF EDUCATION SPECIAL NEEDS'
             );
         }
@@ -215,20 +123,6 @@ function gatherAllCourses(payload) {
     ) {
         if (
             meanGrade >= 7 &&
-            payload.Physics.points >= 10 &&
-            payload.Mathematics.points >= 10 &&
-            payload.Chemistry.points >= 10 &&
-            payload.Biology.points >= 10
-        ) {
-            pushCourses(
-                'BACHELOR OF SCIENCE IN WATER AND ENVIRONMENTAL ENGINEERING',
-                'BACHELOR OF SCIENCE IN COMPUTER SCIENCE',
-                'BACHELOR OF SCIENCE IN RENEWABLE ENERGY, TECHNOLOGY AND MANAGEMENT',
-                'BACHELOR OF CHEMICAL ENGINEERING',
-                'BACHELOR OF SCIENCE BIOMEDICAL SCIENCE AND TECHNOLOGY'
-            );
-        } else if (
-            meanGrade >= 7 &&
             payload.Physics.points >= 7 &&
             payload.Mathematics.points >= 7 &&
             payload.Chemistry.points >= 7 &&
@@ -236,19 +130,11 @@ function gatherAllCourses(payload) {
         ) {
             pushCourses(
                 'BACHELOR OF SCIENCE IN FOOD SCIENCE AND TECHNOLOGY',
+                'BACHELOR OF SCIENCE IN RENEWABLE ENERGY, TECHNOLOGY AND MANAGEMENT',
                 'BACHELOR OF SCIENCE IN COMPUTER SCIENCE',
                 'BACHELOR OF CHEMICAL ENGINEERING',
-                'BACHELOR OF SCIENCE BIOMEDICAL SCIENCE AND TECHNOLOGY'
-            );
-        } else if (
-            meanGrade >= 7 &&
-            payload.Physics.points >= 8 &&
-            payload.Mathematics.points >= 8 &&
-            payload.Chemistry.points >= 8 &&
-            payload.Biology.points >= 8
-        ) {
-            pushCourses(
-                'BACHELOR OF SCIENCE IN FOOD SCIENCE AND TECHNOLOGY',
+                'BACHELOR OF SCIENCE BIOMEDICAL SCIENCE AND TECHNOLOGY',
+                'BACHELOR OF SCIENCE IN WATER AND ENVIRONMENTAL ENGINEERING',
                 'BACHELOR OF SCIENCE (BIOCHEMISTRY)'
             );
         }
@@ -263,21 +149,6 @@ function gatherAllCourses(payload) {
     ) {
         if (
             meanGrade >= 7 &&
-            payload.Mathematics.points >= 7 &&
-            payload.Physics.points >= 7 &&
-            payload.Chemistry.points >= 7 &&
-            payload.English.points >= 7
-        ) {
-            pushCourses(
-                'BACHELOR OF CHEMICAL ENGINEERING',
-                'BACHELOR OF SCIENCE(CONSTRUCTION MANAGEMENT)',
-                'BACHELOR OF SCIENCE IN RENEWABLE ENERGY, TECHNOLOGY AND MANAGEMENT',
-                'BACHELOR OF ARTS IN EDUCATION',
-                'BACHELOR OF SCIENCE IN WATER AND ENVIRONMENTAL ENGINEERING',
-                'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY'
-            );
-        } else if (
-            meanGrade >= 7 &&
             payload.Mathematics.points >= 6 &&
             payload.Physics.points >= 6 &&
             payload.Chemistry.points >= 6 &&
@@ -285,8 +156,11 @@ function gatherAllCourses(payload) {
         ) {
             pushCourses(
                 'BACHELOR OF CHEMICAL ENGINEERING',
+                'BACHELOR OF SCIENCE IN RENEWABLE ENERGY, TECHNOLOGY AND MANAGEMENT',
+                'BACHELOR OF SCIENCE(CONSTRUCTION MANAGEMENT)',
                 'BACHELOR OF SCIENCE IN WATER AND ENVIRONMENTAL ENGINEERING',
                 'BACHELOR OF ECONOMICS AND STATISTICS',
+                'BACHELOR OF ARTS IN EDUCATION',
                 'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY'
             );
         }
@@ -300,39 +174,17 @@ function gatherAllCourses(payload) {
         subjectNames.includes('English')
     ) {
         if (
-            meanGrade >= 10 &&
-            payload.Biology.points >= 10 &&
-            payload.Chemistry.points >= 10 &&
-            payload.Mathematics.points >= 10 &&
-            payload.English.points >= 9
-        ) {
-            pushCourses('BACHELOR OF SCIENCE IN MEDICINE');
-        } else if (
-            meanGrade >= 10 &&
+            meanGrade >= 8 &&
             payload.Biology.points >= 7 &&
             payload.Chemistry.points >= 7 &&
             payload.Mathematics.points >= 7 &&
             payload.English.points >= 7
-        ) {
-            pushCourses('BACHELOR OF SCIENCE IN NURSING');
-        } else if (
-            meanGrade >= 7 &&
-            payload.Biology.points >= 7 &&
-            payload.Chemistry.points >= 7 &&
-            payload.Mathematics.points >= 7 &&
-            payload.English.points >= 7
-        ) {
-            pushCourses('BACHELOR OF SCIENCE IN MEDICAL LABORATORY SCIENCES');
-        } else if (
-            meanGrade >= 7 &&
-            payload.Biology.points >= 6 &&
-            payload.Chemistry.points >= 6 &&
-            payload.Mathematics.points >= 6 &&
-            payload.English.points >= 6
         ) {
             pushCourses(
-                'BACHELOR OF SCIENCE IN WATER AND ENVIRONMENTAL ENGINEERING',
+                'BACHELOR OF SCIENCE IN MEDICINE',
+                'BACHELOR OF SCIENCE IN NURSING',
                 'BACHELOR OF SCIENCE IN MEDICAL LABORATORY SCIENCES',
+                'BACHELOR OF SCIENCE IN WATER AND ENVIRONMENTAL ENGINEERING',
                 'BACHELOR OF SCIENCE IN COMMUNITY DEVELOPMENT',
                 'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY'
             );
@@ -365,11 +217,11 @@ function gatherAllCourses(payload) {
 
     // Bio Chem Agric MAth Bizna
     if (
-        subjectNames.includes('Biology') &&
-        subjectNames.includes('Chemistry') &&
-        subjectNames.includes('Agriculture') &&
         subjectNames.includes('Mathematics') &&
+        subjectNames.includes('Biology') &&
+        subjectNames.includes('Agriculture') &&
         subjectNames.includes('Business Studies') &&
+        subjectNames.includes('Chemistry') &&
         subjectNames.includes('English')
     ) {
         if (
@@ -446,10 +298,10 @@ function gatherAllCourses(payload) {
         subjectNames.includes('Mathematics')
     ) {
         if (
-            meanGrade >= 8 &&
-            payload.Biology.points >= 9 &&
-            payload.Chemistry.points >= 9 &&
-            payload.Geography.points >= 9 &&
+            meanGrade >= 7 &&
+            payload.Biology.points >= 8 &&
+            payload.Chemistry.points >= 8 &&
+            payload.Geography.points >= 8 &&
             payload.Mathematics.points >= 7
         ) {
             pushCourses(
@@ -457,14 +309,6 @@ function gatherAllCourses(payload) {
                 'BACHELOR OF SCIENCE IN HORTICULTURE',
                 'BACHELOR OF ECONOMICS AND STATISTICS'
             );
-        } else if (
-            meanGrade >= 7 &&
-            payload.Biology.points >= 8 &&
-            payload.Chemistry.points >= 8 &&
-            payload.Geography.points >= 8 &&
-            payload.Mathematics.points >= 7
-        ) {
-            pushCourses('BACHELOR OF SCIENCE IN FOOD NUTRITION AND DIETETICS');
         }
     }
 
@@ -510,6 +354,17 @@ function gatherAllCourses(payload) {
                 'BACHELOR OF SCIENCE'
             );
         }
+    }
+
+    // Eng History Math
+    if (
+        meanGrade >= 7 &&
+        payload.English.points >= 7 &&
+        payload['History and Government'].points >= 7 &&
+        payload.Mathematics.points >= 7
+    ) {
+        pushCourses();
+        // 'Development studies'
     }
 
     return courses;
