@@ -134,7 +134,7 @@ function gatherAllCourses(payload) {
                 'BACHELOR OF SCIENCE IN COMPUTER SCIENCE',
                 'BACHELOR OF CHEMICAL ENGINEERING',
                 'BACHELOR OF SCIENCE BIOMEDICAL SCIENCE AND TECHNOLOGY',
-                'BACHELOR OF SCIENCE IN WATER AND ENVIRONMENTAL ENGINEERING',
+                'BACHELOR OF SCIENCE IN WATER IRRIGATION AND ENVIRONMENTAL ENGINEERING',
                 'BACHELOR OF SCIENCE (BIOCHEMISTRY)'
             );
         }
@@ -158,7 +158,7 @@ function gatherAllCourses(payload) {
                 'BACHELOR OF CHEMICAL ENGINEERING',
                 'BACHELOR OF SCIENCE IN RENEWABLE ENERGY, TECHNOLOGY AND MANAGEMENT',
                 'BACHELOR OF SCIENCE(CONSTRUCTION MANAGEMENT)',
-                'BACHELOR OF SCIENCE IN WATER AND ENVIRONMENTAL ENGINEERING',
+                'BACHELOR OF SCIENCE IN WATER IRRIGATION AND ENVIRONMENTAL ENGINEERING',
                 'BACHELOR OF ECONOMICS AND STATISTICS',
                 'BACHELOR OF ARTS IN EDUCATION',
                 'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY'
@@ -184,7 +184,7 @@ function gatherAllCourses(payload) {
                 'BACHELOR OF SCIENCE IN MEDICINE',
                 'BACHELOR OF SCIENCE IN NURSING',
                 'BACHELOR OF SCIENCE IN MEDICAL LABORATORY SCIENCES',
-                'BACHELOR OF SCIENCE IN WATER AND ENVIRONMENTAL ENGINEERING',
+                'BACHELOR OF SCIENCE IN WATER IRRIGATION AND ENVIRONMENTAL ENGINEERING',
                 'BACHELOR OF SCIENCE IN COMMUNITY DEVELOPMENT',
                 'BACHELOR OF SCIENCE IN INFORMATION AND COMMUNICATION TECHNOLOGY'
             );
@@ -350,21 +350,10 @@ function gatherAllCourses(payload) {
         ) {
             pushCourses(
                 'BACHELOR OF SCIENCE INDUSTRIAL ENGINEERING',
-                'BACHELOR OF SCIENCE IN WATER AND ENVIRONMENTAL ENGINEERING',
+                'BACHELOR OF SCIENCE IN WATER IRRIGATION AND ENVIRONMENTAL ENGINEERING',
                 'BACHELOR OF SCIENCE'
             );
         }
-    }
-
-    // Eng History Math
-    if (
-        meanGrade >= 7 &&
-        payload.English.points >= 7 &&
-        payload['History and Government'].points >= 7 &&
-        payload.Mathematics.points >= 7
-    ) {
-        pushCourses();
-        // 'Development studies'
     }
 
     return courses;

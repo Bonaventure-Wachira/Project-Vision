@@ -3,6 +3,7 @@ import { createStore } from 'vuex';
 import axios from 'axios';
 const base_url = 'https://project-v-api.herokuapp.com';
 import gatherAllCourses from './../utils/courseSelection';
+import secondCheck from '../utils/secondCheck';
 
 export default createStore({
     state() {
@@ -285,13 +286,13 @@ export default createStore({
                     throw err;
                 }
                 // Throw an if check to get the courses with the respective universities
-                // const finalCourses = secondCheckcourseSelection()
+                const finalCourses = secondCheck();
 
                 localStorage.setItem(
                     'qualifiedCourses',
-                    JSON.stringify(response.data.courses)
+                    JSON.stringify(finalCourses)
                 );
-                context.commit('setQualifiedCourses', response.data.courses);
+                context.commit('setQualifiedCourses', finalCourses);
             }
         },
         tryLogin(context) {
