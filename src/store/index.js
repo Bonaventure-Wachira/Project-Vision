@@ -286,7 +286,11 @@ export default createStore({
                     throw err;
                 }
                 // Throw an if check to get the courses with the respective universities
-                const finalCourses = secondCheck();
+                const finalCourses = secondCheck(
+                    response.data.courses,
+                    payload
+                );
+                console.log(finalCourses);
 
                 localStorage.setItem(
                     'qualifiedCourses',

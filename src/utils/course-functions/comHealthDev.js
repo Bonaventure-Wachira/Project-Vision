@@ -2,21 +2,24 @@ module.exports = (subjectNames, payload, meanGrade) => {
     const courseTray = [];
 
     if (
+        subjectNames.includes('Biology') &&
+        subjectNames.includes('English') &&
+        subjectNames.includes('Geography') &&
         subjectNames.includes('Mathematics') &&
-        subjectNames.includes('Business Studies') &&
-        subjectNames.includes('English')
+        subjectNames.includes('Chemistry')
     ) {
         if (
             meanGrade >= 7 &&
-            payload.Mathematics.points >= 7 &&
-            payload['Business Studies'].points >= 7 &&
-            payload.English.points >= 6
+            payload.Biology.points >= 7 &&
+            payload.English.points >= 6 &&
+            payload.Geography.points >= 6 &&
+            payload.Mathematics.points >= 6 &&
+            payload.Chemistry.points >= 6
         ) {
             courseTray.push(
-                'Maseno University',
-                'Riara University',
-                'Jaramogi Oginga Odinga University',
-                'Tom Mboya University'
+                'Jomo Kenyatta University of Agriculture and Technology',
+                'University of Embu',
+                'Meru University'
             );
         }
     }

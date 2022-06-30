@@ -2,35 +2,26 @@ module.exports = (subjectNames, payload, meanGrade) => {
     const courseTray = [];
 
     if (
+        subjectNames.includes('Biology') &&
+        subjectNames.includes('Physics') &&
+        subjectNames.includes('Chemistry') &&
         subjectNames.includes('Mathematics') &&
-        subjectNames.includes('Business Studies') &&
+        subjectNames.includes('Agriculture') &&
         subjectNames.includes('English')
     ) {
         if (
             meanGrade >= 7 &&
-            payload.Mathematics.points >= 7 &&
-            payload['Business Studies'].points >= 7 &&
-            payload.English.points >= 6
-        ) {
-            courseTray.push(
-                'Laikipia University',
-                'Chuka University',
-                'Tharaka University'
-            );
-        }
-
-        if (
-            meanGrade >= 7 &&
-            payload.Mathematics.points >= 7 &&
-            payload['Business Studies'].points >= 8 &&
+            payload.Biology.points >= 6 &&
+            payload.Physics.points >= 6 &&
+            payload.Chemistry.points >= 6 &&
+            payload.Mathematics.points >= 6 &&
+            payload.Agriculture.points >= 6 &&
             payload.English.points >= 6
         ) {
             courseTray.push(
                 'University of Nairobi',
-                'Kenyatta University',
-                'Laikipia University',
-                'Chuka University',
-                'Tharaka University'
+                'Taita Taveta University',
+                'University of Embu'
             );
         }
     }

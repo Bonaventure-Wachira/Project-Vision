@@ -15,14 +15,17 @@ module.exports = (subjectNames, payload, meanGrade) => {
             courseTray.push('Jaramogi Oginga Odinga University');
         }
     }
-    const finalArr = [];
-    courseTray.forEach((el) => {
-        if (finalArr[el]) {
-            return;
+
+    function getUnique(array) {
+        var uniqueArray = [];
+
+        // Loop through array values
+        for (i = 0; i < array.length; i++) {
+            if (uniqueArray.indexOf(array[i]) === -1) {
+                uniqueArray.push(array[i]);
+            }
         }
-
-        finalArr.push(el);
-    });
-
-    return finalArr;
+        return uniqueArray;
+    }
+    return getUnique(courseTray);
 };

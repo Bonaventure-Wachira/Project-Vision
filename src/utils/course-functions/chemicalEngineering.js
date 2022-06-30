@@ -2,25 +2,25 @@ module.exports = (subjectNames, payload, meanGrade) => {
     const courseTray = [];
 
     if (
+        subjectNames.includes('Physics') &&
         subjectNames.includes('Mathematics') &&
-        subjectNames.includes('Business Studies') &&
-        subjectNames.includes('English')
+        subjectNames.includes('Chemistry') &&
+        subjectNames.includes('Biology')
     ) {
         if (
             meanGrade >= 7 &&
-            payload.Mathematics.points >= 7 &&
-            payload['Business Studies'].points >= 7 &&
-            payload.English.points >= 6
+            payload.Physics.points >= 10 &&
+            payload.Mathematics.points >= 10 &&
+            payload.Chemistry.points >= 10 &&
+            payload.Biology.points >= 10
         ) {
             courseTray.push(
-                'Maseno University',
-                'Riara University',
-                'Jaramogi Oginga Odinga University',
-                'Tom Mboya University'
+                'Dedan Kimathi University',
+                'Moi University',
+                'Technical University of Kenya'
             );
         }
     }
-
     function getUnique(array) {
         var uniqueArray = [];
 

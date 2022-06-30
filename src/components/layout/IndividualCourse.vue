@@ -24,6 +24,17 @@
                     <span> {{ ' ' + path }}</span>
                 </li>
             </ul>
+
+            <h3>
+                Universities that offer this course based on your score are:
+            </h3>
+            <ul>
+                <li v-for="(uni, index) in course.universities" :key="index">
+                    <span>{{ index + 1 }}</span
+                    >:
+                    <span> {{ ' ' + uni }}</span>
+                </li>
+            </ul>
         </div>
         <div v-else-if="!course">
             <p>There was a problem fetching the course</p>
