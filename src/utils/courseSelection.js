@@ -1,4 +1,4 @@
-function gatherAllCourses(payload) {
+module.exports = (payload) => {
     const scoresArr = Object.values(payload);
     const subjectNames = Object.keys(payload);
     const meanGrade =
@@ -355,8 +355,5 @@ function gatherAllCourses(payload) {
             );
         }
     }
-
     return courses;
-}
-
-module.exports = gatherAllCourses;
+};

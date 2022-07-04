@@ -238,6 +238,10 @@ export default {
     margin: 0.5rem 0;
 }
 
+ul {
+    font-size: 1.4rem;
+}
+
 input {
     display: inline-block;
     width: 70%;

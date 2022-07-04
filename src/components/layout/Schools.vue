@@ -2,9 +2,13 @@
     <div>
         <div class="container">
             <base-card>
-                <div v-if="fetchedSchools">
+                <div v-if="fetchedSchools && examDetails">
                     <ul class="school-list">
-                        <h2 class="list-title">Predicted Schools</h2>
+                        <h2 class="list-title">
+                            Predicted Schools for
+                            {{ examDetails.exam.Total }} marks in
+                            {{ examDetails.examName }}
+                        </h2>
                         <li
                             v-for="school in fetchedSchools"
                             :key="school._id"
@@ -32,7 +36,7 @@
 export default {
     data() {
         return {
-            // schools: null,
+            examDetails: null,
             errorMessage: null,
         };
     },
@@ -41,9 +45,9 @@ export default {
             return this.$store.getters.getSchools;
         },
     },
-    // created() {
-    //     console.log(this.$store.getters.getSchools);
-    // },
+    created() {
+        this.examDetails = this.$store.getters.examDetails;
+    },
 };
 </script>
 
@@ -54,7 +58,7 @@ export default {
 }
 h2 {
     margin: 1.3rem 0;
-    font-size: 2.2rem;
+    font-size: 2rem;
 }
 .school-list {
     list-style: none;

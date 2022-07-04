@@ -59,6 +59,7 @@ button:active {
     background-color: transparent;
     color: #3a0061;
     border: none;
+    font-size: 1.6rem;
 }
 
 .outline {

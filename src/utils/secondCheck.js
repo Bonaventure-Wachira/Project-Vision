@@ -311,7 +311,5 @@ module.exports = (courseArr, payload) => {
             finalCourseArr.push(el);
         }
     });
-    console.log(finalCourseArr);
-
     return finalCourseArr;
 };

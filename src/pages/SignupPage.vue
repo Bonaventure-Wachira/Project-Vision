@@ -35,12 +35,14 @@
                 </div>
                 <div class="form-group">
                     <label for="county">County</label>
-                    <input
-                        type="text"
-                        name="county"
-                        id="county"
-                        v-model.trim="county"
-                    />
+                    <select name="county" id="county" v-model.trim="county">
+                        <option
+                            v-for="countyName in listOfCounties"
+                            :key="countyName"
+                            :value="countyName"
+                            >{{ countyName }}</option
+                        >
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="levelOfEducation">Level of education</label>
@@ -104,19 +106,20 @@
                     />
                 </div>
                 <base-button>Sign Up</base-button>
-                <p v-if="err">{{ err }}</p>
+                <p class="errMessage" v-if="err">{{ err }}</p>
             </form>
         </div>
     </base-card>
 </template>
 <script>
+import listOfCounties from './../utils/listOfCounties';
 export default {
     data() {
         return {
             firstName: '',
             lastName: '',
             email: '',
-            county: '',
+            county: '--select--',
             levelOfEducation: 'primary',
             password: '',
             confirmPassword: '',
@@ -124,6 +127,7 @@ export default {
             securityAns: '',
             isLoading: false,
             err: null,
+            listOfCounties: [],
         };
     },
     methods: {
@@ -136,6 +140,10 @@ export default {
             if (this.password.length < 6) {
                 this.err =
                     'Your password should not be less than six characters';
+                return;
+            }
+            if (this.county === '--select--') {
+                this.err = 'Kindly select a county to make an account';
                 return;
             }
             this.isLoading = true;
@@ -159,6 +167,7 @@ export default {
                 }
             } catch (err) {
                 this.err = err || 'Something went wrong, please try again.';
+                return;
             }
 
             this.isLoading = false;
@@ -166,6 +175,9 @@ export default {
         async fetchUser() {
             await this.$store.dispatch('fetchUser');
         },
+    },
+    mounted() {
+        this.listOfCounties = listOfCounties;
     },
 };
 </script>
@@ -186,6 +198,7 @@ input {
     font: inherit;
     /* margin-right: 1rem; */
     padding: 1rem 1.5rem;
+    font-size: 1.4rem;
 }
 
 input:focus {
@@ -197,6 +210,10 @@ input:focus {
 h3 {
     margin: 1.3rem 0;
     font-size: 2.2rem;
+}
+
+.errMessage {
+    color: red;
 }
 
 .invalid input {

@@ -13,17 +13,33 @@
                     />
                 </div>
                 <div class="form-group">
-                    <label for="securityQuestion"
-                        >What was your mother's maiden name?</label
-                    >
-                    <input
-                        type="text"
+                    <label for="securityQuestion">Security question</label>
+                    <select
                         name="securityQuestion"
                         id="securityQuestion"
                         v-model.trim="securityQuestion"
-                    />
+                    >
+                        <option value="select">--Select--</option>
+                        <option value="maiden"
+                            >What is your mother's maiden name?</option
+                        >
+                        <option value="pet"
+                            >What is the name of your first pet?</option
+                        >
+                        <option value="car">What was your first car?</option>
+                        <option value="school"
+                            >What elementary school did you attend?</option
+                        >
+                        <option value="town"
+                            >What is the name of the town where you were
+                            born?</option
+                        >
+                    </select>
                 </div>
                 <base-button>Submit</base-button>
+                <p class="errorMessage" v-if="!!errorMessage">
+                    {{ errorMessage }}
+                </p>
             </form>
         </div>
     </base-card>
@@ -35,6 +51,7 @@ export default {
             email: '',
             error: false,
             errorMessage: null,
+            securityQuestion: 'select',
         };
     },
     methods: {
@@ -44,6 +61,12 @@ export default {
             if (this.email === '' || !this.email.includes('@')) {
                 this.error = true;
                 this.errorMessage = 'Please enter a valid email address';
+                return;
+            }
+
+            if (this.securityQuestion === 'select') {
+                this.error = true;
+                this.errorMessage = 'Please select a maiden question.';
                 return;
             }
         },
@@ -67,6 +90,7 @@ input {
     /* font: inherit; */
     font-size: 1.3rem;
     padding: 1rem 1.5rem;
+    font-size: 1.4rem;
 }
 
 input:focus {
@@ -78,6 +102,10 @@ input:focus {
 h3 {
     margin: 1.3rem 0;
     font-size: 2.2rem;
+}
+
+.errorMessage {
+    color: red;
 }
 
 .invalid input {

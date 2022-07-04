@@ -69,17 +69,27 @@
             <exam-card v-for="exam in examCategory.exams" :key="exam._id">
                 <div class="card-title">
                     <h2 class="exam-name">{{ exam.examName }}</h2>
-                    <span>{{ exam.term }}</span>
+                    <div class="term-text">
+                        <span>Term: </span>
+                        <span>{{ exam.term }}</span>
+                    </div>
+                </div>
+                <div class="exam-titles">
+                    <span>Subject</span>
+
+                    <span>Marks</span>
                 </div>
                 <div
                     v-for="(el, index) in Object.entries(exam.exam)"
                     :key="index"
+                    class="exam-content"
                 >
-                    {{ el[0] }} : {{ el[1] }}
+                    <span>
+                        {{ el[0] }}
+                    </span>
+                    <span>{{ el[1] }}</span>
                 </div>
-                <base-button
-                    mode="outline"
-                    @click="fetchSchools(exam.exam.Total)"
+                <base-button mode="outline" @click="fetchSchools(exam)"
                     >Predicted schools</base-button
                 >
             </exam-card>
@@ -219,10 +229,11 @@ export default {
             this.isLoading = false;
             this.addExamMode = false;
         },
-        async fetchSchools(score) {
+        async fetchSchools(examObject) {
             this.isLoading = true;
             try {
-                await this.$store.dispatch('fetchSchools', score);
+                // console.log(examObject);
+                await this.$store.dispatch('fetchSchools', examObject);
                 this.$router.push('/schools');
             } catch (error) {
                 this.err = error || 'Something went wrong';
@@ -243,11 +254,11 @@ h3 {
     margin: 1rem 0;
 }
 .card-title {
-    display: inline-flex;
-    align-items: center;
-}
-.exam-name {
-    margin-right: 1rem;
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-weight: bold;
 }
 
 .general-container {
@@ -266,9 +277,29 @@ h3 {
     justify-content: space-between;
 }
 
+.exam-name {
+    /* margin-right: 1rem; */
+    text-transform: capitalize;
+}
+
 .exam-page-title {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
+}
+
+.exam-titles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+
+.exam-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 0.6rem;
+    font-size: 1.5rem;
 }
 input {
     display: inline-block;
@@ -282,9 +313,6 @@ label {
     font-weight: bold;
     display: block;
     margin-bottom: 0.5rem;
-}
-span {
-    font-size: 1.3rem;
 }
 .subject-err {
     font-size: 1.4rem;

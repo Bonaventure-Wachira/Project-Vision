@@ -2,8 +2,8 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
 const base_url = 'https://project-v-api.herokuapp.com';
-import gatherAllCourses from './../utils/courseSelection';
 import secondCheck from '../utils/secondCheck';
+import courseSelection from './../utils/courseSelection';
 
 export default createStore({
     state() {
@@ -17,6 +17,7 @@ export default createStore({
             schools: null,
             fetchedSubjects: null,
             qualifiedCourses: null,
+            examDetails: null,
         };
     },
     actions: {
@@ -137,7 +138,6 @@ export default createStore({
                 localStorage.setItem('userId', newRes.userId);
                 context.commit('authenticate', newRes);
             } catch (error) {
-                console.log(error.response.data);
                 context.commit('returnErr', error.response.data);
             }
         },
@@ -198,11 +198,11 @@ export default createStore({
         },
         async fetchSchools({ commit }, payload) {
             let url;
-            if (payload >= 400) {
+            if (payload.exam.Total >= 400) {
                 url = base_url + '/api/v1/schools/top_nationals';
-            } else if (payload >= 300) {
+            } else if (payload.exam.Total >= 300) {
                 url = base_url + '/api/v1/schools/top_extra';
-            } else if (payload >= 200) {
+            } else if (payload.exam.Total >= 200) {
                 url = base_url + '/api/v1/schools/top_county';
             } else {
                 url = base_url + '/api/v1/schools/top_sub_county';
@@ -216,22 +216,23 @@ export default createStore({
             }
             const schools = response.data.schools || response.data.data.schools;
             let predictedSchools;
-            if (payload >= 420) {
+            if (payload.exam.Total >= 420) {
                 predictedSchools = schools.slice(0, 26);
-            } else if (payload >= 400) {
+            } else if (payload.exam.Total >= 400) {
                 predictedSchools = schools.slice(26, -1);
-            } else if (payload >= 350) {
+            } else if (payload.exam.Total >= 350) {
                 predictedSchools = schools.slice(0, 30);
-            } else if (payload >= 300) {
+            } else if (payload.exam.Total >= 300) {
                 predictedSchools = schools.slice(30, -1);
-            } else if (payload >= 250) {
+            } else if (payload.exam.Total >= 250) {
                 predictedSchools = schools.slice(0, 8);
-            } else if (payload >= 200) {
+            } else if (payload.exam.Total >= 200) {
                 predictedSchools = schools.slice(8, -1);
             } else {
                 predictedSchools = schools;
             }
             commit('loadSchools', predictedSchools);
+            commit('loadExamDetails', payload);
         },
         async fetchSubjects({ commit }) {
             const response = await axios.get(base_url + '/api/v1/subjects');
@@ -263,7 +264,7 @@ export default createStore({
             commit('fetchSubjects', response.data.updatedUser.subjects);
         },
         async fetchCourses(context, payload) {
-            const courses = gatherAllCourses(payload);
+            const courses = courseSelection(payload);
 
             if (courses.length > 0) {
                 const response = await axios.post(
@@ -290,7 +291,6 @@ export default createStore({
                     response.data.courses,
                     payload
                 );
-                console.log(finalCourses);
 
                 localStorage.setItem(
                     'qualifiedCourses',
@@ -353,6 +353,9 @@ export default createStore({
         setQualifiedCourses(state, payload) {
             state.qualifiedCourses = payload;
         },
+        loadExamDetails(state, payload) {
+            state.examDetails = payload;
+        },
     },
     getters: {
         isAuth(state) {
@@ -387,6 +390,9 @@ export default createStore({
         },
         qualifiedCourses(state) {
             return state.qualifiedCourses;
+        },
+        examDetails(state) {
+            return state.examDetails;
         },
     },
 });

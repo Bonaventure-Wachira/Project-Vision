@@ -21,7 +21,7 @@ const router = createRouter({
         { path: '/dashboard', component: DashBoardPage },
         { path: '/myexams/:categoryId', component: ExamsPage },
         { path: '/secondaryexams/:categoryId', component: SecondaryExams },
-        { path: '/schools', component: Schools },
+        { path: '/schools', component: Schools, name: 'schools' },
         { path: '/login', component: LoginPage },
         { path: '/signup', component: SignupPage },
         { path: '/passwordRecovery', component: PasswordRecovery },

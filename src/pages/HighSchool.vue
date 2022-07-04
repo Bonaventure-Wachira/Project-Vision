@@ -275,6 +275,10 @@ input:focus {
     border-color: #3d008d;
 }
 
+ul {
+    font-size: 1.4rem;
+}
+
 .main-heading {
     margin-top: 2rem;
     margin-bottom: 2rem;
