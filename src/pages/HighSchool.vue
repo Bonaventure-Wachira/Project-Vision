@@ -93,7 +93,7 @@
                         v-for="(category, index) in resultsCategory"
                         :key="index"
                     >
-                        Class {{ category.year }}
+                        Form {{ category.year }}
                         <base-button
                             mode="flat"
                             link
@@ -130,9 +130,6 @@ export default {
         };
     },
     computed: {
-        // resultsCategory() {
-        //     return this.$store.getters.getExams;
-        // },
         areCategoriesAvailable() {
             return this.$store.getters.isExamsCategories;
         },
@@ -147,14 +144,6 @@ export default {
             await this.fetchSubjects();
             this.subjectAreaLoading = false;
         },
-        // isChecked() {
-        //     // filter the subjects in mySubjects that equal the subjects in fetchedSubjects
-        //     const newArr = this.fetchedSubjects.filter(function(el) {
-        //         return this.indexOf(el) < 0;
-        //     }, this.mySubjects);
-        //     // for each element in the new array, mark as checked
-        //     return newArr.forEach(() => true);
-        // },
         closeDialogBox() {
             this.editMode = false;
         },

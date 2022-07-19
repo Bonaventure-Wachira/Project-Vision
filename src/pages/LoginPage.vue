@@ -45,14 +45,12 @@ export default {
         return {
             email: '',
             password: '',
-            error: false,
             errorMessage: null,
             isLoading: false,
         };
     },
     methods: {
         async login() {
-            this.error = false;
             this.errorMessage = null;
             if (this.email === '' || !this.email.includes('@')) {
                 this.errorMessage = 'Please enter a valid email address';
@@ -65,17 +63,29 @@ export default {
             }
 
             this.isLoading = true;
-            await this.$store.dispatch('login', {
-                email: this.email,
-                password: this.password,
-            });
-            await this.fetchUser();
-            this.isLoading = false;
-            if (this.$store.getters.getUserInfo.level === 'primary') {
+            try {
+                await this.$store.dispatch('login', {
+                    email: this.email,
+                    password: this.password,
+                });
                 this.$router.replace('/');
-            } else {
-                this.$router.replace('/highschool');
+            } catch (err) {
+                this.errorMessage = err || 'Something went wrong';
             }
+            this.isLoading = false;
+
+            // this.isLoading = true;
+            // await this.$store.dispatch('login', {
+            //     email: this.email,
+            //     password: this.password,
+            // });
+            // await this.fetchUser();
+            // this.isLoading = false;
+            // if (this.$store.getters.getUserInfo.level === 'primary') {
+            //     this.$router.replace('/');
+            // } else {
+            //     this.$router.replace('/highschool');
+            // }
         },
         async fetchUser() {
             await this.$store.dispatch('fetchUser');
