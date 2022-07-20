@@ -195,7 +195,7 @@ export default createStore({
                 lastName: response.data.user.lastName,
                 subjects: response.data.user.subjects,
             };
-            localStorage.setItem('userInfo', userInfo);
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
             commit('setUserInfo', userInfo);
         },
         async fetchSchools({ commit }, payload) {
@@ -314,7 +314,7 @@ export default createStore({
             }
         },
         loadUserInfo(context) {
-            const userInfo = localStorage.getItem('userInfo');
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
             if (userInfo) {
                 context.commit('setUserInfo', userInfo);
             }
