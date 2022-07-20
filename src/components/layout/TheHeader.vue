@@ -8,7 +8,7 @@
                 </li>
                 <li><router-link to="/highschool">High School</router-link></li>
             </ul> -->
-            <ul v-if="!loggedIn">
+            <ul v-if="!isLoggedIn">
                 <li><router-link to="/login">Login</router-link></li>
                 <li><router-link to="/signup">Sign Up</router-link></li>
             </ul>
@@ -25,7 +25,7 @@
                         </span>
                     </div>
                 </li>
-                <base-button mode="danger">Logout</base-button>
+                <base-button mode="danger" @click="logout">Logout</base-button>
             </ul>
         </nav>
     </header>
@@ -34,8 +34,18 @@
 export default {
     data() {
         return {
-            loggedIn: true,
+            // loggedIn: true,
         };
+    },
+    computed: {
+        isLoggedIn() {
+            return this.$store.getters.isAuth;
+        },
+    },
+    methods: {
+        logout() {
+            //
+        },
     },
 };
 </script>
