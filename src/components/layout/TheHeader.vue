@@ -14,7 +14,16 @@
             </ul>
             <ul v-else>
                 <li>
-                    <base-badge title="John Doe"></base-badge>
+                    <div class="user-badge">
+                        <img
+                            class="profile-photo"
+                            src="./../../Assets/avatar2.png"
+                            alt="default-avatar"
+                        />
+                        <span>
+                            John Doe
+                        </span>
+                    </div>
                 </li>
                 <base-button mode="danger">Logout</base-button>
             </ul>
@@ -25,12 +34,27 @@
 export default {
     data() {
         return {
-            loggedIn: false,
+            loggedIn: true,
         };
     },
 };
 </script>
 <style scoped>
+.user-badge {
+    padding: 0 2rem;
+    background-color: #ccc;
+    color: #252525;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-photo {
+    height: 3.75rem;
+    border-radius: 50%;
+}
+
 header {
     width: 100%;
     height: 10vh;
