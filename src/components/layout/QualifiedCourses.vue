@@ -1,31 +1,41 @@
 <template>
-    <base-dialog :show="isLoading" fixed title="Fetching ..." v-if="isLoading">
-        <base-spinner v-if="isLoading"></base-spinner>
-    </base-dialog>
-    <base-dialog
-        v-else-if="!isLoading && !!err"
-        :show="!!err"
-        title="Error occurred while fetching"
-        @close="closeErrDialog"
-    >
-        {{ err }}
-    </base-dialog>
-    <div
-        class="container"
-        v-else-if="!isLoading && qualifiedCourses.length > 0"
-    >
-        <h2>Predicted Courses</h2>
-        <ul>
-            <li v-for="(course, index) in qualifiedCourses" :key="course._id">
-                <div>
-                    <span> {{ index + 1 }}.</span>
-                    <span class="course-name">{{ course.name }}</span>
-                </div>
-                <base-button mode="flat" @click="learnMore(course._id)"
-                    >Learn More</base-button
+    <div>
+        <base-dialog
+            :show="isLoading"
+            fixed
+            title="Fetching ..."
+            v-if="isLoading"
+        >
+            <base-spinner v-if="isLoading"></base-spinner>
+        </base-dialog>
+        <base-dialog
+            v-else-if="!isLoading && !!err"
+            :show="!!err"
+            title="Error occurred while fetching"
+            @close="closeErrDialog"
+        >
+            {{ err }}
+        </base-dialog>
+        <div
+            class="container"
+            v-else-if="!isLoading && qualifiedCourses.length > 0"
+        >
+            <h2>Predicted Courses</h2>
+            <ul>
+                <li
+                    v-for="(course, index) in qualifiedCourses"
+                    :key="course._id"
                 >
-            </li>
-        </ul>
+                    <div>
+                        <span> {{ index + 1 }}.</span>
+                        <span class="course-name">{{ course.name }}</span>
+                    </div>
+                    <base-button mode="flat" @click="learnMore(course._id)"
+                        >Learn More</base-button
+                    >
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 

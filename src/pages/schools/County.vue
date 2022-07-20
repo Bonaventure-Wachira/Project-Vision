@@ -1,24 +1,30 @@
 <template>
-    <base-dialog :show="isLoading" fixed title="Fetching schools...">
-        <base-spinner v-if="isLoading"></base-spinner>
-    </base-dialog>
-    <base-dialog :show="!!err" title="An error occured" @close="closeErrBox">
-        <p>{{ err }}</p>
-    </base-dialog>
-    <base-card>
-        <ul class="school-list">
-            <h2 class="list-title">County schools</h2>
-            <li
-                v-for="school in schools"
-                :key="school._id"
-                class="school-object"
-            >
-                <span class="school-property">{{ school.name }}</span>
-                <span class="school-property">{{ school.type }}</span>
-                <span class="school-property">{{ school.county }}</span>
-            </li>
-        </ul>
-    </base-card>
+    <div>
+        <base-dialog :show="isLoading" fixed title="Fetching schools...">
+            <base-spinner v-if="isLoading"></base-spinner>
+        </base-dialog>
+        <base-dialog
+            :show="!!err"
+            title="An error occured"
+            @close="closeErrBox"
+        >
+            <p>{{ err }}</p>
+        </base-dialog>
+        <base-card>
+            <ul class="school-list">
+                <h2 class="list-title">County schools</h2>
+                <li
+                    v-for="school in schools"
+                    :key="school._id"
+                    class="school-object"
+                >
+                    <span class="school-property">{{ school.name }}</span>
+                    <span class="school-property">{{ school.type }}</span>
+                    <span class="school-property">{{ school.county }}</span>
+                </li>
+            </ul>
+        </base-card>
+    </div>
 </template>
 
 <script>

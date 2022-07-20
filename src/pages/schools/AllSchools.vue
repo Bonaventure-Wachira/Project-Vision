@@ -1,19 +1,21 @@
 <template>
-    <base-spinner v-if="isLoading"></base-spinner>
-    <div class="container">
-        <base-button mode="outline" @click="getAllSchools(true)"
-            >Refresh</base-button
-        >
-        <base-card>
-            <div v-if="allSchools">
-                <ul>
-                    <li v-for="school in allSchools" :key="school._id">
-                        {{ school.name }} : {{ school.level }}
-                    </li>
-                </ul>
-            </div>
-            <h2 v-if="!!errorMessage">{{ errorMessage }}</h2>
-        </base-card>
+    <div>
+        <base-spinner v-if="isLoading"></base-spinner>
+        <div class="container">
+            <base-button mode="outline" @click="getAllSchools(true)"
+                >Refresh</base-button
+            >
+            <base-card>
+                <div v-if="allSchools">
+                    <ul>
+                        <li v-for="school in allSchools" :key="school._id">
+                            {{ school.name }} : {{ school.level }}
+                        </li>
+                    </ul>
+                </div>
+                <h2 v-if="!!errorMessage">{{ errorMessage }}</h2>
+            </base-card>
+        </div>
     </div>
 </template>
 

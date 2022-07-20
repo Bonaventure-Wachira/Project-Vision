@@ -1,110 +1,122 @@
 <template>
-    <!-- Edit subjects dialog box  -->
-    <secondary-dialog
-        :show="editMode"
-        title="Edit your subjects"
-        @close="closeDialogBox"
-    >
-        <base-spinner v-if="subjectAreaLoading"></base-spinner>
-        <ul v-else-if="!subjectAreaLoading && fetchedSubjects">
-            <li v-for="subject in fetchedSubjects" :key="subject._id">
-                <span>{{ subject.name }}</span>
-                <input
-                    type="checkbox"
-                    :name="subject.name"
-                    :value="subject.name"
-                    v-model="subjectsOnEdit"
-                    :checked="null"
-                />
-            </li>
-            <base-button @click="saveChanges">Save changes</base-button>
-            <p v-if="!!subjectAreaErr">{{ subjectAreaErr }}</p>
-        </ul>
-    </secondary-dialog>
+    <div>
+        <!-- Edit subjects dialog box  -->
+        <secondary-dialog
+            :show="editMode"
+            title="Edit your subjects"
+            @close="closeDialogBox"
+        >
+            <base-spinner v-if="subjectAreaLoading"></base-spinner>
+            <ul v-else-if="!subjectAreaLoading && fetchedSubjects">
+                <li v-for="subject in fetchedSubjects" :key="subject._id">
+                    <span>{{ subject.name }}</span>
+                    <input
+                        type="checkbox"
+                        :name="subject.name"
+                        :value="subject.name"
+                        v-model="subjectsOnEdit"
+                        :checked="null"
+                    />
+                </li>
+                <base-button @click="saveChanges">Save changes</base-button>
+                <p v-if="!!subjectAreaErr">{{ subjectAreaErr }}</p>
+            </ul>
+        </secondary-dialog>
 
-    <!-- Add category -->
+        <!-- Add category -->
 
-    <base-dialog
-        :show="addCategoryMode"
-        title="Add category"
-        @close="closeAddCategoriesDialog"
-    >
-        <div class="form-group">
-            <label for="year">Year of education</label>
-            <select name="year" id="year" v-model.trim="year">
-                <option value="one">One</option>
-                <option value="two">Two</option>
-                <option value="three">Three</option>
-                <option value="four">Four</option>
-            </select>
-        </div>
+        <base-dialog
+            :show="addCategoryMode"
+            title="Add category"
+            @close="closeAddCategoriesDialog"
+        >
+            <div class="form-group">
+                <label for="year">Year of education</label>
+                <select name="year" id="year" v-model.trim="year">
+                    <option value="one">One</option>
+                    <option value="two">Two</option>
+                    <option value="three">Three</option>
+                    <option value="four">Four</option>
+                </select>
+            </div>
 
-        <base-button @click="submitCategory">Add Category</base-button>
-    </base-dialog>
+            <base-button @click="submitCategory">Add Category</base-button>
+        </base-dialog>
 
-    <h3 class="main-heading">My Dashboard</h3>
-    <div class="container">
-        <div class="subjects">
-            <base-spinner v-if="isLoading"></base-spinner>
-
-            <secondary-card v-else-if="mySubjects.length === 0 && !isLoading">
-                <p class="instructions subject-instructions">
-                    Seems like you have not added any subjects yet.
-                </p>
-                <base-button @click="editSubjects">Add subjects</base-button>
-            </secondary-card>
-            <secondary-card v-else-if="mySubjects.length > 0 && !isLoading">
-                <h2 class="secondary-heading">Academics</h2>
-                <h2 class="schools-heading">My subjects</h2>
-                <ul class="primary-text">
-                    <li v-for="(subject, index) in mySubjects" :key="index">
-                        {{ subject }}
-                    </li>
-                </ul>
-                <base-button @click="editSubjects">Edit Subjects</base-button>
-            </secondary-card>
-        </div>
-        <div class="right-side">
-            <secondary-card>
-                <p class="instructions">
-                    To arrange your exam results, you will need to add an exam
-                    category first in the
-                    <strong>Results Category</strong> section. Then after it
-                    pops up on addition on your screen, click on the button and
-                    add the exams results for that class.
-                </p>
-            </secondary-card>
-            <secondary-card>
+        <h3 class="main-heading">My Dashboard</h3>
+        <div class="container">
+            <div class="subjects">
                 <base-spinner v-if="isLoading"></base-spinner>
-                <div class="results-header" v-if="!isLoading">
-                    <h2>Results Category</h2>
-                    <base-button @click="refreshCategories"
-                        >Refresh</base-button
+
+                <secondary-card
+                    v-else-if="mySubjects.length === 0 && !isLoading"
+                >
+                    <p class="instructions subject-instructions">
+                        Seems like you have not added any subjects yet.
+                    </p>
+                    <base-button @click="editSubjects"
+                        >Add subjects</base-button
                     >
-                </div>
-                <div v-if="!areCategoriesAvailable && !isLoading">
-                    <h2>
-                        You do not have any exam records just yet.
-                    </h2>
-                    <base-button @click="addCategory">Add category</base-button>
-                </div>
-                <ul v-if="!isLoading && resultsCategory">
-                    <li
-                        v-for="(category, index) in resultsCategory"
-                        :key="index"
+                </secondary-card>
+                <secondary-card v-else-if="mySubjects.length > 0 && !isLoading">
+                    <h2 class="secondary-heading">Academics</h2>
+                    <h2 class="schools-heading">My subjects</h2>
+                    <ul class="primary-text">
+                        <li v-for="(subject, index) in mySubjects" :key="index">
+                            {{ subject }}
+                        </li>
+                    </ul>
+                    <base-button @click="editSubjects"
+                        >Edit Subjects</base-button
                     >
-                        Form {{ category.year }}
-                        <base-button
-                            mode="flat"
-                            link
-                            :to="/secondaryexams/ + category._id"
+                </secondary-card>
+            </div>
+            <div class="right-side">
+                <secondary-card>
+                    <p class="instructions">
+                        To arrange your exam results, you will need to add an
+                        exam category first in the
+                        <strong>Results Category</strong> section. Then after it
+                        pops up on addition on your screen, click on the button
+                        and add the exams results for that class.
+                    </p>
+                </secondary-card>
+                <secondary-card>
+                    <base-spinner v-if="isLoading"></base-spinner>
+                    <div class="results-header" v-if="!isLoading">
+                        <h2>Results Category</h2>
+                        <base-button @click="refreshCategories"
+                            >Refresh</base-button
                         >
-                            Go to class category</base-button
+                    </div>
+                    <div v-if="!areCategoriesAvailable && !isLoading">
+                        <h2>
+                            You do not have any exam records just yet.
+                        </h2>
+                        <base-button @click="addCategory"
+                            >Add category</base-button
                         >
-                    </li>
-                    <base-button @click="addCategory">Add category</base-button>
-                </ul>
-            </secondary-card>
+                    </div>
+                    <ul v-if="!isLoading && resultsCategory">
+                        <li
+                            v-for="(category, index) in resultsCategory"
+                            :key="index"
+                        >
+                            Form {{ category.year }}
+                            <base-button
+                                mode="flat"
+                                link
+                                :to="/secondaryexams/ + category._id"
+                            >
+                                Go to class category</base-button
+                            >
+                        </li>
+                        <base-button @click="addCategory"
+                            >Add category</base-button
+                        >
+                    </ul>
+                </secondary-card>
+            </div>
         </div>
     </div>
 </template>

@@ -1,100 +1,102 @@
 <template>
-    <base-dialog :show="isLoading" fixed title="Fetching ...">
-        <base-spinner v-if="isLoading"></base-spinner>
-    </base-dialog>
-    <base-dialog
-        :show="!!err"
-        title="Error occurred while fetching"
-        @close="closeErrDialog"
-    >
-        {{ err }}
-    </base-dialog>
+    <div>
+        <base-dialog :show="isLoading" fixed title="Fetching ...">
+            <base-spinner v-if="isLoading"></base-spinner>
+        </base-dialog>
+        <base-dialog
+            :show="!!err"
+            title="Error occurred while fetching"
+            @close="closeErrDialog"
+        >
+            {{ err }}
+        </base-dialog>
 
-    <!-- Add exam dialog box -->
-    <base-dialog
-        :show="addExamMode"
-        title="Add exam to database"
-        @close="closeAddExamDialog"
-    >
-        <div class="subject-group">
-            <label for="term">Term</label>
-            <select name="term" id="term" v-model.trim="term">
-                <option value="one">One</option>
-                <option value="two">Two</option>
-                <option value="three">Three</option>
-            </select>
-        </div>
-        <div class="subject-group">
-            <label for="examName">Exam Name</label>
-            <input
-                type="text"
-                name="examName"
-                placeholder="Exam Name (e.g Midterm exam)"
-                v-model.trim="examName"
-                @keydown="closeSubjectErr"
-            />
-        </div>
-        <div class="subject-group">
-            <h3>My subjects</h3>
-            <ul>
-                <li
-                    v-for="(subject, index) in mySubjects"
-                    :key="index"
-                    class="subject-item"
-                >
-                    <label for="subject">{{ subject.subject }}</label>
-                    <input
-                        type="number"
-                        name="subject"
-                        v-model.number="subject.value"
-                        placeholder="Your score"
-                        @focus="addScore"
-                        @keydown.tab="addScore"
-                        @keydown.enter="addScore"
-                    />
-                </li>
-            </ul>
-            <span v-if="examTotal"> Total: {{ examTotal }}</span>
-        </div>
-        <base-button @click="submit">Submit</base-button>
-        <p v-if="!!subjectErr" class="subject-err">{{ subjectErr }}</p>
-    </base-dialog>
+        <!-- Add exam dialog box -->
+        <base-dialog
+            :show="addExamMode"
+            title="Add exam to database"
+            @close="closeAddExamDialog"
+        >
+            <div class="subject-group">
+                <label for="term">Term</label>
+                <select name="term" id="term" v-model.trim="term">
+                    <option value="one">One</option>
+                    <option value="two">Two</option>
+                    <option value="three">Three</option>
+                </select>
+            </div>
+            <div class="subject-group">
+                <label for="examName">Exam Name</label>
+                <input
+                    type="text"
+                    name="examName"
+                    placeholder="Exam Name (e.g Midterm exam)"
+                    v-model.trim="examName"
+                    @keydown="closeSubjectErr"
+                />
+            </div>
+            <div class="subject-group">
+                <h3>My subjects</h3>
+                <ul>
+                    <li
+                        v-for="(subject, index) in mySubjects"
+                        :key="index"
+                        class="subject-item"
+                    >
+                        <label for="subject">{{ subject.subject }}</label>
+                        <input
+                            type="number"
+                            name="subject"
+                            v-model.number="subject.value"
+                            placeholder="Your score"
+                            @focus="addScore"
+                            @keydown.tab="addScore"
+                            @keydown.enter="addScore"
+                        />
+                    </li>
+                </ul>
+                <span v-if="examTotal"> Total: {{ examTotal }}</span>
+            </div>
+            <base-button @click="submit">Submit</base-button>
+            <p v-if="!!subjectErr" class="subject-err">{{ subjectErr }}</p>
+        </base-dialog>
 
-    <!-- General container -->
-    <div class="general-container" v-if="!isLoading">
-        <h2 v-if="examCategory" class="exam-page-title">
-            My exams for level {{ examCategory.year }}
-        </h2>
-        <div class="container" v-if="examCategory">
-            <exam-card v-for="exam in examCategory.exams" :key="exam._id">
-                <div class="card-title">
-                    <h2 class="exam-name">{{ exam.examName }}</h2>
-                    <div class="term-text">
-                        <span>Term: </span>
-                        <span>{{ exam.term }}</span>
+        <!-- General container -->
+        <div class="general-container" v-if="!isLoading">
+            <h2 v-if="examCategory" class="exam-page-title">
+                My exams for level {{ examCategory.year }}
+            </h2>
+            <div class="container" v-if="examCategory">
+                <exam-card v-for="exam in examCategory.exams" :key="exam._id">
+                    <div class="card-title">
+                        <h2 class="exam-name">{{ exam.examName }}</h2>
+                        <div class="term-text">
+                            <span>Term: </span>
+                            <span>{{ exam.term }}</span>
+                        </div>
                     </div>
-                </div>
-                <div class="exam-titles">
-                    <span>Subject</span>
+                    <div class="exam-titles">
+                        <span>Subject</span>
 
-                    <span>Marks</span>
-                </div>
-                <div
-                    v-for="(el, index) in Object.entries(exam.exam)"
-                    :key="index"
-                    class="exam-content"
-                >
-                    <span>
-                        {{ el[0] }}
-                    </span>
-                    <span>{{ el[1] }}</span>
-                </div>
-                <base-button mode="outline" @click="fetchSchools(exam)"
-                    >Predicted schools</base-button
-                >
-            </exam-card>
+                        <span>Marks</span>
+                    </div>
+                    <div
+                        v-for="(el, index) in Object.entries(exam.exam)"
+                        :key="index"
+                        class="exam-content"
+                    >
+                        <span>
+                            {{ el[0] }}
+                        </span>
+                        <span>{{ el[1] }}</span>
+                    </div>
+                    <base-button mode="outline" @click="fetchSchools(exam)"
+                        >Predicted schools</base-button
+                    >
+                </exam-card>
+            </div>
+            <base-button @click="addExam">Add exam</base-button>
         </div>
-        <base-button @click="addExam">Add exam</base-button>
     </div>
 </template>
 

@@ -1,43 +1,45 @@
 <template>
-    <base-dialog :show="isLoading" fixed title="Logging in..">
-        <base-spinner v-if="isLoading"></base-spinner>
-    </base-dialog>
-    <base-card>
-        <div class="container">
-            <h3>Log into your account!</h3>
-            <form @submit.prevent="login">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        v-model.trim="email"
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        v-model.trim="password"
-                    />
-                </div>
-                <p v-if="!!errorMessage" class="errorMessage">
-                    {{ errorMessage }}
-                </p>
-                <div class="submission-box">
-                    <base-button>Login</base-button>
-                    <div class="forgot-password-box">
-                        <base-button link to="/passwordRecovery" mode="flat"
-                            >Forgot password?</base-button
-                        >
+    <div>
+        <base-dialog :show="isLoading" fixed title="Logging in..">
+            <base-spinner v-if="isLoading"></base-spinner>
+        </base-dialog>
+        <base-card>
+            <div class="container">
+                <h3>Log into your account!</h3>
+                <form @submit.prevent="login">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            v-model.trim="email"
+                        />
                     </div>
-                </div>
-            </form>
-        </div>
-    </base-card>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            v-model.trim="password"
+                        />
+                    </div>
+                    <p v-if="!!errorMessage" class="errorMessage">
+                        {{ errorMessage }}
+                    </p>
+                    <div class="submission-box">
+                        <base-button>Login</base-button>
+                        <div class="forgot-password-box">
+                            <base-button link to="/passwordRecovery" mode="flat"
+                                >Forgot password?</base-button
+                            >
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </base-card>
+    </div>
 </template>
 <script>
 export default {

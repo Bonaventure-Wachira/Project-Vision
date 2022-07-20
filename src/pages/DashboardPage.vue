@@ -1,52 +1,53 @@
 <template>
-    <!-- Edit subjects dialog box  -->
-    <base-dialog
-        :show="editMode"
-        title="Edit your subjects"
-        @close="closeDialogBox"
-    >
-        <ul>
-            <li v-for="(subject, index) in mySubjects" :key="index">
-                <span>{{ subject }}</span>
-                <div class="edit-buttons">
-                    <base-button mode="flat">Edit</base-button>
-                    <base-button mode="danger" @click="deleteSubject(index)"
-                        >Delete</base-button
-                    >
-                </div>
-            </li>
-        </ul>
-        <base-button>Add Subject</base-button>
-    </base-dialog>
+    <div>
+        <!-- Edit subjects dialog box  -->
+        <base-dialog
+            :show="editMode"
+            title="Edit your subjects"
+            @close="closeDialogBox"
+        >
+            <ul>
+                <li v-for="(subject, index) in mySubjects" :key="index">
+                    <span>{{ subject }}</span>
+                    <div class="edit-buttons">
+                        <base-button mode="flat">Edit</base-button>
+                        <base-button mode="danger" @click="deleteSubject(index)"
+                            >Delete</base-button
+                        >
+                    </div>
+                </li>
+            </ul>
+            <base-button>Add Subject</base-button>
+        </base-dialog>
 
-    <!-- Add category -->
+        <!-- Add category -->
 
-    <base-dialog
-        :show="addCategoryMode"
-        title="Add category"
-        @close="closeAddCategoriesDialog"
-    >
-        <div class="form-group">
-            <label for="year">Year of education</label>
-            <select name="year" id="year" v-model.trim="year">
-                <option value="one">One</option>
-                <option value="two">Two</option>
-                <option value="three">Three</option>
-                <option value="four">Four</option>
-                <option value="five">Five</option>
-                <option value="six">Six</option>
-                <option value="seven">Seven</option>
-                <option value="eight">Eight</option>
-            </select>
-        </div>
+        <base-dialog
+            :show="addCategoryMode"
+            title="Add category"
+            @close="closeAddCategoriesDialog"
+        >
+            <div class="form-group">
+                <label for="year">Year of education</label>
+                <select name="year" id="year" v-model.trim="year">
+                    <option value="one">One</option>
+                    <option value="two">Two</option>
+                    <option value="three">Three</option>
+                    <option value="four">Four</option>
+                    <option value="five">Five</option>
+                    <option value="six">Six</option>
+                    <option value="seven">Seven</option>
+                    <option value="eight">Eight</option>
+                </select>
+            </div>
 
-        <base-button @click="submitCategory">Add Category</base-button>
-    </base-dialog>
+            <base-button @click="submitCategory">Add Category</base-button>
+        </base-dialog>
 
-    <h3 class="main-heading">My Dashboard</h3>
-    <div class="container">
-        <div class="subjects">
-            <!-- <secondary-card>
+        <h3 class="main-heading">My Dashboard</h3>
+        <div class="container">
+            <div class="subjects">
+                <!-- <secondary-card>
                 <h2 class="secondary-heading">Academics</h2>
                 <h2 class="schools-heading">My subjects</h2>
                 <ul class="primary-text">
@@ -56,63 +57,68 @@
                 </ul>
                 <base-button @click="editSubjects">Edit Subjects</base-button>
             </secondary-card> -->
-            <secondary-card>
-                <p class="instructions">
-                    To arrange your exam results, you will need to add an exam
-                    category first in the
-                    <strong>Results Category</strong> section. Then after it
-                    pops up on addition on your screen, click on the button and
-                    add the exams results for that class.
-                </p>
-            </secondary-card>
-        </div>
-        <div class="right-side">
-            <secondary-card>
-                <base-spinner v-if="isLoading"></base-spinner>
-                <div class="results-header" v-if="!isLoading">
-                    <h2>Results Category</h2>
-                    <base-button @click="refreshCategories"
-                        >Refresh</base-button
-                    >
-                </div>
-                <div v-if="!areCategoriesAvailable && !isLoading">
-                    <h2>
-                        You do not have any exam records just yet.
-                    </h2>
-                    <base-button @click="addCategory">Add category</base-button>
-                </div>
-                <ul v-if="!isLoading && resultsCategory">
-                    <li
-                        v-for="(category, index) in resultsCategory"
-                        :key="index"
-                    >
-                        Class {{ category.year }}
-                        <base-button
-                            mode="flat"
-                            link
-                            :to="/myexams/ + category._id"
-                        >
-                            Go to class category</base-button
-                        >
-                    </li>
-                    <base-button @click="addCategory">Add category</base-button>
-                </ul>
-            </secondary-card>
-            <div class="schools">
                 <secondary-card>
-                    <h2 class="schools-heading">List of High schools</h2>
-                    <div class="school-links">
-                        <base-button mode="outline" link to="/national"
-                            >National</base-button
-                        >
-                        <base-button mode="outline" link to="/extra"
-                            >Extra County</base-button
-                        >
-                        <base-button mode="outline" link to="/county"
-                            >County</base-button
+                    <p class="instructions">
+                        To arrange your exam results, you will need to add an
+                        exam category first in the
+                        <strong>Results Category</strong> section. Then after it
+                        pops up on addition on your screen, click on the button
+                        and add the exams results for that class.
+                    </p>
+                </secondary-card>
+            </div>
+            <div class="right-side">
+                <secondary-card>
+                    <base-spinner v-if="isLoading"></base-spinner>
+                    <div class="results-header" v-if="!isLoading">
+                        <h2>Results Category</h2>
+                        <base-button @click="refreshCategories"
+                            >Refresh</base-button
                         >
                     </div>
+                    <div v-if="!areCategoriesAvailable && !isLoading">
+                        <h2>
+                            You do not have any exam records just yet.
+                        </h2>
+                        <base-button @click="addCategory"
+                            >Add category</base-button
+                        >
+                    </div>
+                    <ul v-if="!isLoading && resultsCategory">
+                        <li
+                            v-for="(category, index) in resultsCategory"
+                            :key="index"
+                        >
+                            Class {{ category.year }}
+                            <base-button
+                                mode="flat"
+                                link
+                                :to="/myexams/ + category._id"
+                            >
+                                Go to class category</base-button
+                            >
+                        </li>
+                        <base-button @click="addCategory"
+                            >Add category</base-button
+                        >
+                    </ul>
                 </secondary-card>
+                <div class="schools">
+                    <secondary-card>
+                        <h2 class="schools-heading">List of High schools</h2>
+                        <div class="school-links">
+                            <base-button mode="outline" link to="/national"
+                                >National</base-button
+                            >
+                            <base-button mode="outline" link to="/extra"
+                                >Extra County</base-button
+                            >
+                            <base-button mode="outline" link to="/county"
+                                >County</base-button
+                            >
+                        </div>
+                    </secondary-card>
+                </div>
             </div>
         </div>
     </div>
