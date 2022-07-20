@@ -20,8 +20,8 @@
                             src="./../../Assets/avatar2.png"
                             alt="default-avatar"
                         />
-                        <span>
-                            John Doe
+                        <span class="fullname">
+                            {{ fullName }}
                         </span>
                     </div>
                 </li>
@@ -40,6 +40,13 @@ export default {
     computed: {
         isLoggedIn() {
             return this.$store.getters.isAuth;
+        },
+        fullName() {
+            return (
+                this.$store.getters.getUserInfo.firstName +
+                ' ' +
+                this.$store.getters.getUserInfo.lastName
+            );
         },
     },
     methods: {
@@ -63,6 +70,9 @@ export default {
 .profile-photo {
     height: 3.75rem;
     border-radius: 50%;
+}
+.fullname {
+    text-transform: capitalize;
 }
 
 header {
