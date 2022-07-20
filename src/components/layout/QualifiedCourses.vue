@@ -21,6 +21,14 @@
             v-else-if="!isLoading && qualifiedCourses.length > 0"
         >
             <h2>Predicted Courses</h2>
+
+            <p class="instructions">
+                <strong>NB./</strong> The schools that offer the courses you
+                have qualified for will vary based on the marks you got. Kindly
+                note that different institutions have different cutoff points
+                for certain subjects in order to get a particular course.
+            </p>
+
             <ul>
                 <li
                     v-for="(course, index) in qualifiedCourses"
@@ -94,5 +102,9 @@ li {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.instructions {
+    font-size: 1.8rem;
+    padding-bottom: 2rem;
 }
 </style>
