@@ -1,4 +1,4 @@
-// let timer;
+let timer;
 import { createStore } from 'vuex';
 import axios from 'axios';
 const base_url = 'https://project-v-api.herokuapp.com';
@@ -18,6 +18,7 @@ export default createStore({
             fetchedSubjects: null,
             qualifiedCourses: null,
             examDetails: null,
+            didAutoLogout: false,
         };
     },
     actions: {
@@ -135,12 +136,18 @@ export default createStore({
                 console.log(err);
                 throw err;
             }
+
+            const expiresIn = 7 * 24 * 60 * 60 * 1000;
+            // const expiresIn = 5 * 1000;
+            const expirationDate = new Date().getTime() + expiresIn;
+
             const newRes = {
                 userId: response.data.userId,
                 token: response.data.token,
             };
             localStorage.setItem('token', newRes.token);
-            localStorage.setItem('userId', newRes.userId);
+            localStorage.setItem('userId', JSON.stringify(newRes.userId));
+            localStorage.setItem('tokenExpiration', expirationDate);
             context.commit('authenticate', newRes);
         },
         async signup(context, payload) {
@@ -170,15 +177,36 @@ export default createStore({
                 console.log(err);
                 throw err;
             }
+            const expiresIn = 7 * 24 * 60 * 60 * 1000;
+            const expirationDate = new Date().getTime() + expiresIn;
 
             const newRes = {
                 userId: response.data.userId,
                 token: response.data.token,
             };
             localStorage.setItem('token', newRes.token);
-            localStorage.setItem('userId', newRes.userId);
+            localStorage.setItem('userId', JSON.stringify(newRes.userId));
+            localStorage.setItem('tokenExpiration', expirationDate);
             context.commit('authenticate', newRes);
         },
+        logout(context) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('tokenExpiration');
+
+            clearTimeout(timer);
+            // const newRes = {
+            //     userId: null,
+            //     token: null,
+            // };
+            context.commit('authenticate', null);
+        },
+        autoLogout(context) {
+            context.dispatch('logout');
+            context.commit('setAutoLogout');
+        },
+
+        // fetching user
         async fetchUser({ commit, getters }) {
             const response = await axios.get(
                 base_url + '/api/v1/users/' + getters.getUser.userId
@@ -303,7 +331,18 @@ export default createStore({
         },
         tryLogin(context) {
             const token = localStorage.getItem('token');
-            const userId = localStorage.getItem('userId');
+            const userId = JSON.parse(localStorage.getItem('userId'));
+            const tokenExpiration = localStorage.getItem('tokenExpiration');
+
+            const expiresIn = +tokenExpiration - new Date().getTime();
+
+            if (expiresIn < 0) {
+                return;
+            }
+
+            timer = setTimeout(function() {
+                context.dispatch('autoLogout');
+            }, expiresIn);
 
             if (token && userId) {
                 const user = {
@@ -330,6 +369,10 @@ export default createStore({
     mutations: {
         authenticate(state, payload) {
             state.user = payload;
+            state.didAutoLogout = false;
+        },
+        setAutoLogout(state) {
+            state.didAutoLogout = true;
         },
         returnErr(state, payload) {
             state.loginErr = payload.message;
@@ -395,6 +438,9 @@ export default createStore({
         },
         examDetails(state) {
             return state.examDetails;
+        },
+        didAutoLogout(state) {
+            return state.didAutoLogout;
         },
     },
 });

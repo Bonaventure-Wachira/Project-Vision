@@ -213,6 +213,9 @@ export default {
         },
     },
     async mounted() {
+        if (this.$store.getters.isAuth == false) {
+            this.$router.replace('/login');
+        }
         this.refreshCategories();
         await this.fetchUser();
         if (this.$store.getters.getUserInfo.level !== 'primary') {

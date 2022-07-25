@@ -25,7 +25,9 @@
                         </span>
                     </div>
                 </li>
-                <base-button mode="danger" @click="logout">Logout</base-button>
+                <base-button mode="danger" @click="logout()"
+                    >Logout</base-button
+                >
             </ul>
         </nav>
     </header>
@@ -51,7 +53,8 @@ export default {
     },
     methods: {
         logout() {
-            //
+            this.$store.dispatch('logout');
+            this.$router.push('/login');
         },
     },
 };

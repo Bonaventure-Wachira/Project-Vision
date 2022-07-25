@@ -234,6 +234,8 @@ export default {
             this.refreshCategories();
             await this.fetchUser();
             // console.log(this.mySubjects);
+        } else {
+            this.$router.replace('/login');
         }
     },
 };
