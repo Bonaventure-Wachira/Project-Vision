@@ -145,7 +145,7 @@ export default createStore({
                 userId: response.data.userId,
                 token: response.data.token,
             };
-            localStorage.setItem('token', newRes.token);
+            localStorage.setItem('token', JSON.stringify(newRes.token));
             localStorage.setItem('userId', JSON.stringify(newRes.userId));
             localStorage.setItem('tokenExpiration', expirationDate);
             context.commit('authenticate', newRes);
@@ -184,7 +184,7 @@ export default createStore({
                 userId: response.data.userId,
                 token: response.data.token,
             };
-            localStorage.setItem('token', newRes.token);
+            localStorage.setItem('token', JSON.stringify(newRes.token));
             localStorage.setItem('userId', JSON.stringify(newRes.userId));
             localStorage.setItem('tokenExpiration', expirationDate);
             context.commit('authenticate', newRes);
@@ -330,7 +330,7 @@ export default createStore({
             }
         },
         tryLogin(context) {
-            const token = localStorage.getItem('token');
+            const token = JSON.parse(localStorage.getItem('token'));
             const userId = JSON.parse(localStorage.getItem('userId'));
             const tokenExpiration = localStorage.getItem('tokenExpiration');
 
