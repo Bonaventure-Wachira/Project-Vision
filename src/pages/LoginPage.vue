@@ -72,7 +72,13 @@ export default {
                 });
                 this.$router.replace('/');
             } catch (err) {
-                this.errorMessage = err || 'Something went wrong';
+                if (err.message.includes('401')) {
+                    this.errorMessage =
+                        'The email does not exist or the password is incorrect';
+                } else {
+                    this.errorMessage =
+                        err.message || 'Something went wrong, try again';
+                }
             }
             this.isLoading = false;
 
