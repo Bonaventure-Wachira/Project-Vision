@@ -81,7 +81,8 @@ export default {
 header {
     width: 100%;
     height: 10vh;
-    background-color: #1572a1;
+    /* background-color: #1572a1; */
+    background-color: #602588;
     display: flex;
     justify-content: center;
     align-items: center;

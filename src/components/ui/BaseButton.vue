@@ -36,8 +36,10 @@ a {
     padding: 0.8rem 2rem;
     font: inherit;
     font-size: 1.4rem;
-    background-color: #1572a1;
-    border: 1px solid #1572a1;
+    background-color: #602588;
+    /* background-color: #1572a1; */
+    /* border: 1px solid #1572a1; */
+    border: 1px solid #602588;
     color: white;
     cursor: pointer;
     border-radius: 10px;
