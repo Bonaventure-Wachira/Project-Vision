@@ -22,65 +22,76 @@ const router = createRouter({
         {
             path: '/dashboard',
             component: DashBoardPage,
-            meta: { requiresAuth: true },
+            meta: {
+                requiresAuth: true,
+                title: 'My Dashboard',
+            },
         },
         {
             path: '/myexams/:categoryId',
             component: ExamsPage,
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: true, title: 'My Exams' },
         },
         {
             path: '/secondaryexams/:categoryId',
             component: SecondaryExams,
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: true, title: 'My exams' },
         },
         {
             path: '/schools',
             component: Schools,
             name: 'schools',
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: true, title: 'Schools' },
         },
         {
             path: '/login',
             component: LoginPage,
-            meta: { requiresUnAuth: true },
+            meta: { requiresUnAuth: true, title: 'Login' },
         },
         {
             path: '/signup',
             component: SignupPage,
-            meta: { requiresUnAuth: true },
+            meta: { requiresUnAuth: true, title: 'Signup' },
         },
         {
             path: '/passwordRecovery',
             component: PasswordRecovery,
-            meta: { requiresUnAuth: true },
+            meta: { requiresUnAuth: true, title: 'Password Recovery' },
         },
         {
             path: '/passwordReset',
             component: ResetPassword,
-            meta: { requiresUnAuth: true },
+            meta: { requiresUnAuth: true, title: 'Reset your password' },
         },
         {
             path: '/highschool',
             component: HighSchool,
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: true, title: 'My Dashboard' },
         },
-        { path: '/extra', component: Extra, meta: { requiresAuth: true } },
-        { path: '/county', component: County, meta: { requiresAuth: true } },
+        {
+            path: '/extra',
+            component: Extra,
+            meta: { requiresAuth: true, title: 'Extra county schools' },
+        },
+        {
+            path: '/county',
+            component: County,
+            meta: { requiresAuth: true, title: 'County schools' },
+        },
         {
             path: '/national',
             component: National,
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: true, title: 'National schools' },
         },
         {
             path: '/qualifiedcourses',
             component: QualifiedCourses,
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: true, title: 'My qualifies courses' },
         },
         {
             path: '/qualifiedcourses/:courseId',
             component: IndividualCourse,
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: true, title: 'My qualifies courses' },
         },
     ],
 });
@@ -93,6 +104,7 @@ router.beforeEach((to, from, next) => {
     } else {
         next();
     }
+    document.title = `${to.meta.title}`;
 });
 
 export default router;
