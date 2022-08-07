@@ -9,7 +9,7 @@ module.exports = (subjectNames, payload, meanGrade) => {
         if (
             meanGrade >= 9 &&
             payload.Mathematics.points >= 9 &&
-            payload.English >= 7
+            payload.English.points >= 7
         ) {
             courseTray.push(
                 'Masinde Muliro University',
@@ -23,7 +23,7 @@ module.exports = (subjectNames, payload, meanGrade) => {
         if (
             meanGrade >= 10 &&
             payload.Mathematics.points >= 9 &&
-            payload.English >= 9
+            payload.English.points >= 9
         ) {
             courseTray.push(
                 'Masinde Muliro University',
@@ -36,7 +36,7 @@ module.exports = (subjectNames, payload, meanGrade) => {
         if (
             meanGrade >= 7 &&
             payload.Mathematics.points >= 9 &&
-            payload.English >= 8
+            payload.English.points >= 8
         ) {
             courseTray.push(
                 'Masinde Muliro University',
@@ -50,7 +50,7 @@ module.exports = (subjectNames, payload, meanGrade) => {
         if (
             meanGrade >= 7 &&
             payload.Mathematics.points >= 8 &&
-            payload.English >= 6
+            payload.English.points >= 6
         ) {
             courseTray.push(
                 'Maasai Mara University',
@@ -62,7 +62,7 @@ module.exports = (subjectNames, payload, meanGrade) => {
         if (
             meanGrade >= 8 &&
             payload.Mathematics.points >= 8 &&
-            payload.English >= 8
+            payload.English.points >= 8
         ) {
             courseTray.push(
                 'Masinde Muliro University',
@@ -75,7 +75,7 @@ module.exports = (subjectNames, payload, meanGrade) => {
         if (
             meanGrade >= 7 &&
             payload.Mathematics.points >= 8 &&
-            payload.English >= 7
+            payload.English.points >= 7
         ) {
             courseTray.push(
                 'Masinde Muliro University',
@@ -89,7 +89,7 @@ module.exports = (subjectNames, payload, meanGrade) => {
         if (
             meanGrade >= 7 &&
             payload.Mathematics.points >= 6 &&
-            payload.English >= 6
+            payload.English.points >= 6
         ) {
             courseTray.push(
                 'Kirinyaga University',
@@ -100,9 +100,9 @@ module.exports = (subjectNames, payload, meanGrade) => {
         if (
             meanGrade >= 8 &&
             payload.Mathematics.points >= 8 &&
-            payload.English >= 8
+            payload.English.points >= 8
         ) {
-            courseTray(
+            courseTray.push(
                 'Masinde Muliro University',
                 'University of Embu',
                 'Jomo Kenyatta University of Agriculture and Technology',
@@ -111,7 +111,7 @@ module.exports = (subjectNames, payload, meanGrade) => {
                 'Kirinyaga University'
             );
         }
-        if (meanGrade >= 9 && payload.English >= 10) {
+        if (meanGrade >= 9 && payload.English.points >= 10) {
             courseTray.push(
                 'Jaramogi Oginga Odinga University',
                 'Jomo Kenyatta University of Agriculture and Technology',

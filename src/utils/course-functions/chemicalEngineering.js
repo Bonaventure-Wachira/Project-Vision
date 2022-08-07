@@ -9,10 +9,10 @@ module.exports = (subjectNames, payload, meanGrade) => {
     ) {
         if (
             meanGrade >= 7 &&
-            payload.Physics.points >= 10 &&
-            payload.Mathematics.points >= 10 &&
-            payload.Chemistry.points >= 10 &&
-            payload.Biology.points >= 10
+            payload.Physics.points >= 6 &&
+            payload.Mathematics.points >= 6 &&
+            payload.Chemistry.points >= 6 &&
+            payload.Biology.points >= 6
         ) {
             courseTray.push(
                 'Dedan Kimathi University',

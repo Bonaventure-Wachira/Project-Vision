@@ -18,7 +18,11 @@
         </base-dialog>
         <div
             class="container"
-            v-else-if="!isLoading && qualifiedCourses.length > 0"
+            v-else-if="
+                qualifiedCourses !== null &&
+                    !isLoading &&
+                    qualifiedCourses.length > 0
+            "
         >
             <h2>Predicted Courses</h2>
 
@@ -44,6 +48,15 @@
                 </li>
             </ul>
         </div>
+        <div v-if="qualifiedCourses === null && !isLoading" class="not-found">
+            <img src="@/Assets/no-application.png" width="150" />
+            <div>
+                <h3>
+                    Unfortunately you do not qualify for any courses for this
+                    test.
+                </h3>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -60,22 +73,22 @@ export default {
         learnMore(courseId) {
             this.$router.push('/qualifiedcourses/' + courseId);
         },
-        async fetchCourses() {
-            const exam = JSON.parse(localStorage.getItem('exam'));
+        // async fetchCourses() {
+        //     const exam = JSON.parse(localStorage.getItem('exam'));
 
-            this.isLoading = true;
-            try {
-                await this.$store.dispatch('fetchCourses', exam);
-                this.$store.dispatch('loadUserCourses');
-            } catch (error) {
-                this.err = error || 'Something went wrong';
-                console.log(error);
-            }
-            this.isLoading = false;
-        },
+        //     this.isLoading = true;
+        //     try {
+        //         await this.$store.dispatch('fetchCourses', exam);
+        //         this.$store.dispatch('loadUserCourses');
+        //     } catch (error) {
+        //         this.err = error || 'Something went wrong';
+        //         console.log(error);
+        //     }
+        //     this.isLoading = false;
+        // },
     },
     async mounted() {
-        await this.fetchCourses();
+        // await this.fetchCourses();
         this.qualifiedCourses = this.$store.getters.qualifiedCourses;
     },
 };
@@ -87,9 +100,19 @@ export default {
     margin: 3rem auto;
 }
 
+.not-found {
+    max-width: 70vw;
+    margin: 3rem auto;
+    text-align: center;
+    /* height: 100vh; */
+}
+
 h2 {
     margin: 1.3rem 0;
     font-size: 2.2rem;
+}
+h3 {
+    font-size: 1.7rem;
 }
 
 ul {

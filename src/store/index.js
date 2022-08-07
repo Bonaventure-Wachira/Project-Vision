@@ -130,7 +130,6 @@ export default createStore({
                     },
                 }
             );
-            console.log(response);
             if (response.status !== 200) {
                 const err = response.error;
                 console.log(err);
@@ -294,8 +293,10 @@ export default createStore({
             commit('fetchSubjects', response.data.updatedUser.subjects);
         },
         async fetchCourses(context, payload) {
-            const courses = courseSelection(payload);
+            context.commit('setQualifiedCourses', null);
+            localStorage.removeItem('qualifiedCourses');
 
+            const courses = courseSelection(payload);
             if (courses.length > 0) {
                 const response = await axios.post(
                     // 'http://localhost:3000/api/v1/courses//selectedcourses',
@@ -316,12 +317,12 @@ export default createStore({
                     console.log(err);
                     throw err;
                 }
+                console.log(response.data.courses);
                 // Throw an if check to get the courses with the respective universities
                 const finalCourses = secondCheck(
                     response.data.courses,
                     payload
                 );
-
                 localStorage.setItem(
                     'qualifiedCourses',
                     JSON.stringify(finalCourses)
