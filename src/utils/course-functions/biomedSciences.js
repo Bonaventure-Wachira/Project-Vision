@@ -9,10 +9,10 @@ module.exports = (subjectNames, payload, meanGrade) => {
     ) {
         if (
             meanGrade >= 7 &&
-            payload.Physics.points >= 10 &&
-            payload.Mathematics.points >= 10 &&
-            payload.Chemistry.points >= 10 &&
-            payload.Biology.points >= 10
+            payload.Physics.points >= 7 &&
+            payload.Mathematics.points >= 7 &&
+            payload.Chemistry.points >= 7 &&
+            payload.Biology.points >= 7
         ) {
             courseTray.push(
                 'Egerton University',
