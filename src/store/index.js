@@ -1,7 +1,7 @@
 let timer;
 import { createStore } from 'vuex';
 import axios from 'axios';
-const base_url = 'https://project-v-api.herokuapp.com';
+const base_url = 'https://project-vision-api-render-version.onrender.com';
 import secondCheck from '../utils/secondCheck';
 import courseSelection from './../utils/courseSelection';
 
